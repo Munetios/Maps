@@ -1496,53 +1496,6 @@
       // Remove zoom controls
       map.zoomControl.remove();
 
-      // Rate limiting system (15 actions per 5 minutes)
-      const RATE_LIMIT_MAX = 15;
-      const RATE_LIMIT_WINDOW = 5 * 60 * 1000; // 5 minutes in milliseconds
-      const RATE_LIMIT_KEY = "munetios-maps-rate-limit";
-
-      function getRateLimitData() {
-        const data = sessionStorage.getItem(RATE_LIMIT_KEY);
-        if (!data) return { actions: [], blocked: false };
-        return JSON.parse(data);
-      }
-
-      function saveRateLimitData(data) {
-        sessionStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(data));
-      }
-
-      function checkRateLimit(actionType) {
-        // Check if captcha has been solved
-        const captchaSolved = sessionStorage.getItem("submitedCaptcha");
-        if (captchaSolved === "true") {
-          return true; // Allow action if captcha is solved
-        }
-
-        const now = Date.now();
-        const data = getRateLimitData();
-
-        // Remove actions older than the time window
-        data.actions = data.actions.filter(
-          (timestamp) => now - timestamp < RATE_LIMIT_WINDOW
-        );
-
-        // Check if limit exceeded
-        if (data.actions.length >= RATE_LIMIT_MAX) {
-          data.blocked = true;
-          saveRateLimitData(data);
-          window.location.href = "too-many-request.html";
-          return false;
-        }
-
-        // Add new action
-        data.actions.push(now);
-        saveRateLimitData(data);
-        return true;
-      }
-
-      // Track page load
-      checkRateLimit("page_load");
-
       // Context menu functionality
       const contextMenu = document.getElementById("contextMenu");
       const shareModal = document.getElementById("shareModal");
@@ -1813,11 +1766,6 @@
       async function performSearch(query) {
         if (!query || query.trim() === "") {
           showtoast("Please enter a search query");
-          return;
-        }
-
-        // Check rate limit for search
-        if (!checkRateLimit("search")) {
           return;
         }
 
@@ -2978,11 +2926,6 @@
           return;
         }
 
-        // Check rate limit for directions
-        if (!checkRateLimit("directions")) {
-          return;
-        }
-
         showtoast("Calculating route...");
 
         try {
@@ -3458,4 +3401,3 @@
     </script>
   </body>
 </html>
-
