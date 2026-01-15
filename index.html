@@ -1530,7 +1530,7 @@
         if (data.actions.length >= RATE_LIMIT_MAX) {
           data.blocked = true;
           saveRateLimitData(data);
-          window.location.href = "429.html";
+          window.location.href = "too-many-request.html";
           return false;
         }
 
@@ -3458,3 +3458,4 @@
     </script>
   </body>
 </html>
+
