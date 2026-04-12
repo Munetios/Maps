@@ -17,7 +17,7 @@
     />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,0..100"
     />
     <link
       href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght,ROND@6..144,1..1000,90&amp;family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&amp;display=swap"
@@ -25,7 +25,7 @@
     />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' https://unpkg.com https://cdn.jsdelivr.net 'nonce-hDhji4fidj43djd432'; style-src 'self' 'unsafe-inline' https://unpkg.com https://fonts.googleapis.com https://api.munetios.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.munetios.com https://*.openstreetmap.org https://tiles.openfreemap.org https://*.openfreemap.org https://server.arcgisonline.com; connect-src 'self' https://api.munetios.com https://nominatim.openstreetmap.org https://photon.komoot.io https://router.project-osrm.org https://*.openstreetmap.de https://tiles.openfreemap.org https://*.openfreemap.org https://server.arcgisonline.com https://cdn.jsdelivr.net https://unpkg.com; frame-src 'self' https://www.munetios.com https://munetios.com; worker-src blob:;"
+      content="default-src 'self'; script-src 'self' https://unpkg.com https://cdn.jsdelivr.net 'nonce-hDhji4fidj43djd432'; style-src 'self' 'unsafe-inline' https://unpkg.com https://fonts.googleapis.com https://api.munetios.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.munetios.com https://*.openstreetmap.org https://*.nasa.gov https://tiles.openfreemap.org https://*.openfreemap.org https://server.arcgisonline.com; connect-src 'self' https://*.wikipedia.org https://api.munetios.com https://nominatim.openstreetmap.org https://*.nasa.gov https://photon.komoot.io https://router.project-osrm.org https://*.openstreetmap.de https://tiles.openfreemap.org https://*.openfreemap.org https://server.arcgisonline.com https://cdn.jsdelivr.net https://unpkg.com; frame-src 'self' https://www.munetios.com https://munetios.com; worker-src blob:;"
     />
     <!-- MapLibre GL (Requires WebGL) -->
     <link
@@ -82,21 +82,6 @@
         width: 100%;
         height: 100%;
         z-index: 1;
-      }
-      .map-canvas.globe-mode {
-        background: #0d0620;
-        clip-path: circle(42% at 50% 50%);
-        transition: clip-path 0.5s ease;
-      }
-      #globeGlowOverlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        z-index: 2;
-        pointer-events: none;
-      }
-      #globeGlowOverlay.active {
-        display: block;
       }
       .app-container {
         position: absolute;
@@ -422,7 +407,7 @@
       .controls-container {
         position: fixed;
         right: 20px;
-        bottom: 273px;
+        bottom: 300px;
         z-index: 3;
         display: flex;
         flex-direction: column;
@@ -489,31 +474,265 @@
       }
       .layers-selector {
         position: fixed;
-        bottom: 72px;
         right: 20px;
+        bottom: 72px;
         display: flex;
-        border-radius: 10px;
-        padding: 10px;
         flex-direction: column;
         gap: 10px;
+        border-radius: 14px;
+        padding: 10px;
+        z-index: 4;
       }
       .layer {
         display: flex;
         align-items: center;
-        gap: 10px;
+        justify-content: flex-start;
+        gap: 8px;
         cursor: pointer;
-        border-radius: 8px;
-        padding: 6px;
+        border-radius: 16px;
+        padding: 11px 12px;
+        min-height: 50px;
+        border: 1px solid transparent;
+        transition:
+          background-color 0.2s,
+          border-color 0.2s,
+          transform 0.2s;
       }
       .layer:hover {
         background-color: rgba(0, 0, 0, 0.1);
+        transform: translateY(-1px);
       }
       .layer.active {
-        background-color: rgba(0, 0, 0, 0.12);
+        background-color: rgba(255, 255, 255, 0.14);
         font-weight: 600;
+        border-color: rgba(255, 255, 255, 0.2);
       }
       .layer.active icon {
         opacity: 1;
+      }
+      .layer-text {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        line-height: 1.1;
+      }
+      .layer-label {
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .layer-subtitle {
+        font-size: 11px;
+        opacity: 0.6;
+      }
+      .layer.toggle-off {
+        opacity: 0.72;
+      }
+      .layer.add-marker-mode {
+        background: rgba(34, 197, 94, 0.18);
+        border-color: rgba(34, 197, 94, 0.32);
+        color: #d6ffe5;
+      }
+      .tools-tray {
+        position: fixed;
+        left: 50%;
+        bottom: 76px;
+        transform: translateX(-50%) translateY(16px);
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        width: min(560px, calc(100vw - 32px));
+        border-radius: 24px;
+        padding: 10px;
+        z-index: 4;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.2s ease,
+          transform 0.2s ease;
+      }
+      .tools-tray.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(0);
+      }
+      .marker-editor-form {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .marker-editor-coords {
+        font-size: 12px;
+        opacity: 0.62;
+        letter-spacing: 0.02em;
+      }
+      .marker-editor-field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .marker-editor-field label {
+        font-size: 12px;
+        font-weight: 600;
+        opacity: 0.78;
+      }
+      .marker-editor-input {
+        width: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.06);
+        color: inherit;
+        font: inherit;
+        padding: 12px 14px;
+        outline: none;
+        box-sizing: border-box;
+      }
+      .marker-editor-input:focus {
+        border-color: rgba(124, 58, 237, 0.48);
+      }
+      .marker-editor-preview {
+        display: none;
+        overflow: hidden;
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.04);
+      }
+      .marker-editor-preview.visible {
+        display: block;
+      }
+      .marker-editor-preview img {
+        display: block;
+        width: 100%;
+        max-height: 180px;
+        object-fit: cover;
+      }
+      .marker-editor-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+      .marker-editor-btn {
+        border: none;
+        border-radius: 999px;
+        padding: 11px 18px;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .marker-editor-btn.secondary {
+        background: rgba(255, 255, 255, 0.08);
+        color: inherit;
+      }
+      .marker-editor-btn.primary {
+        background: rgba(124, 58, 237, 0.45);
+        color: #fff;
+      }
+      .marker-list-thumb {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        object-fit: cover;
+        flex-shrink: 0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .map-marker-popup {
+        width: min(260px, 78vw);
+        color: #f8fafc;
+      }
+      .map-marker-popup h3 {
+        margin: 0 0 6px;
+        font-size: 15px;
+      }
+      .map-marker-popup p {
+        margin: 0;
+        font-size: 12px;
+        opacity: 0.72;
+      }
+      .map-marker-popup img {
+        display: block;
+        width: 100%;
+        max-height: 180px;
+        object-fit: cover;
+        margin-top: 10px;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
+      .custom-map-popup {
+        position: fixed;
+        z-index: 40;
+        width: min(280px, calc(100vw - 32px));
+        transform: translate(-50%, calc(-100% - 18px));
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.18s ease,
+          transform 0.18s ease;
+      }
+      .custom-map-popup.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translate(-50%, calc(-100% - 22px));
+      }
+      .custom-map-popup-card {
+        position: relative;
+        border-radius: 22px;
+        padding: 14px;
+      }
+      .custom-map-popup-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 30px;
+        height: 30px;
+        border: none;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        color: inherit;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .custom-map-popup-tip {
+        position: absolute;
+        left: 50%;
+        bottom: -10px;
+        width: 20px;
+        height: 20px;
+        transform: translateX(-50%) rotate(45deg);
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(4px) saturate(180%);
+      }
+      .file-picker-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .file-picker-input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .file-picker-btn {
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        color: inherit;
+        padding: 10px 14px;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .file-picker-name {
+        font-size: 12px;
+        opacity: 0.7;
       }
       /* Satellite mode – light text on dark imagery */
       body.satellite-mode {
@@ -614,9 +833,8 @@
         }
 
         .layers-selector {
-          top: 90px;
-          bottom: 0;
-          height: 176px;
+          right: 12px;
+          bottom: 597px;
         }
         .controls-container {
           display: none;
@@ -648,6 +866,16 @@
         }
         .zoom-control icon {
           font-size: 16px;
+        }
+        .layer {
+          min-height: 56px;
+        }
+        .tools-tray {
+          bottom: 598px;
+          /* right: 10px; */
+          left: 97px;
+          grid-template-columns: repeat(1, minmax(0, 1fr));
+          width: min(92vw, 177px);
         }
       }
       @media (max-width: 530px) {
@@ -2225,7 +2453,6 @@
     </div>
 
     <div class="map-canvas" id="mapCanvas"></div>
-    <canvas id="globeGlowOverlay"></canvas>
     <div class="app-container" id="appContainer">
       <div class="app">
         <div class="sidebar liquid-glass">
@@ -2557,17 +2784,49 @@
         <div class="layers-selector liquid-glass">
           <div class="layer active" id="layerMap">
             <icon>map</icon>
-            <span class="layer-label" data-i18n="layer_map">Map</span>
+            <div class="layer-text">
+              <span class="layer-label" data-i18n="layer_map">Map</span>
+              <span class="layer-subtitle">Vector</span>
+            </div>
           </div>
           <div class="layer" id="layerSatellite">
             <icon>satellite</icon>
-            <span class="layer-label" data-i18n="layer_satellite"
-              >Satellite</span
-            >
+            <div class="layer-text">
+              <span class="layer-label" data-i18n="layer_satellite"
+                >Satellite</span
+              >
+              <span class="layer-subtitle">Esri</span>
+            </div>
           </div>
-          <div class="layer" id="layerGlobe">
-            <icon>public</icon>
-            <span class="layer-label" data-i18n="layer_globe">Globe</span>
+          <div class="layer" id="layerTools">
+            <icon>tune</icon>
+            <div class="layer-text">
+              <span class="layer-label">Tools</span>
+              <span class="layer-subtitle">Open tray</span>
+            </div>
+          </div>
+        </div>
+        <div class="tools-tray liquid-glass" id="toolsTray">
+          <div class="layer" id="toggleRoads">
+            <icon>route</icon>
+            <div class="layer-text">
+              <span class="layer-label">Roads</span>
+              <span class="layer-subtitle">Highlight</span>
+            </div>
+          </div>
+          <div class="layer" id="toggleMarkerPhotos">
+            <icon>photo_library</icon>
+            <div class="layer-text">
+              <span class="layer-label">Marker Photos</span>
+              <span class="layer-subtitle">Popup previews</span>
+            </div>
+          </div>
+          <div class="layer" id="toolAddMarker">
+            <icon>add_location_alt</icon>
+            <div class="layer-text">
+              <span class="layer-label">Add Marker</span>
+              <span class="layer-subtitle">Tap map next</span>
+            </div>
           </div>
         </div>
         <div class="footer liquid-glass">
@@ -2647,6 +2906,83 @@
           </div>
         </div>
         <div class="modal-body" id="markersList"></div>
+      </div>
+    </div>
+    <div class="modal-backdrop" id="markerEditorBackdrop">
+      <div class="modal liquid-glass" id="markerEditorModal">
+        <div class="modal-header">
+          <span class="modal-title">New Marker</span>
+          <div class="modal-close" id="markerEditorClose">
+            <icon>close</icon>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form class="marker-editor-form" id="markerEditorForm">
+            <div class="marker-editor-coords" id="markerEditorCoords"></div>
+            <div class="marker-editor-field">
+              <label for="markerLabelInput">Marker name</label>
+              <input
+                class="marker-editor-input"
+                id="markerLabelInput"
+                type="text"
+                maxlength="80"
+                placeholder="Coffee stop, trail view, lookout..."
+              />
+            </div>
+            <div class="marker-editor-field">
+              <label for="markerImageInput">Image URL</label>
+              <input
+                class="marker-editor-input"
+                id="markerImageInput"
+                type="url"
+                inputmode="url"
+                placeholder="https://example.com/photo.jpg"
+              />
+            </div>
+            <div class="marker-editor-field">
+              <label for="markerImageFileInput">Or upload image file</label>
+              <div class="file-picker-row">
+                <input
+                  class="file-picker-input"
+                  id="markerImageFileInput"
+                  type="file"
+                  accept="image/*"
+                />
+                <label class="file-picker-btn" for="markerImageFileInput">
+                  <icon>upload</icon>
+                  <span>Choose File</span>
+                </label>
+                <span class="file-picker-name" id="markerImageFileName"
+                  >No file chosen</span
+                >
+              </div>
+            </div>
+            <div class="marker-editor-preview" id="markerImagePreviewWrap">
+              <img id="markerImagePreview" alt="Marker preview" />
+            </div>
+            <div class="marker-editor-actions">
+              <button
+                class="marker-editor-btn secondary"
+                id="markerEditorCancel"
+                type="button"
+              >
+                Cancel
+              </button>
+              <button class="marker-editor-btn primary" type="submit">
+                Save Marker
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="custom-map-popup" id="customMapPopup">
+      <div class="custom-map-popup-card liquid-glass" id="customMapPopupCard">
+        <button class="custom-map-popup-close" id="customMapPopupClose">
+          <icon>close</icon>
+        </button>
+        <div id="customMapPopupContent"></div>
+        <div class="custom-map-popup-tip"></div>
       </div>
     </div>
 
@@ -5642,60 +5978,166 @@
         ],
       };
 
-      const LAYERS = {
-        map: {
-          style: munetiosStyle,
-          attribution: `&copy; 2026 Munetios | <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">&copy; OpenStreetMap contributors</a> | <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener noreferrer">&copy; OpenMapTiles</a> | <a href="https://openfreemap.org/" target="_blank" rel="noopener noreferrer">OpenFreeMap</a> | <a href="https://www.munetios.com/policies/#/terms" target="_blank" rel="noopener noreferrer">Terms</a> | <a href="https://www.munetios.com/policies/#/privacy" target="_blank" rel="noopener noreferrer">Privacy</a>`,
-          satellite: false,
-        },
-        satellite: {
-          style: {
-            version: 8,
-            sources: {
-              "esri-satellite": {
-                type: "raster",
-                tiles: [
-                  "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                ],
-                tileSize: 256,
+      const MAP_ATTRIBUTION = `&copy; 2026 Munetios | <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">&copy; OpenStreetMap contributors</a> | <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener noreferrer">&copy; OpenMapTiles</a> | <a href="https://openfreemap.org/" target="_blank" rel="noopener noreferrer">OpenFreeMap</a> | <a href="https://www.munetios.com/policies/#/terms" target="_self" rel="noopener noreferrer">Terms</a> | <a href="https://www.munetios.com/policies/#/privacy" target="_self" rel="noopener noreferrer">Privacy</a>`;
+      const SATELLITE_ATTRIBUTION = `&copy; 2026 Munetios | <a href="https://www.esri.com/" target="_blank" rel="noopener noreferrer">Imagery &copy; Esri</a> | <a href="https://www.munetios.com/policies/#/terms" target="_self" rel="noopener noreferrer">Terms</a> | <a href="https://www.munetios.com/policies/#/privacy" target="_self" rel="noopener noreferrer">Privacy</a>`;
+      let roadHighlightEnabled = true;
+      let markerPhotosEnabled = true;
+
+      function normalizeLayerName(name) {
+        if (name === "satellite" || name === "imagery") return "satellite";
+        return "map";
+      }
+
+      function buildSatelliteStyle() {
+        const roadsVisible = roadHighlightEnabled ? "visible" : "none";
+        return {
+          version: 8,
+          glyphs: "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf",
+          sprite: "https://tiles.openfreemap.org/sprites/liberty/sprite",
+          sources: {
+            "esri-satellite": {
+              type: "raster",
+              tiles: [
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+              ],
+              tileSize: 256,
+              maxzoom: 19,
+            },
+            "esri-labels": {
+              type: "raster",
+              tiles: [
+                "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+              ],
+              tileSize: 256,
+              maxzoom: 19,
+            },
+            ofm: {
+              type: "vector",
+              url: "https://tiles.openfreemap.org/planet",
+            },
+          },
+          layers: [
+            { id: "satellite-base", type: "raster", source: "esri-satellite" },
+            {
+              id: "satellite-roads-minor",
+              type: "line",
+              source: "ofm",
+              "source-layer": "transportation",
+              filter: ["in", "class", "minor", "service", "track"],
+              layout: {
+                visibility: roadsVisible,
+                "line-cap": "round",
+                "line-join": "round",
               },
-              "esri-labels": {
-                type: "raster",
-                tiles: [
-                  "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+              paint: {
+                "line-color": "#f8fafc",
+                "line-opacity": 0.82,
+                "line-width": [
+                  "interpolate",
+                  ["linear"],
+                  ["zoom"],
+                  10,
+                  0.8,
+                  16,
+                  4,
                 ],
-                tileSize: 256,
               },
             },
-            layers: [
-              {
-                id: "esri-satellite",
-                type: "raster",
-                source: "esri-satellite",
+            {
+              id: "satellite-roads-major",
+              type: "line",
+              source: "ofm",
+              "source-layer": "transportation",
+              filter: ["in", "class", "primary", "secondary", "tertiary"],
+              layout: {
+                visibility: roadsVisible,
+                "line-cap": "round",
+                "line-join": "round",
               },
-              { id: "esri-labels", type: "raster", source: "esri-labels" },
-            ],
-          },
-          attribution: `<p>&copy; 2026 Munetios</p> | <a href="https://www.esri.com/" target="_blank" rel="noopener noreferrer">Tiles &copy; Esri</a> | <a href="https://www.munetios.com/policies/#/terms">Terms</a> | <a href="https://www.munetios.com/policies/#/privacy">Privacy</a>`,
-          satellite: true,
-        },
-        globe: {
-          style: { ...munetiosStyle, projection: { type: "globe" } },
-          attribution: `&copy; 2026 Munetios | <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">&copy; OpenStreetMap contributors</a> | <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener noreferrer">&copy; OpenMapTiles</a> | <a href="https://openfreemap.org/" target="_blank" rel="noopener noreferrer">OpenFreeMap</a> | <a href="https://www.munetios.com/policies/#/terms" target="_blank" rel="noopener noreferrer">Terms</a> | <a href="https://www.munetios.com/policies/#/privacy" target="_blank" rel="noopener noreferrer">Privacy</a>`,
-          satellite: false,
-          globe: true,
-        },
-      };
+              paint: {
+                "line-color": "#ffd166",
+                "line-opacity": 0.92,
+                "line-width": [
+                  "interpolate",
+                  ["linear"],
+                  ["zoom"],
+                  8,
+                  1.1,
+                  16,
+                  6,
+                ],
+              },
+            },
+            {
+              id: "satellite-roads-motorway",
+              type: "line",
+              source: "ofm",
+              "source-layer": "transportation",
+              filter: ["in", "class", "motorway", "trunk"],
+              layout: {
+                visibility: roadsVisible,
+                "line-cap": "round",
+                "line-join": "round",
+              },
+              paint: {
+                "line-color": "#ff8c42",
+                "line-opacity": 0.95,
+                "line-width": [
+                  "interpolate",
+                  ["linear"],
+                  ["zoom"],
+                  7,
+                  1.4,
+                  16,
+                  8,
+                ],
+              },
+            },
+            {
+              id: "satellite-road-labels",
+              type: "symbol",
+              source: "ofm",
+              "source-layer": "transportation_name",
+              minzoom: 11,
+              layout: {
+                visibility: roadsVisible,
+                "text-field": "{name}",
+                "text-font": ["Noto Sans Regular"],
+                "text-size": 11,
+                "symbol-placement": "line",
+                "text-max-angle": 30,
+              },
+              paint: {
+                "text-color": "#ffffff",
+                "text-halo-color": "#111827",
+                "text-halo-width": 1.5,
+              },
+            },
+            {
+              id: "satellite-place-labels",
+              type: "raster",
+              source: "esri-labels",
+            },
+          ],
+        };
+      }
 
       if (!checkWebGL()) {
         document.getElementById("webglErrorOverlay").style.display = "flex";
       } else {
-        const savedLayer = localStorage.getItem("munetios_layer") || "map";
+        const savedLayer = normalizeLayerName(
+          localStorage.getItem("munetios_layer") || "map",
+        );
         let currentLayer = savedLayer;
+        roadHighlightEnabled =
+          localStorage.getItem("munetios_road_highlight") !== "0";
+        markerPhotosEnabled =
+          localStorage.getItem("munetios_marker_photos") !== "0";
 
         const map = new maplibregl.Map({
           container: "mapCanvas",
-          style: LAYERS[savedLayer].style,
+          style:
+            savedLayer === "satellite" ? buildSatelliteStyle() : munetiosStyle,
           center: [0, 0],
           zoom: 2,
           pitch: 0,
@@ -5704,36 +6146,41 @@
           attributionControl: false,
         });
         window._map = map;
-        window._darkMapStyle = LAYERS["map"].style;
+        window._darkMapStyle = munetiosStyle;
 
         map.on("load", () => {
           parseAndApplyHash();
-          if (savedLayer === "globe") {
-            document.getElementById("mapCanvas").classList.add("globe-mode");
-            _globeGlowStart();
-          }
-          // Apply saved theme map style
-          if ((localStorage.getItem("munetios_theme") || "dark") === "light") {
-            try {
-              map.setStyle(lightMapStyle);
-            } catch (e) {}
-          }
         });
         map.dragRotate.enable();
         map.touchZoomRotate.enable();
 
         const layerMapBtn = document.getElementById("layerMap");
         const layerSatelliteBtn = document.getElementById("layerSatellite");
-        const layerGlobeBtn = document.getElementById("layerGlobe");
+        const layerToolsBtn = document.getElementById("layerTools");
+        const roadsToggleBtn = document.getElementById("toggleRoads");
+        const markerPhotosBtn = document.getElementById("toggleMarkerPhotos");
+        const addMarkerToolBtn = document.getElementById("toolAddMarker");
+        const toolsTray = document.getElementById("toolsTray");
         const attributionEl = document.getElementById("attributionMaps");
+        let addMarkerMode = false;
+        let toolsTrayOpen = false;
 
         function applyLayerUI(name) {
-          const layer = LAYERS[name];
-          attributionEl.innerHTML = layer.attribution;
-          document.body.classList.toggle("satellite-mode", !!layer.satellite);
+          attributionEl.innerHTML =
+            name === "satellite" ? SATELLITE_ATTRIBUTION : MAP_ATTRIBUTION;
+          document.body.classList.toggle(
+            "satellite-mode",
+            name === "satellite",
+          );
           layerMapBtn.classList.toggle("active", name === "map");
           layerSatelliteBtn.classList.toggle("active", name === "satellite");
-          layerGlobeBtn.classList.toggle("active", name === "globe");
+          layerToolsBtn.classList.toggle("active", toolsTrayOpen);
+          roadsToggleBtn.classList.toggle("active", roadHighlightEnabled);
+          roadsToggleBtn.classList.toggle("toggle-off", !roadHighlightEnabled);
+          markerPhotosBtn.classList.toggle("active", markerPhotosEnabled);
+          markerPhotosBtn.classList.toggle("toggle-off", !markerPhotosEnabled);
+          addMarkerToolBtn.classList.toggle("add-marker-mode", addMarkerMode);
+          toolsTray.classList.toggle("open", toolsTrayOpen);
         }
         applyLayerUI(savedLayer);
 
@@ -5750,105 +6197,213 @@
           if (drawRouteMode && drawnWaypoints.length >= 2) {
             updateDrawPreviewLine();
           }
-        }
-
-        // ── Globe Glow Overlay (CSS clip-circle globe using MapLibre) ────
-        const _glowCanvas = document.getElementById("globeGlowOverlay");
-        let _glowRAF = null;
-
-        function _globeGlowStart() {
-          _glowCanvas.classList.add("active");
-          _glowCanvas.width = window.innerWidth * devicePixelRatio;
-          _glowCanvas.height = window.innerHeight * devicePixelRatio;
-          _glowCanvas.style.width = window.innerWidth + "px";
-          _glowCanvas.style.height = window.innerHeight + "px";
-          _drawGlow();
-        }
-
-        function _drawGlow() {
-          const W = _glowCanvas.width,
-            H = _glowCanvas.height;
-          const cx = W / 2,
-            cy = H / 2;
-          const R = Math.min(W, H) * 0.42;
-          const ctx = _glowCanvas.getContext("2d");
-          ctx.clearRect(0, 0, W, H);
-          // Atmosphere ring
-          const atmo = ctx.createRadialGradient(
-            cx,
-            cy,
-            R * 0.97,
-            cx,
-            cy,
-            R * 1.18,
-          );
-          atmo.addColorStop(0, "rgba(110,80,240,0.45)");
-          atmo.addColorStop(0.5, "rgba(60,40,160,0.2)");
-          atmo.addColorStop(1, "rgba(0,0,0,0)");
-          ctx.beginPath();
-          ctx.arc(cx, cy, R * 1.18, 0, Math.PI * 2);
-          ctx.fillStyle = atmo;
-          ctx.fill();
-          // Outer stroke ring
-          ctx.beginPath();
-          ctx.arc(cx, cy, R, 0, Math.PI * 2);
-          ctx.strokeStyle = "rgba(140,100,255,0.5)";
-          ctx.lineWidth = 2 * devicePixelRatio;
-          ctx.stroke();
-          // Dark vignette around cut edge
-          const vig = ctx.createRadialGradient(cx, cy, R * 0.7, cx, cy, R);
-          vig.addColorStop(0, "rgba(0,0,0,0)");
-          vig.addColorStop(1, "rgba(0,0,0,0.35)");
-          ctx.beginPath();
-          ctx.arc(cx, cy, R, 0, Math.PI * 2);
-          ctx.fillStyle = vig;
-          ctx.fill();
-        }
-
-        function _globeGlowStop() {
-          _glowCanvas.classList.remove("active");
-          const ctx = _glowCanvas.getContext("2d");
-          ctx.clearRect(0, 0, _glowCanvas.width, _glowCanvas.height);
-        }
-
-        window.addEventListener("resize", () => {
-          if (_glowCanvas.classList.contains("active")) {
-            _glowCanvas.width = window.innerWidth * devicePixelRatio;
-            _glowCanvas.height = window.innerHeight * devicePixelRatio;
-            _glowCanvas.style.width = window.innerWidth + "px";
-            _glowCanvas.style.height = window.innerHeight + "px";
-            _drawGlow();
+          if (typeof refreshCustomMarkers === "function") {
+            refreshCustomMarkers();
           }
-        });
+          applyRoadHighlight();
+          applyLayerUI(currentLayer);
+        }
+
+        function applyRoadHighlight() {
+          if (currentLayer === "satellite") {
+            [
+              "satellite-roads-minor",
+              "satellite-roads-major",
+              "satellite-roads-motorway",
+              "satellite-road-labels",
+            ].forEach((id) => {
+              if (map.getLayer(id)) {
+                map.setLayoutProperty(
+                  id,
+                  "visibility",
+                  roadHighlightEnabled ? "visible" : "none",
+                );
+              }
+            });
+            return;
+          }
+
+          if (map.getLayer("road-casing")) {
+            map.setPaintProperty(
+              "road-casing",
+              "line-color",
+              roadHighlightEnabled ? "#4338ca" : "#2a1a6e",
+            );
+            map.setPaintProperty(
+              "road-casing",
+              "line-width",
+              roadHighlightEnabled
+                ? ["interpolate", ["linear"], ["zoom"], 5, 0.8, 14, 6.4]
+                : ["interpolate", ["linear"], ["zoom"], 5, 0.5, 14, 5],
+            );
+          }
+          if (map.getLayer("road")) {
+            map.setPaintProperty(
+              "road",
+              "line-color",
+              roadHighlightEnabled
+                ? currentTheme === "light"
+                  ? "#2563eb"
+                  : "#7dd3fc"
+                : currentTheme === "light"
+                  ? "#ffffff"
+                  : "#3b2080",
+            );
+            map.setPaintProperty(
+              "road",
+              "line-width",
+              roadHighlightEnabled
+                ? ["interpolate", ["linear"], ["zoom"], 5, 0.8, 14, 4.6]
+                : ["interpolate", ["linear"], ["zoom"], 5, 0.3, 14, 3],
+            );
+          }
+          if (map.getLayer("road-major")) {
+            map.setPaintProperty(
+              "road-major",
+              "line-color",
+              roadHighlightEnabled
+                ? currentTheme === "light"
+                  ? "#f97316"
+                  : "#ffd166"
+                : currentTheme === "light"
+                  ? "#f4a261"
+                  : "#6c2eb7",
+            );
+            map.setPaintProperty(
+              "road-major",
+              "line-width",
+              roadHighlightEnabled
+                ? ["interpolate", ["linear"], ["zoom"], 5, 1.2, 14, 6.4]
+                : ["interpolate", ["linear"], ["zoom"], 5, 0.8, 14, 5],
+            );
+          }
+          if (map.getLayer("roads_minor")) {
+            map.setPaintProperty(
+              "roads_minor",
+              "line-color",
+              roadHighlightEnabled ? "#2563eb" : "#ffffff",
+            );
+            map.setPaintProperty(
+              "roads_minor",
+              "line-width",
+              roadHighlightEnabled
+                ? ["interpolate", ["linear"], ["zoom"], 12, 2.2, 18, 7]
+                : ["interpolate", ["linear"], ["zoom"], 12, 1.5, 18, 6],
+            );
+          }
+          if (map.getLayer("roads_major")) {
+            map.setPaintProperty(
+              "roads_major",
+              "line-color",
+              roadHighlightEnabled ? "#f59e0b" : "#ffd580",
+            );
+            map.setPaintProperty(
+              "roads_major",
+              "line-width",
+              roadHighlightEnabled
+                ? ["interpolate", ["linear"], ["zoom"], 8, 1.4, 16, 9]
+                : ["interpolate", ["linear"], ["zoom"], 8, 1, 16, 8],
+            );
+          }
+          if (map.getLayer("roads_motorway")) {
+            map.setPaintProperty(
+              "roads_motorway",
+              "line-color",
+              roadHighlightEnabled ? "#f97316" : "#f4a261",
+            );
+            map.setPaintProperty(
+              "roads_motorway",
+              "line-width",
+              roadHighlightEnabled
+                ? ["interpolate", ["linear"], ["zoom"], 6, 2, 16, 11.5]
+                : ["interpolate", ["linear"], ["zoom"], 6, 1.5, 16, 10],
+            );
+          }
+          if (map.getLayer("label-road")) {
+            map.setPaintProperty(
+              "label-road",
+              "text-color",
+              roadHighlightEnabled ? "#ffffff" : "#b8a0e8",
+            );
+          }
+          if (map.getLayer("road_labels")) {
+            map.setPaintProperty(
+              "road_labels",
+              "text-color",
+              roadHighlightEnabled ? "#7c2d12" : "#555",
+            );
+          }
+        }
+
+        function refreshMapStyle() {
+          map.once("style.load", restoreMapOverlays);
+          map.setStyle(
+            currentLayer === "satellite"
+              ? buildSatelliteStyle()
+              : currentTheme === "light"
+                ? lightMapStyle
+                : munetiosStyle,
+            { diff: false },
+          );
+        }
+
+        window._refreshMapStyle = refreshMapStyle;
 
         function switchLayer(name) {
-          const prevLayer = currentLayer;
-          if (name === prevLayer) return;
-          currentLayer = name;
-          const isGlobe = name === "globe";
-          const mapCanvasEl = document.getElementById("mapCanvas");
-
-          if (isGlobe) {
-            // Clip the live MapLibre map into a circle — keeps all labels, zoom, interactions
-            mapCanvasEl.classList.add("globe-mode");
-            _globeGlowStart();
-            // Zoom out a bit so the globe fits visibly
-            if (map.getZoom() > 4) map.easeTo({ zoom: 3, duration: 700 });
-          } else {
-            mapCanvasEl.classList.remove("globe-mode");
-            _globeGlowStop();
-            map.once("style.load", restoreMapOverlays);
-            map.setStyle(LAYERS[name].style, { diff: false });
-          }
-
-          localStorage.setItem("munetios_layer", name);
-          applyLayerUI(name);
+          const nextLayer = normalizeLayerName(name);
+          if (currentLayer === nextLayer) return;
+          currentLayer = nextLayer;
+          toolsTrayOpen = false;
+          localStorage.setItem("munetios_layer", currentLayer);
+          refreshMapStyle();
+          applyLayerUI(currentLayer);
         }
+
+        function setAddMarkerMode(enabled) {
+          addMarkerMode = enabled;
+          if (enabled) toolsTrayOpen = true;
+          addMarkerToolBtn.classList.toggle("add-marker-mode", enabled);
+          map.getCanvas().style.cursor = enabled ? "crosshair" : "";
+          applyLayerUI(currentLayer);
+        }
+
         layerMapBtn.addEventListener("click", () => switchLayer("map"));
         layerSatelliteBtn.addEventListener("click", () =>
           switchLayer("satellite"),
         );
-        layerGlobeBtn.addEventListener("click", () => switchLayer("globe"));
+        layerToolsBtn.addEventListener("click", () => {
+          toolsTrayOpen = !toolsTrayOpen;
+          applyLayerUI(currentLayer);
+        });
+        roadsToggleBtn.addEventListener("click", () => {
+          roadHighlightEnabled = !roadHighlightEnabled;
+          localStorage.setItem(
+            "munetios_road_highlight",
+            roadHighlightEnabled ? "1" : "0",
+          );
+          if (currentLayer === "satellite") {
+            refreshMapStyle();
+          } else {
+            applyRoadHighlight();
+            applyLayerUI(currentLayer);
+          }
+        });
+        markerPhotosBtn.addEventListener("click", () => {
+          markerPhotosEnabled = !markerPhotosEnabled;
+          localStorage.setItem(
+            "munetios_marker_photos",
+            markerPhotosEnabled ? "1" : "0",
+          );
+          if (typeof refreshCustomMarkers === "function") {
+            refreshCustomMarkers();
+          }
+          applyLayerUI(currentLayer);
+        });
+        addMarkerToolBtn.addEventListener("click", () => {
+          const next = !addMarkerMode;
+          setAddMarkerMode(next);
+          if (next) showToast("Tap the map to place a marker");
+        });
 
         // ── Zoom & Pan ────────────────────────────────────────────────────
         document.getElementById("zoomInBtn").addEventListener("click", () => {
@@ -6551,32 +7106,200 @@
 
         const customMarkerInstances = {};
         window._customMarkerInstances = customMarkerInstances;
+        const markerEditorBackdrop = document.getElementById(
+          "markerEditorBackdrop",
+        );
+        const markerEditorForm = document.getElementById("markerEditorForm");
+        const markerEditorCoords =
+          document.getElementById("markerEditorCoords");
+        const markerLabelInput = document.getElementById("markerLabelInput");
+        const markerImageInput = document.getElementById("markerImageInput");
+        const markerImageFileInput = document.getElementById(
+          "markerImageFileInput",
+        );
+        const markerImageFileName = document.getElementById(
+          "markerImageFileName",
+        );
+        const markerImagePreviewWrap = document.getElementById(
+          "markerImagePreviewWrap",
+        );
+        const markerImagePreview =
+          document.getElementById("markerImagePreview");
+        const customMapPopup = document.getElementById("customMapPopup");
+        const customMapPopupContent = document.getElementById(
+          "customMapPopupContent",
+        );
+        let pendingMarkerCoords = null;
+        let pendingMarkerImageData = "";
+        const placeImageCache = new Map();
+        let activeCustomPopup = null;
 
-        function addCustomMarker(lat, lng, label) {
+        function sanitizeMarkerImageUrl(url) {
+          const value = String(url || "").trim();
+          if (!value) return "";
+          try {
+            const parsed = new URL(value, window.location.href);
+            return ["https:", "http:", "data:"].includes(parsed.protocol)
+              ? parsed.href
+              : "";
+          } catch {
+            return "";
+          }
+        }
+
+        function buildMarkerPopupHtml(marker) {
+          const safeLabel = escapeHtml(marker.label || "Marker");
+          const safeCoords = `${Number(marker.lat).toFixed(5)}, ${Number(marker.lng).toFixed(5)}`;
+          const safeImage = sanitizeMarkerImageUrl(marker.imageUrl);
+          return `<div class="map-marker-popup"><h3>${safeLabel}</h3><p>${safeCoords}</p>${safeImage ? `<img src="${safeImage}" alt="${safeLabel}" loading="lazy">` : `<p>No image added</p>`}</div>`;
+        }
+
+        function readMarkerImageFile(file) {
+          return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(String(reader.result || ""));
+            reader.onerror = () => reject(new Error("file_read_failed"));
+            reader.readAsDataURL(file);
+          });
+        }
+
+        function closeCustomMapPopup() {
+          activeCustomPopup = null;
+          customMapPopup.classList.remove("open");
+        }
+
+        function positionCustomMapPopup() {
+          if (!activeCustomPopup) return;
+          const point = map.project(activeCustomPopup.lngLat);
+          customMapPopup.style.left = `${point.x}px`;
+          customMapPopup.style.top = `${point.y}px`;
+        }
+
+        function openCustomMapPopup(lng, lat, html) {
+          activeCustomPopup = {
+            lngLat: { lng, lat },
+            html,
+          };
+          customMapPopupContent.innerHTML = html;
+          positionCustomMapPopup();
+          customMapPopup.classList.add("open");
+        }
+
+        function updateCustomMapPopup(html) {
+          if (!activeCustomPopup) return;
+          activeCustomPopup.html = html;
+          customMapPopupContent.innerHTML = html;
+          positionCustomMapPopup();
+        }
+
+        function buildPlacePopupHtml(
+          name,
+          address,
+          imageUrl = "",
+          loading = false,
+        ) {
+          const safeName = escapeHtml(name || "Place");
+          const safeAddress = escapeHtml(address || "");
+          const safeImage = sanitizeMarkerImageUrl(imageUrl);
+          return `<div class="map-marker-popup"><h3>${safeName}</h3>${safeAddress ? `<p>${safeAddress}</p>` : ""}${markerPhotosEnabled ? (loading ? `<p>Loading image…</p>` : safeImage ? `<img src="${safeImage}" alt="${safeName}" loading="lazy">` : `<p>No image found</p>`) : ""}</div>`;
+        }
+
+        async function fetchPlaceImage(placeName, address = "") {
+          const key = `${placeName}__${address}`.trim().toLowerCase();
+          if (placeImageCache.has(key)) return placeImageCache.get(key);
+          const task = (async () => {
+            const query = [placeName, address].filter(Boolean).join(" ").trim();
+            if (!query) return "";
+            try {
+              const searchRes = await fetch(
+                `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&srlimit=1&format=json&origin=*`,
+              );
+              const searchJson = await searchRes.json();
+              const title = searchJson?.query?.search?.[0]?.title;
+              if (!title) return "";
+              const summaryRes = await fetch(
+                `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`,
+              );
+              const summaryJson = await summaryRes.json();
+              return summaryJson?.thumbnail?.source || "";
+            } catch (_) {
+              return "";
+            }
+          })();
+          placeImageCache.set(key, task);
+          return task;
+        }
+
+        function attachPlacePopup(marker, name, address = "") {
+          const lngLat = marker.getLngLat();
+          const initialHtml = buildPlacePopupHtml(
+            name,
+            address,
+            "",
+            markerPhotosEnabled,
+          );
+          if (markerPhotosEnabled) {
+            fetchPlaceImage(name, address).then((imageUrl) => {
+              if (
+                activeCustomPopup &&
+                activeCustomPopup.lngLat.lng === lngLat.lng &&
+                activeCustomPopup.lngLat.lat === lngLat.lat
+              ) {
+                updateCustomMapPopup(
+                  buildPlacePopupHtml(name, address, imageUrl, false),
+                );
+              }
+            });
+          }
+          return initialHtml;
+        }
+
+        function refreshCustomMarkers() {
+          Object.keys(customMarkerInstances).forEach((id) => {
+            customMarkerInstances[id].remove();
+            delete customMarkerInstances[id];
+          });
+          getMarkers().forEach((m) =>
+            placeMarkerOnMap(m.id, m.lat, m.lng, m.label, m.imageUrl || ""),
+          );
+        }
+
+        function addCustomMarker(lat, lng, label, imageUrl = "") {
           const id = Date.now();
           const markers = getMarkers();
-          markers.unshift({
+          const marker = {
             id,
             lat,
             lng,
-            label: label || "Marker " + markers.length + 1,
-          });
+            label: label || "Marker " + (markers.length + 1),
+            imageUrl: sanitizeMarkerImageUrl(imageUrl),
+          };
+          markers.unshift(marker);
           saveMarkers(markers);
-          placeMarkerOnMap(id, lat, lng, label);
+          placeMarkerOnMap(id, lat, lng, marker.label, marker.imageUrl);
           return id;
         }
 
-        function placeMarkerOnMap(id, lat, lng, label) {
+        function placeMarkerOnMap(id, lat, lng, label, imageUrl = "") {
           const el = document.createElement("div");
+          const hasImage = !!sanitizeMarkerImageUrl(imageUrl);
           el.style.cssText =
-            "width:20px;height:20px;background:#ff5722;border:3px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 6px rgba(0,0,0,0.4);cursor:pointer";
+            "width:20px;height:20px;background:#ff5722;border:3px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 6px rgba(0,0,0,0.4);cursor:pointer;position:relative";
+          if (hasImage) {
+            const dot = document.createElement("div");
+            dot.style.cssText =
+              "position:absolute;top:-4px;right:-4px;width:10px;height:10px;border-radius:50%;background:#22c55e;border:2px solid #fff;transform:rotate(45deg)";
+            el.appendChild(dot);
+          }
           el.title = label || "";
+          const markerData = { id, lat, lng, label, imageUrl };
           const m = new maplibregl.Marker({ element: el, anchor: "bottom" })
             .setLngLat([lng, lat])
             .addTo(map);
-          m.getElement().addEventListener("click", () =>
-            showToast(label || "Custom Marker"),
-          );
+          m.getElement().addEventListener("click", (e) => {
+            e.stopPropagation();
+            openCustomMapPopup(lng, lat, buildMarkerPopupHtml(markerData));
+          });
           customMarkerInstances[id] = m;
         }
 
@@ -6588,12 +7311,109 @@
           saveMarkers(getMarkers().filter((m) => m.id !== id));
         }
 
-        // Restore markers from storage on load
-        map.on("load", () => {
-          getMarkers().forEach((m) =>
-            placeMarkerOnMap(m.id, m.lat, m.lng, m.label),
-          );
+        function getPendingMarkerImage() {
+          const fileImage = sanitizeMarkerImageUrl(pendingMarkerImageData);
+          if (fileImage) return fileImage;
+          return sanitizeMarkerImageUrl(markerImageInput.value.trim());
+        }
+
+        function updateMarkerImagePreview() {
+          const safeImage = getPendingMarkerImage();
+          if (!safeImage) {
+            markerImagePreviewWrap.classList.remove("visible");
+            markerImagePreview.removeAttribute("src");
+            return;
+          }
+          markerImagePreview.src = safeImage;
+          markerImagePreviewWrap.classList.add("visible");
+        }
+
+        function closeMarkerEditor() {
+          pendingMarkerCoords = null;
+          pendingMarkerImageData = "";
+          markerEditorBackdrop.classList.remove("open");
+          markerEditorForm.reset();
+          markerImageFileName.textContent = "No file chosen";
+          updateMarkerImagePreview();
+          applyLayerUI(currentLayer);
+        }
+
+        function openMarkerEditor(lat, lng) {
+          pendingMarkerCoords = { lat, lng };
+          toolsTrayOpen = true;
+          markerEditorCoords.textContent = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+          markerLabelInput.value = "";
+          markerImageInput.value = "";
+          markerImageFileInput.value = "";
+          markerImageFileName.textContent = "No file chosen";
+          pendingMarkerImageData = "";
+          updateMarkerImagePreview();
+          markerEditorBackdrop.classList.add("open");
+          applyLayerUI(currentLayer);
+          setTimeout(() => markerLabelInput.focus(), 30);
+        }
+
+        markerImageInput.addEventListener("input", () => {
+          if (markerImageInput.value.trim()) {
+            pendingMarkerImageData = "";
+            markerImageFileInput.value = "";
+          }
+          updateMarkerImagePreview();
         });
+        markerImageFileInput.addEventListener("change", async () => {
+          const file = markerImageFileInput.files?.[0];
+          if (!file) {
+            pendingMarkerImageData = "";
+            markerImageFileName.textContent = "No file chosen";
+            updateMarkerImagePreview();
+            return;
+          }
+          try {
+            markerImageFileName.textContent = file.name;
+            pendingMarkerImageData = sanitizeMarkerImageUrl(
+              await readMarkerImageFile(file),
+            );
+            markerImageInput.value = "";
+            updateMarkerImagePreview();
+          } catch (_) {
+            pendingMarkerImageData = "";
+            markerImageFileInput.value = "";
+            markerImageFileName.textContent = "No file chosen";
+            updateMarkerImagePreview();
+            showToast("Could not read image file");
+          }
+        });
+        document
+          .getElementById("markerEditorClose")
+          .addEventListener("click", closeMarkerEditor);
+        document
+          .getElementById("markerEditorCancel")
+          .addEventListener("click", closeMarkerEditor);
+        markerEditorBackdrop.addEventListener("click", (e) => {
+          if (e.target === markerEditorBackdrop) closeMarkerEditor();
+        });
+        markerEditorForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          if (!pendingMarkerCoords) return;
+          const typedImageUrl = markerImageInput.value.trim();
+          const imageUrl = getPendingMarkerImage();
+          if (typedImageUrl && !sanitizeMarkerImageUrl(typedImageUrl)) {
+            showToast("Enter a valid image URL or choose an image file");
+            return;
+          }
+          addCustomMarker(
+            pendingMarkerCoords.lat,
+            pendingMarkerCoords.lng,
+            markerLabelInput.value.trim() ||
+              `Pin at ${pendingMarkerCoords.lat.toFixed(5)}, ${pendingMarkerCoords.lng.toFixed(5)}`,
+            imageUrl,
+          );
+          closeMarkerEditor();
+          showToast(t("toast_marker"));
+        });
+
+        // Restore markers from storage on load
+        map.on("load", refreshCustomMarkers);
 
         // ── Map Context Menu ──────────────────────────────────────────
         const mapCtxMenu = document.getElementById("mapContextMenu");
@@ -6628,10 +7448,22 @@
         });
 
         // Close on map click or drag
-        map.on("click", closeMapCtxMenu);
+        map.on("click", (e) => {
+          closeMapCtxMenu();
+          closeCustomMapPopup();
+          if (!addMarkerMode) return;
+          setAddMarkerMode(false);
+          openMarkerEditor(e.lngLat.lat, e.lngLat.lng);
+        });
         map.on("drag", closeMapCtxMenu);
+        map.on("move", positionCustomMapPopup);
+        map.on("zoom", positionCustomMapPopup);
+        map.on("resize", positionCustomMapPopup);
         document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape") closeMapCtxMenu();
+          if (e.key === "Escape") {
+            closeMapCtxMenu();
+            closeCustomMapPopup();
+          }
         });
         // Close if click outside menu
         document.addEventListener(
@@ -6641,6 +7473,9 @@
           },
           true,
         );
+        document
+          .getElementById("customMapPopupClose")
+          .addEventListener("click", closeCustomMapPopup);
 
         // --- Context menu actions ---
         document.getElementById("ctxDirFrom").addEventListener("click", () => {
@@ -6666,10 +7501,7 @@
           .getElementById("ctxAddMarker")
           .addEventListener("click", () => {
             closeMapCtxMenu();
-            const label =
-              "Pin at " + _ctxLat.toFixed(5) + ", " + _ctxLng.toFixed(5);
-            addCustomMarker(_ctxLat, _ctxLng, label);
-            showToast(t("toast_marker"));
+            openMarkerEditor(_ctxLat, _ctxLng);
           });
 
         document.getElementById("ctxBookmark").addEventListener("click", () => {
@@ -6881,7 +7713,11 @@
             .map(
               (m) => `
             <div class="marker-item" data-id="${m.id}" data-lat="${m.lat}" data-lng="${m.lng}">
-              <icon style="font-size:20px;opacity:0.7;flex-shrink:0;color:#ff5722">place</icon>
+              ${
+                sanitizeMarkerImageUrl(m.imageUrl)
+                  ? `<img class="marker-list-thumb" src="${sanitizeMarkerImageUrl(m.imageUrl)}" alt="${escapeHtml(m.label)}">`
+                  : `<icon style="font-size:20px;opacity:0.7;flex-shrink:0;color:#ff5722">place</icon>`
+              }
               <div class="marker-item-info">
                 <div class="marker-item-name">${escapeHtml(m.label)}</div>
                 <div class="marker-item-coords">${m.lat.toFixed(5)}, ${m.lng.toFixed(5)}</div>
@@ -6941,6 +7777,7 @@
             });
             saveMarkers([]);
             renderMarkersList();
+            applyLayerUI(currentLayer);
           });
 
         // ── Print Preview Popup ───────────────────────────────────────────
@@ -6979,26 +7816,7 @@
         function _ppSetStyle() {
           if (!_ppMap) return;
           if (_ppTile === "satellite") {
-            _ppMap.setStyle({
-              version: 8,
-              sources: {
-                "esri-satellite": {
-                  type: "raster",
-                  tiles: [
-                    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                  ],
-                  tileSize: 256,
-                  maxzoom: 19,
-                },
-              },
-              layers: [
-                {
-                  id: "satellite-layer",
-                  type: "raster",
-                  source: "esri-satellite",
-                },
-              ],
-            });
+            _ppMap.setStyle(buildSatelliteStyle());
           } else {
             _ppMap.setStyle(munetiosStyle);
           }
@@ -7147,7 +7965,7 @@
                   container: "printPreviewMap",
                   style:
                     _ppTile === "satellite"
-                      ? LAYERS.satellite.style
+                      ? buildSatelliteStyle()
                       : munetiosStyle,
                   center: map.getCenter(),
                   zoom: map.getZoom(),
@@ -7356,6 +8174,13 @@
           searchMarker = new maplibregl.Marker({ color: "#4285f4" })
             .setLngLat([firstLng, firstLat])
             .addTo(map);
+          const firstPopup = attachPlacePopup(
+            searchMarker,
+            (first.namedetails && first.namedetails.name) ||
+              first.display_name.split(",")[0].trim(),
+            first.display_name,
+          );
+          if (firstPopup) openCustomMapPopup(firstLng, firstLat, firstPopup);
           map.flyTo({ center: [firstLng, firstLat], zoom: 13, speed: 1.5 });
 
           searchResultsEl.innerHTML = results
@@ -7369,7 +8194,7 @@
               const lng = r.lon;
               const nameEsc = escapeHtml(name);
               const addrEsc = escapeHtml(r.display_name);
-              return `<div class="search-result-item" data-lat="${lat}" data-lng="${lng}">
+              return `<div class="search-result-item" data-lat="${lat}" data-lng="${lng}" data-name="${nameEsc}" data-address="${addrEsc}">
               <div class="search-result-main">
                 <icon>${ico}</icon>
                 <div class="search-result-info">
@@ -7404,6 +8229,14 @@
                 searchMarker = new maplibregl.Marker({ color: "#4285f4" })
                   .setLngLat([lng, lat])
                   .addTo(map);
+                const popup = attachPlacePopup(
+                  searchMarker,
+                  item.querySelector(".search-result-name")?.textContent ||
+                    item.dataset.name,
+                  item.querySelector(".search-result-address")?.textContent ||
+                    item.dataset.address,
+                );
+                if (popup) openCustomMapPopup(lng, lat, popup);
               });
             });
 
@@ -9339,16 +10172,24 @@
         localStorage.setItem("munetios_theme", theme);
         if (theme === "light") {
           document.body.classList.add("theme-light");
-          if (window._map && window._map.loaded()) {
+          if (typeof window._refreshMapStyle === "function") {
             try {
-              window._map.setStyle(lightMapStyle);
+              if (window._map && window._map.loaded()) {
+                window._refreshMapStyle();
+              } else if (window._map) {
+                window._map.once("load", window._refreshMapStyle);
+              }
             } catch (e) {}
           }
         } else {
           document.body.classList.remove("theme-light");
-          if (window._map && window._map.loaded()) {
+          if (typeof window._refreshMapStyle === "function") {
             try {
-              window._map.setStyle(window._darkMapStyle || munetiosStyle);
+              if (window._map && window._map.loaded()) {
+                window._refreshMapStyle();
+              } else if (window._map) {
+                window._map.once("load", window._refreshMapStyle);
+              }
             } catch (e) {}
           }
         }
