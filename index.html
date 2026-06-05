@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" translate="no">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -174,7 +174,7 @@
         gap: 6px;
         padding: 10px 6px;
         cursor: pointer;
-        border-radius: 10px;
+        border-radius: 999px;
         transition:
           background-color 0.2s,
           transform 0.15s;
@@ -214,7 +214,7 @@
         align-items: center;
         justify-content: center;
         padding: 6px;
-        border-radius: 8px;
+        border-radius: 33px;
         margin-bottom: 10px;
         transition: background-color 0.2s;
       }
@@ -229,7 +229,7 @@
         justify-content: space-between;
       }
       .search-bar {
-        padding: 11px 12px;
+        padding: 8px 12px;
         max-width: 600px;
         width: 100%;
         margin-right: 20px;
@@ -253,7 +253,7 @@
         align-items: center;
         justify-content: center;
         padding: 3px;
-        border-radius: 8px;
+        border-radius: 33px;
         transition: background-color 0.2s;
       }
       .topbar-item:hover {
@@ -366,7 +366,7 @@
         gap: 16px;
         padding: 10px 20px;
         cursor: pointer;
-        border-radius: 10px;
+        border-radius: 999px;
         margin: 2px 8px;
         transition:
           background-color 0.18s,
@@ -414,7 +414,7 @@
       .controls-container {
         position: fixed;
         right: 20px;
-        bottom: 300px;
+        bottom: 370px;
         z-index: 3;
         display: flex;
         flex-direction: column;
@@ -434,7 +434,7 @@
         width: 40px;
         height: 40px;
         cursor: pointer;
-        border-radius: 8px;
+        border-radius: 33px;
         transition: background-color 0.2s;
         user-select: none;
       }
@@ -455,7 +455,7 @@
       .zoom-controls {
         display: flex;
         flex-direction: column;
-        border-radius: 10px;
+        border-radius: 30px;
         overflow: hidden;
       }
       .zoom-control {
@@ -486,7 +486,7 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
-        border-radius: 14px;
+        border-radius: 33px;
         padding: 10px;
         z-index: 4;
       }
@@ -496,7 +496,7 @@
         justify-content: flex-start;
         gap: 8px;
         cursor: pointer;
-        border-radius: 16px;
+        border-radius: 33px;
         padding: 11px 12px;
         min-height: 50px;
         border: 1px solid transparent;
@@ -708,7 +708,7 @@
         transform: translateX(-50%) rotate(45deg);
         border-radius: 4px;
         background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(4px) saturate(180%);
+        backdrop-filter: blur(3px) saturate(180%);
       }
       .file-picker-row {
         display: flex;
@@ -815,7 +815,7 @@
       .show-mobile {
         display: none;
       }
-      @media (max-width: 640px) {
+      @media (max-width: 768px) {
         .show-mobile {
           display: inline-block;
         }
@@ -931,7 +931,7 @@
         max-height: 400px;
         overflow-y: auto;
         display: block;
-        border-radius: 22px;
+        border-radius: 33px;
         padding: 16px;
       }
       .home-panel.hidden {
@@ -1244,7 +1244,7 @@
         gap: 3px;
         padding: 8px 4px;
         border: none;
-        border-radius: 10px;
+        border-radius: 30px;
         background: rgba(0, 0, 0, 0.08);
         color: inherit;
         cursor: pointer;
@@ -1273,7 +1273,7 @@
         margin-bottom: 10px;
         position: relative;
       }
-      @media (max-height: 617px) {
+      @media (max-height: 691px) {
         .controls-container {
           display: none;
         }
@@ -1302,7 +1302,7 @@
         align-items: center;
         justify-content: center;
         padding: 5px;
-        border-radius: 8px;
+        border-radius: 999px;
         cursor: pointer;
         background: rgba(0, 0, 0, 0.08);
         transition: background 0.2s;
@@ -1460,9 +1460,10 @@
         background: rgba(81, 29, 204, 0.6) !important;
       }
       .autocomplete-list {
-        position: absolute;
+        position: fixed;
         left: 0;
-        right: 0;
+        top: 0;
+        width: min(420px, calc(100vw - 24px));
         border-radius: 12px;
         overflow: hidden;
         z-index: 100000000000;
@@ -1470,11 +1471,15 @@
         overflow-y: auto;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
       }
-      .autocomplete-list.from-list {
-        top: 44px;
+      .dropdowns-wrapper {
+        position: fixed;
+        inset: 0;
+        z-index: 100000000000;
+        pointer-events: none;
       }
-      .autocomplete-list.to-list {
-        top: 92px;
+      .dropdowns-wrapper > .dropdowns-list,
+      .dropdowns-wrapper > .autocomplete-list {
+        pointer-events: auto;
       }
       .autocomplete-item {
         display: flex;
@@ -2128,7 +2133,7 @@
         align-items: center;
         gap: 6px;
         padding: 7px 12px;
-        border-radius: 10px;
+        border-radius: 33px;
         background: rgba(0, 0, 0, 0.1);
         cursor: pointer;
         font-size: 14px;
@@ -2141,28 +2146,39 @@
       .custom-dropdown-btn:hover {
         background: rgba(0, 0, 0, 0.16);
       }
-      .custom-dropdown-list {
-        position: absolute;
+      .dropdowns-list {
+        position: fixed;
         right: 0;
-        top: calc(100% + 6px);
+        top: 0;
         min-width: 180px;
-        border-radius: 14px;
+        border-radius: 26px;
         padding: 6px;
         z-index: 10;
         max-height: 280px;
         overflow-y: auto;
         display: none;
         box-shadow: 0 6px 28px rgba(0, 0, 0, 0.35);
+        animation: dropdownRise 0.18s ease both;
       }
-      .custom-dropdown-list.open {
+      .dropdowns-list.open {
         display: block;
+      }
+      @keyframes dropdownRise {
+        from {
+          opacity: 0;
+          transform: translateY(-4px) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
       }
       .custom-dropdown-item {
         display: flex;
         align-items: center;
         gap: 8px;
         padding: 9px 12px;
-        border-radius: 10px;
+        border-radius: 33px;
         cursor: pointer;
         font-size: 14px;
         transition: background 0.15s;
@@ -2177,7 +2193,7 @@
       /* Theme toggle */
       .theme-toggle {
         display: flex;
-        border-radius: 10px;
+        border-radius: 33px;
         overflow: hidden;
         border: 1px solid rgba(0, 0, 0, 0.1);
       }
@@ -2201,7 +2217,7 @@
         width: 100%;
         padding: 11px;
         border: none;
-        border-radius: 12px;
+        border-radius: 33px;
         background: rgba(220, 53, 69, 0.12);
         color: #ff6b6b;
         font-weight: 600;
@@ -2217,6 +2233,316 @@
       }
       .settings-danger-btn:hover {
         background: rgba(220, 53, 69, 0.24);
+      }
+      #settingsModal {
+        box-shadow:
+          0 26px 80px rgba(10, 4, 30, 0.58),
+          inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+      .settings-header {
+        padding: 18px 20px 14px;
+        border-bottom: 1px solid rgba(168, 85, 247, 0.18);
+        background:
+          linear-gradient(135deg, rgba(124, 58, 237, 0.22), transparent 58%),
+          rgba(13, 6, 32, 0.2);
+      }
+      .settings-title {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+      .settings-body {
+        gap: 8px;
+      }
+      .settings-section-label {
+        opacity: 0.62;
+        padding: 12px 2px 4px;
+      }
+      .settings-row {
+        background: rgba(124, 58, 237, 0.08);
+        border: 1px solid rgba(168, 85, 247, 0.14);
+        transition:
+          background 0.2s ease,
+          border-color 0.2s ease,
+          transform 0.2s ease;
+      }
+      .settings-row:hover {
+        background: rgba(124, 58, 237, 0.13);
+        border-color: rgba(216, 180, 254, 0.24);
+        transform: translateY(-1px);
+      }
+      .custom-dropdown-btn {
+        background: rgba(15, 8, 36, 0.28);
+        border: 1px solid rgba(216, 180, 254, 0.18);
+        transition:
+          background 0.18s,
+          border-color 0.18s,
+          transform 0.18s;
+      }
+      .custom-dropdown-btn:hover {
+        background: rgba(124, 58, 237, 0.22);
+        border-color: rgba(216, 180, 254, 0.28);
+        transform: translateY(-1px);
+      }
+      .settings-danger-btn {
+        transition:
+          background 0.2s,
+          transform 0.18s;
+      }
+      .settings-danger-btn:hover {
+        transform: translateY(-1px);
+      }
+      [data-tooltip] {
+        position: relative;
+      }
+      [data-tooltip]::after {
+        display: none;
+        content: attr(data-tooltip);
+        position: absolute;
+        left: 50%;
+        bottom: calc(100% + 9px);
+        transform: translateX(-50%) translateY(4px);
+        padding: 6px 9px;
+        border-radius: 9px;
+        background: rgba(20, 10, 42, 0.01);
+        border: 1px solid rgba(216, 180, 254, 0.24);
+        color: #fff;
+        font-size: 12px;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.16s ease,
+          transform 0.16s ease;
+        z-index: 900;
+        backdrop-filter: blur(3px);
+      }
+      [data-tooltip]:hover::after,
+      [data-tooltip]:focus-visible::after {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+      .body-tooltip {
+        position: fixed;
+        z-index: 100000000001;
+        max-width: min(280px, calc(100vw - 24px));
+        padding: 6px 9px;
+        border-radius: 9px;
+        background: rgba(20, 10, 42, 0.603);
+        border: 1px solid rgba(216, 180, 254, 0.24);
+        color: #fff;
+        font-size: 12px;
+        line-height: 1.35;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(4px);
+        transition:
+          opacity 0.16s ease,
+          transform 0.16s ease;
+        backdrop-filter: blur(3px);
+      }
+      .body-tooltip.open {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .directions-panel,
+      .search-results-container {
+        animation: panelLift 0.24s ease both;
+      }
+      @keyframes panelLift {
+        from {
+          opacity: 0;
+          transform: translateY(14px) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      .directions-mode-tabs .dir-mode,
+      .result-action-btn,
+      .nav-top-btn,
+      .topbar-item,
+      .layer {
+        transition:
+          background 0.18s ease,
+          border-color 0.18s ease,
+          transform 0.18s ease,
+          opacity 0.18s ease;
+      }
+      .directions-mode-tabs .dir-mode:hover,
+      .result-action-btn:hover,
+      .nav-top-btn:hover,
+      .topbar-item:hover,
+      .layer:hover {
+        transform: translateY(-1px);
+      }
+      #printPopup {
+        background:
+          radial-gradient(
+            circle at 18% 4%,
+            rgba(168, 85, 247, 0.22),
+            transparent 30%
+          ),
+          rgba(0, 0, 0, 0.88) !important;
+      }
+      #printPopup > div:first-child,
+      #printPopup > div:last-child {
+        background: rgba(24, 9, 50, 0.62) !important;
+        backdrop-filter: blur(3px) !important;
+      }
+      #printPopupConfirm,
+      .pp-tile-opt,
+      .pp-size-opt,
+      .pp-orient-opt {
+        transition:
+          transform 0.18s ease,
+          background 0.18s ease,
+          border-color 0.18s ease !important;
+      }
+      #printPopupConfirm:hover,
+      .pp-tile-opt:hover,
+      .pp-size-opt:hover,
+      .pp-orient-opt:hover {
+        transform: translateY(-1px);
+      }
+      .custom-layer-form {
+        display: grid;
+        gap: 12px;
+      }
+      .custom-layer-field {
+        display: grid;
+        gap: 7px;
+      }
+      .custom-layer-field label {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        opacity: 0.7;
+      }
+      .custom-layer-input {
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: 12px;
+        border: 1px solid rgba(216, 180, 254, 0.18);
+        background: rgba(15, 8, 36, 0.28);
+        padding: 10px 12px;
+        color: inherit;
+      }
+      .custom-color-picker {
+        border-radius: 14px;
+        border: 1px solid rgba(216, 180, 254, 0.2);
+        background: rgba(50, 18, 101, 0.55);
+        padding: 10px;
+        display: grid;
+        gap: 10px;
+      }
+      .custom-color-title {
+        text-align: center;
+        font-weight: 700;
+        padding: 7px;
+        border-radius: 9px;
+        background: rgba(255, 255, 255, 0.08);
+      }
+      .custom-swatches {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 8px;
+      }
+      .custom-swatch {
+        width: 29px;
+        height: 29px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.55);
+        cursor: pointer;
+        box-sizing: border-box;
+        transition: transform 0.16s ease;
+      }
+      .custom-swatch:hover {
+        transform: scale(1.08);
+      }
+      .custom-swatch.active {
+        outline: 2px solid #fff;
+        outline-offset: 2px;
+      }
+      .custom-saturation {
+        height: 188px;
+        border-radius: 9px;
+        border: 1px solid rgba(255, 255, 255, 0.42);
+        cursor: crosshair;
+        position: relative;
+        overflow: hidden;
+      }
+      .custom-saturation::before,
+      .custom-saturation::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+      }
+      .custom-saturation::before {
+        background: linear-gradient(to right, #fff, transparent);
+      }
+      .custom-saturation::after {
+        background: linear-gradient(to top, #000, transparent);
+      }
+      .custom-color-cursor {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.65);
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 2;
+      }
+      .custom-hue {
+        appearance: none;
+        height: 18px;
+        border-radius: 999px;
+        background: linear-gradient(
+          to right,
+          #ff0000,
+          #ffff00,
+          #00ff00,
+          #00ffff,
+          #0000ff,
+          #ff00ff,
+          #ff0000
+        );
+        outline: none;
+      }
+      .custom-hue::-webkit-slider-thumb {
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.35);
+      }
+      .custom-color-value {
+        text-align: center;
+        font-weight: 800;
+        color: #f3e8ff;
+      }
+      .custom-layer-actions {
+        display: flex;
+        gap: 9px;
+      }
+      .custom-layer-actions button {
+        flex: 1;
+        border-radius: 12px;
+        padding: 10px 12px;
+        text-align: center;
+        color: inherit;
+        font-weight: 700;
+        background: rgba(124, 58, 237, 0.24);
+        border: 1px solid rgba(216, 180, 254, 0.2);
+      }
+      .custom-layer-actions button.primary {
+        background: rgba(124, 58, 237, 0.48);
       }
       /* Confirm dialog */
       /* ── Map Context Menu ───────────────────────────────────────────── */
@@ -2250,7 +2576,7 @@
         align-items: center;
         gap: 10px;
         padding: 9px 14px;
-        border-radius: 10px;
+        border-radius: 30px;
         cursor: pointer;
         font-size: 14px;
         font-weight: 500;
@@ -2325,7 +2651,7 @@
         flex: 1;
         padding: 11px;
         border: none;
-        border-radius: 12px;
+        border-radius: 33px;
         background: rgba(0, 0, 0, 0.1);
         color: inherit;
         font-weight: 600;
@@ -2341,7 +2667,7 @@
         flex: 1;
         padding: 11px;
         border: none;
-        border-radius: 12px;
+        border-radius: 33px;
         background: rgba(220, 53, 69, 0.3);
         color: #ff6b6b;
         font-weight: 700;
@@ -2371,22 +2697,22 @@
       }
       /* ── Print ── */
       @media print {
-        * {
-          visibility: hidden !important;
-        }
+        html,
         body {
-          margin: 0;
-          background: #fff;
+          margin: 0 !important;
+          padding: 0 !important;
+          width: 100% !important;
+          height: 100% !important;
+          background: #fff !important;
         }
-        #_printImgEl,
-        #_printImgEl * {
-          visibility: visible !important;
+        body > *:not(#_printImgEl) {
+          display: none !important;
         }
         #_printImgEl {
           position: fixed !important;
           inset: 0 !important;
           width: 100% !important;
-          height: 100% !important;
+          height: 100vh !important;
           display: flex !important;
           align-items: center !important;
           justify-content: center !important;
@@ -2394,8 +2720,9 @@
           z-index: 99999 !important;
         }
         #_printImgEl img {
-          max-width: 100% !important;
-          max-height: 100% !important;
+          width: 100% !important;
+          height: 100% !important;
+          object-fit: contain !important;
           display: block !important;
         }
       }
@@ -2578,11 +2905,6 @@
                   autocomplete="off"
                 />
               </div>
-              <div
-                class="autocomplete-list liquid-glass from-list"
-                id="fromAutocomplete"
-                style="display: none"
-              ></div>
               <div style="display: flex; justify-content: flex-end">
                 <button
                   class="dir-swap-btn"
@@ -2602,11 +2924,6 @@
                   autocomplete="off"
                 />
               </div>
-              <div
-                class="autocomplete-list liquid-glass to-list"
-                id="toAutocomplete"
-                style="display: none"
-              ></div>
             </div>
             <button class="dir-go-btn" id="dirGoBtn">
               <icon>directions</icon
@@ -2755,7 +3072,7 @@
         <div class="controls-container">
           <div
             class="pan-controls liquid-glass"
-            style="border-radius: 10px; padding: 4px"
+            style="border-radius: 30px; padding: 4px"
           >
             <div
               class="pan-btn"
@@ -2799,50 +3116,110 @@
           </div>
         </div>
         <div class="layers-selector liquid-glass">
-          <div class="layer active" id="layerMap">
+          <div
+            class="layer active"
+            id="layerMap"
+            data-tooltip="Vector map"
+            data-i18n-tooltip="tip_layer_map"
+          >
             <icon>map</icon>
             <div class="layer-text">
               <span class="layer-label" data-i18n="layer_map">Map</span>
-              <span class="layer-subtitle">Vector</span>
+              <span class="layer-subtitle" data-i18n="layer_vector"
+                >Vector</span
+              >
             </div>
           </div>
-          <div class="layer" id="layerSatellite">
+          <div
+            class="layer"
+            id="layerSatellite"
+            data-tooltip="Satellite imagery"
+            data-i18n-tooltip="tip_layer_satellite"
+          >
             <icon>satellite</icon>
             <div class="layer-text">
               <span class="layer-label" data-i18n="layer_satellite"
                 >Satellite</span
               >
-              <span class="layer-subtitle">Esri</span>
+              <span class="layer-subtitle" data-i18n="layer_esri">Esri</span>
             </div>
           </div>
-          <div class="layer" id="layerTools">
+          <div
+            class="layer"
+            id="layerCustom"
+            data-tooltip="Design a custom layer"
+            data-i18n-tooltip="tip_layer_custom"
+          >
+            <icon>format_paint</icon>
+            <div class="layer-text">
+              <span class="layer-label" data-i18n="layer_custom">Custom</span>
+              <span class="layer-subtitle" data-i18n="layer_custom_subtitle"
+                >Style</span
+              >
+            </div>
+          </div>
+          <div
+            class="layer"
+            id="layerTools"
+            data-tooltip="Open map tools"
+            data-i18n-tooltip="tip_layer_tools"
+          >
             <icon>tune</icon>
             <div class="layer-text">
-              <span class="layer-label">Tools</span>
-              <span class="layer-subtitle">Open tray</span>
+              <span class="layer-label" data-i18n="layer_tools">Tools</span>
+              <span class="layer-subtitle" data-i18n="layer_tools_subtitle"
+                >Open tray</span
+              >
             </div>
           </div>
         </div>
         <div class="tools-tray liquid-glass" id="toolsTray">
-          <div class="layer" id="toggleRoads">
+          <div
+            class="layer"
+            id="toggleRoads"
+            data-tooltip="Show highlighted roads"
+            data-i18n-tooltip="tip_roads"
+          >
             <icon>route</icon>
             <div class="layer-text">
-              <span class="layer-label">Roads</span>
-              <span class="layer-subtitle">Highlight</span>
+              <span class="layer-label" data-i18n="layer_roads">Roads</span>
+              <span class="layer-subtitle" data-i18n="layer_roads_subtitle"
+                >Highlight</span
+              >
             </div>
           </div>
-          <div class="layer" id="toggleMarkerPhotos">
+          <div
+            class="layer"
+            id="toggleMarkerPhotos"
+            data-tooltip="Show photos in marker popups"
+            data-i18n-tooltip="tip_marker_photos"
+          >
             <icon>photo_library</icon>
             <div class="layer-text">
-              <span class="layer-label">Marker Photos</span>
-              <span class="layer-subtitle">Popup previews</span>
+              <span class="layer-label" data-i18n="layer_marker_photos"
+                >Marker Photos</span
+              >
+              <span
+                class="layer-subtitle"
+                data-i18n="layer_marker_photos_subtitle"
+                >Popup previews</span
+              >
             </div>
           </div>
-          <div class="layer" id="toolAddMarker">
+          <div
+            class="layer"
+            id="toolAddMarker"
+            data-tooltip="Add a marker to the next map click"
+            data-i18n-tooltip="tip_add_marker"
+          >
             <icon>add_location_alt</icon>
             <div class="layer-text">
-              <span class="layer-label">Add Marker</span>
-              <span class="layer-subtitle">Tap map next</span>
+              <span class="layer-label" data-i18n="layer_add_marker"
+                >Add Marker</span
+              >
+              <span class="layer-subtitle" data-i18n="layer_add_marker_subtitle"
+                >Tap map next</span
+              >
             </div>
           </div>
         </div>
@@ -2928,7 +3305,7 @@
     <div class="modal-backdrop" id="markerEditorBackdrop">
       <div class="modal liquid-glass" id="markerEditorModal">
         <div class="modal-header">
-          <span class="modal-title">New Marker</span>
+          <span class="modal-title" data-i18n="marker_new">New Marker</span>
           <div class="modal-close" id="markerEditorClose">
             <icon>close</icon>
           </div>
@@ -2937,17 +3314,22 @@
           <form class="marker-editor-form" id="markerEditorForm">
             <div class="marker-editor-coords" id="markerEditorCoords"></div>
             <div class="marker-editor-field">
-              <label for="markerLabelInput">Marker name</label>
+              <label for="markerLabelInput" data-i18n="marker_name"
+                >Marker name</label
+              >
               <input
                 class="marker-editor-input"
                 id="markerLabelInput"
                 type="text"
                 maxlength="80"
                 placeholder="Coffee stop, trail view, lookout..."
+                data-i18n-placeholder="marker_name_placeholder"
               />
             </div>
             <div class="marker-editor-field">
-              <label for="markerImageInput">Image URL</label>
+              <label for="markerImageInput" data-i18n="marker_image_url"
+                >Image URL</label
+              >
               <input
                 class="marker-editor-input"
                 id="markerImageInput"
@@ -2957,7 +3339,9 @@
               />
             </div>
             <div class="marker-editor-field">
-              <label for="markerImageFileInput">Or upload image file</label>
+              <label for="markerImageFileInput" data-i18n="marker_upload_image"
+                >Or upload image file</label
+              >
               <div class="file-picker-row">
                 <input
                   class="file-picker-input"
@@ -2967,9 +3351,12 @@
                 />
                 <label class="file-picker-btn" for="markerImageFileInput">
                   <icon>upload</icon>
-                  <span>Choose File</span>
+                  <span data-i18n="choose_file">Choose File</span>
                 </label>
-                <span class="file-picker-name" id="markerImageFileName"
+                <span
+                  class="file-picker-name"
+                  id="markerImageFileName"
+                  data-i18n="no_file_chosen"
                   >No file chosen</span
                 >
               </div>
@@ -2983,10 +3370,10 @@
                 id="markerEditorCancel"
                 type="button"
               >
-                Cancel
+                <span data-i18n="confirm_cancel">Cancel</span>
               </button>
               <button class="marker-editor-btn primary" type="submit">
-                Save Marker
+                <span data-i18n="marker_save">Save Marker</span>
               </button>
             </div>
           </form>
@@ -3011,7 +3398,7 @@
         position: fixed;
         inset: 0;
         z-index: 500;
-        background: rgba(0, 0, 0, 0.85);
+        background: rgba(255, 255, 255, 0.06);
         flex-direction: column;
       "
     >
@@ -3022,8 +3409,8 @@
           align-items: center;
           justify-content: space-between;
           padding: 12px 16px;
-          background: rgba(13, 6, 32, 0.5);
-          backdrop-filter: blur(5px);
+          background: rgba(13, 6, 32, 0.2);
+          backdrop-filter: blur(3px);
           border-bottom: 1px solid rgba(124, 58, 237, 0.3);
           flex-shrink: 0;
         "
@@ -3034,7 +3421,7 @@
             style="
               cursor: pointer;
               padding: 7px;
-              border-radius: 10px;
+              border-radius: 999px;
               background: rgba(255, 255, 255, 0.08);
               display: flex;
               align-items: center;
@@ -3061,7 +3448,7 @@
             gap: 6px;
             padding: 9px 18px;
             border: none;
-            border-radius: 10px;
+            border-radius: 30px;
             background: rgba(81, 29, 204, 0.4);
             color: #fff;
             font-weight: 700;
@@ -3363,8 +3750,16 @@
     <div id="settingsBackdrop">
       <div id="settingsModal" class="liquid-glass">
         <div class="settings-header">
-          <span class="settings-title" data-i18n="settings">Settings</span>
-          <div class="settings-close" id="settingsClose">
+          <span class="settings-title"
+            ><icon>settings</icon
+            ><span data-i18n="settings">Settings</span></span
+          >
+          <div
+            class="settings-close"
+            id="settingsClose"
+            data-tooltip="Close settings"
+            data-i18n-tooltip="tip_close_settings"
+          >
             <icon>close</icon>
           </div>
         </div>
@@ -3384,10 +3779,6 @@
                 <span id="langDropdownLabel">English</span>
                 <icon style="font-size: 18px">expand_more</icon>
               </div>
-              <div
-                class="custom-dropdown-list liquid-glass"
-                id="langDropdownList"
-              ></div>
             </div>
           </div>
 
@@ -3432,11 +3823,6 @@
                 >
                 <icon style="font-size: 18px">expand_more</icon>
               </div>
-              <div
-                class="custom-dropdown-list liquid-glass"
-                id="voiceDropdownList"
-                style="left: 0; right: 0; min-width: unset"
-              ></div>
             </div>
           </div>
 
@@ -3456,6 +3842,87 @@
             <icon style="font-size: 20px">delete_forever</icon
             ><span data-i18n="del_everything">Delete everything</span>
           </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Custom Layer Modal -->
+    <div class="modal-backdrop" id="customLayerBackdrop">
+      <div class="modal liquid-glass" id="customLayerModal">
+        <div class="modal-header">
+          <span class="modal-title"
+            ><icon>format_paint</icon
+            ><span data-i18n="custom_layer_title">Custom Layer</span></span
+          >
+          <div
+            class="modal-close"
+            id="customLayerClose"
+            data-tooltip="Close"
+            data-i18n-tooltip="close"
+          >
+            <icon>close</icon>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form class="custom-layer-form" id="customLayerForm">
+            <div class="custom-layer-field">
+              <label data-i18n="custom_font">Font</label>
+              <div class="custom-dropdown" id="customLayerFontDropdown">
+                <div
+                  class="custom-dropdown-btn custom-layer-input"
+                  id="customLayerFontBtn"
+                >
+                  <span id="customLayerFontLabel">Google Sans Flex</span>
+                  <icon style="font-size: 18px">expand_more</icon>
+                </div>
+              </div>
+            </div>
+            <div class="custom-layer-field">
+              <label data-i18n="custom_color_target">Color target</label>
+              <div class="custom-dropdown" id="customLayerTargetDropdown">
+                <div
+                  class="custom-dropdown-btn custom-layer-input"
+                  id="customLayerTargetBtn"
+                >
+                  <span id="customLayerTargetLabel">Labels</span>
+                  <icon style="font-size: 18px">expand_more</icon>
+                </div>
+              </div>
+            </div>
+            <div class="custom-color-picker" id="customColorPicker">
+              <div class="custom-color-title" data-i18n="custom_swatch">
+                Swatch
+              </div>
+              <div class="custom-swatches" id="customSwatches"></div>
+              <div class="custom-saturation" id="customSaturation">
+                <div class="custom-color-cursor" id="customColorCursor"></div>
+              </div>
+              <input
+                class="custom-hue"
+                id="customHue"
+                type="range"
+                min="0"
+                max="360"
+                value="280"
+                aria-label="Hue"
+              />
+              <div class="custom-color-value" id="customColorValue">
+                #A855F7
+              </div>
+            </div>
+            <div class="custom-layer-actions">
+              <button
+                type="button"
+                id="customLayerReset"
+                data-i18n="custom_reset"
+              >
+                Reset
+              </button>
+              <button type="submit" class="primary" data-i18n="custom_apply">
+                Apply
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -3576,7 +4043,7 @@
                 all: unset;
                 flex: 1;
                 padding: 10px 14px;
-                border-radius: 10px;
+                border-radius: 30px;
                 background: rgba(0, 0, 0, 0.25);
                 border: 1px solid rgba(255, 255, 255, 0.15);
                 text-align: center;
@@ -3610,6 +4077,39 @@
         </div>
       </div>
     </div>
+    <div class="dropdowns-wrapper" id="dropdownsWrapper">
+      <div
+        class="autocomplete-list dropdowns-list liquid-glass"
+        id="fromAutocomplete"
+        style="display: none"
+      ></div>
+      <div
+        class="autocomplete-list dropdowns-list liquid-glass"
+        id="toAutocomplete"
+        style="display: none"
+      ></div>
+      <div
+        class="dropdowns-list liquid-glass"
+        id="langDropdownList"
+        style="display: none"
+      ></div>
+      <div
+        class="dropdowns-list liquid-glass"
+        id="voiceDropdownList"
+        style="display: none"
+      ></div>
+      <div
+        class="dropdowns-list liquid-glass"
+        id="customLayerFontList"
+        style="display: none"
+      ></div>
+      <div
+        class="dropdowns-list liquid-glass"
+        id="customLayerTargetList"
+        style="display: none"
+      ></div>
+    </div>
+    <div class="body-tooltip" id="bodyTooltip" role="tooltip"></div>
     <script nonce="hDhji4fidj43djd432">
       // ── i18n ─────────────────────────────────────────────────────────────
       const UI_TRANSLATIONS = {
@@ -5651,8 +6151,1201 @@
       };
 
       // ── Translation helpers ───────────────────────────────────────────────
+      const UI_TRANSLATION_PATCHES = {
+        en: {
+          close: "Close",
+          layer_custom: "Custom",
+          layer_custom_subtitle: "Style",
+          layer_vector: "Vector",
+          layer_esri: "Esri",
+          layer_tools: "Tools",
+          layer_tools_subtitle: "Open tray",
+          layer_roads: "Roads",
+          layer_roads_subtitle: "Highlight",
+          layer_marker_photos: "Marker Photos",
+          layer_marker_photos_subtitle: "Popup previews",
+          layer_add_marker: "Add Marker",
+          layer_add_marker_subtitle: "Tap map next",
+          custom_layer_title: "Custom Layer",
+          custom_font: "Font",
+          custom_color_target: "Color target",
+          custom_target_labels: "Labels",
+          custom_target_background: "Background",
+          custom_target_water: "Water",
+          custom_target_roads: "Roads",
+          custom_target_land: "Land",
+          custom_swatch: "Swatch",
+          custom_reset: "Reset",
+          custom_apply: "Apply",
+          marker_new: "New Marker",
+          marker_name: "Marker name",
+          marker_name_placeholder: "Coffee stop, trail view, lookout...",
+          marker_image_url: "Image URL",
+          marker_upload_image: "Or upload image file",
+          choose_file: "Choose File",
+          no_file_chosen: "No file chosen",
+          marker_save: "Save Marker",
+          voice_cloud: "Cloud voice",
+          tip_layer_map: "Vector map",
+          tip_layer_satellite: "Satellite imagery",
+          tip_layer_custom: "Design a custom layer",
+          tip_layer_tools: "Open map tools",
+          tip_roads: "Show highlighted roads",
+          tip_marker_photos: "Show photos in marker popups",
+          tip_add_marker: "Add a marker to the next map click",
+          tip_close_settings: "Close settings",
+          toast_custom_applied: "Custom layer applied",
+          toast_custom_reset: "Custom layer reset",
+          toast_tap_marker: "Tap the map to place a marker",
+        },
+        es: {
+          close: "Cerrar",
+          layer_custom: "Personalizado",
+          layer_custom_subtitle: "Estilo",
+          layer_vector: "Vector",
+          layer_esri: "Esri",
+          layer_tools: "Herramientas",
+          layer_tools_subtitle: "Abrir bandeja",
+          layer_roads: "Carreteras",
+          layer_roads_subtitle: "Resaltar",
+          layer_marker_photos: "Fotos de marcadores",
+          layer_marker_photos_subtitle: "Vista en popup",
+          layer_add_marker: "Anadir marcador",
+          layer_add_marker_subtitle: "Toca el mapa",
+          custom_layer_title: "Capa personalizada",
+          custom_font: "Fuente",
+          custom_color_target: "Color objetivo",
+          custom_target_labels: "Etiquetas",
+          custom_target_background: "Fondo",
+          custom_target_water: "Agua",
+          custom_target_roads: "Carreteras",
+          custom_target_land: "Tierra",
+          custom_swatch: "Muestra",
+          custom_reset: "Restablecer",
+          custom_apply: "Aplicar",
+          marker_new: "Nuevo marcador",
+          marker_name: "Nombre del marcador",
+          marker_name_placeholder: "Cafetería, mirador, parada...",
+          marker_image_url: "URL de imagen",
+          marker_upload_image: "O sube un archivo de imagen",
+          choose_file: "Elegir archivo",
+          no_file_chosen: "Ningún archivo elegido",
+          marker_save: "Guardar marcador",
+          voice_cloud: "Voz en la nube",
+          toast_custom_applied: "Capa personalizada aplicada",
+          toast_custom_reset: "Capa personalizada restablecida",
+          toast_tap_marker: "Toca el mapa para colocar un marcador",
+        },
+        fr: {
+          close: "Fermer",
+          layer_custom: "Personnalise",
+          layer_custom_subtitle: "Style",
+          layer_vector: "Vecteur",
+          layer_esri: "Esri",
+          layer_tools: "Outils",
+          layer_tools_subtitle: "Ouvrir",
+          layer_roads: "Routes",
+          layer_roads_subtitle: "Surligner",
+          layer_marker_photos: "Photos des reperes",
+          layer_marker_photos_subtitle: "Apercus",
+          layer_add_marker: "Ajouter repere",
+          layer_add_marker_subtitle: "Touchez la carte",
+          custom_layer_title: "Couche personnalisee",
+          custom_font: "Police",
+          custom_color_target: "Cible couleur",
+          custom_target_labels: "Etiquettes",
+          custom_target_background: "Arriere-plan",
+          custom_target_water: "Eau",
+          custom_target_roads: "Routes",
+          custom_target_land: "Terre",
+          custom_swatch: "Echantillon",
+          custom_reset: "Reinitialiser",
+          custom_apply: "Appliquer",
+          marker_new: "Nouveau repere",
+          marker_name: "Nom du repere",
+          marker_name_placeholder: "Cafe, point de vue, arret...",
+          marker_image_url: "URL de l'image",
+          marker_upload_image: "Ou importez une image",
+          choose_file: "Choisir un fichier",
+          no_file_chosen: "Aucun fichier choisi",
+          marker_save: "Enregistrer le repere",
+          voice_cloud: "Voix cloud",
+          toast_custom_applied: "Couche personnalisee appliquee",
+          toast_custom_reset: "Couche personnalisee reinitialisee",
+          toast_tap_marker: "Touchez la carte pour placer un repere",
+        },
+        de: {
+          close: "Schliessen",
+          layer_custom: "Benutzerdefiniert",
+          layer_custom_subtitle: "Stil",
+          layer_vector: "Vektor",
+          layer_esri: "Esri",
+          layer_tools: "Werkzeuge",
+          layer_tools_subtitle: "Oeffnen",
+          layer_roads: "Strassen",
+          layer_roads_subtitle: "Hervorheben",
+          layer_marker_photos: "Markerfotos",
+          layer_marker_photos_subtitle: "Vorschauen",
+          layer_add_marker: "Marker setzen",
+          layer_add_marker_subtitle: "Karte antippen",
+          custom_layer_title: "Eigene Ebene",
+          custom_font: "Schrift",
+          custom_color_target: "Farbziel",
+          custom_target_labels: "Beschriftungen",
+          custom_target_background: "Hintergrund",
+          custom_target_water: "Wasser",
+          custom_target_roads: "Strassen",
+          custom_target_land: "Land",
+          custom_swatch: "Farbfeld",
+          custom_reset: "Zuruecksetzen",
+          custom_apply: "Anwenden",
+          marker_new: "Neuer Marker",
+          marker_name: "Markername",
+          marker_name_placeholder: "Cafe, Aussichtspunkt, Halt...",
+          marker_image_url: "Bild-URL",
+          marker_upload_image: "Oder Bilddatei hochladen",
+          choose_file: "Datei waehlen",
+          no_file_chosen: "Keine Datei ausgewaehlt",
+          marker_save: "Marker speichern",
+          voice_cloud: "Cloud-Stimme",
+          toast_custom_applied: "Eigene Ebene angewendet",
+          toast_custom_reset: "Eigene Ebene zurueckgesetzt",
+          toast_tap_marker: "Tippe auf die Karte, um einen Marker zu setzen",
+        },
+      };
+      [
+        "it",
+        "pt",
+        "nl",
+        "pl",
+        "ru",
+        "ja",
+        "zh",
+        "ko",
+        "ar",
+        "hi",
+        "tr",
+        "sv",
+      ].forEach((lang) => {
+        UI_TRANSLATION_PATCHES[lang] = { ...UI_TRANSLATION_PATCHES.en };
+      });
+      Object.entries(UI_TRANSLATION_PATCHES).forEach(([lang, patch]) => {
+        UI_TRANSLATIONS[lang] = { ...(UI_TRANSLATIONS[lang] || {}), ...patch };
+      });
+
+      const ADDITIONAL_UI_TRANSLATIONS = {
+        no: {
+          app_name: "Munetios Kart",
+          nav_maps: "KART",
+          nav_more: "MER",
+          directions: "Veibeskrivelse",
+          near_me: "I nærheten",
+          history: "Historikk",
+          markers: "Markører",
+          print: "Skriv ut",
+          privacy_policy: "Personvernerklæring",
+          terms_of_service: "Vilkår for bruk",
+          search_placeholder: "Søk steder, adresser og landemerker",
+          voice_search_aria: "Start stemmesøk",
+          recent_directions: "Nylige veibeskrivelser:",
+          mode_drive: "Bil",
+          mode_walk: "Gå",
+          mode_bike: "Sykkel",
+          mode_transit: "Kollektiv",
+          dir_from: "Fra",
+          dir_swap: "Bytt start og mål",
+          get_directions: "Få veibeskrivelse",
+          clear_route: "Fjern rute",
+          start_nav: "Start navigasjon",
+          layer_map: "Kart",
+          layer_satellite: "Satellitt",
+          layer_custom: "Egendefinert",
+          layer_tools: "Verktøy",
+          layer_roads: "Veier",
+          settings: "Innstillinger",
+          settings_title: "Innstillinger",
+          pref_preferences: "Innstillinger",
+          pref_language: "Språk",
+          pref_theme: "Tema",
+          theme_light: "Lyst",
+          theme_dark: "Mørkt",
+          pref_voice_section: "Stemme",
+          pref_voice: "Stemme",
+          voice_default: "Standard stemme",
+          pref_data: "Data",
+          del_recent_dirs: "Slett nylige ruter",
+          del_markers: "Slett alle markører",
+          del_everything: "Slett alt",
+          custom_layer_title: "Egendefinert lag",
+          custom_font: "Skrift",
+          custom_color_target: "Fargemål",
+          custom_swatch: "Fargeprøve",
+          custom_reset: "Tilbakestill",
+          custom_apply: "Bruk",
+          custom_target_labels: "Etiketter",
+          custom_target_water: "Vann",
+          custom_target_roads: "Veier",
+          custom_target_land: "Land",
+          close: "Lukk",
+          print_preview: "Forhåndsvisning",
+          print_hint: "Kartbildet får et Munetios-vannmerke ved utskrift.",
+          print_btn: "Skriv ut",
+          print_tile_label: "Karttype",
+          print_size_label: "Størrelse",
+          print_orient_label: "Retning",
+          print_landscape: "Liggende",
+          print_portrait: "Stående",
+          tip_close_settings: "Lukk innstillinger",
+          tip_layer_map: "Vis standard kartlag",
+          tip_layer_satellite: "Vis satellittkart",
+          tip_layer_custom: "Åpne egendefinerte kartfarger",
+          tip_layer_tools: "Vis kartverktøy",
+        },
+        da: {
+          app_name: "Munetios Kort",
+          nav_maps: "KORT",
+          nav_more: "MERE",
+          directions: "Rutevejledning",
+          near_me: "I nærheden",
+          history: "Historik",
+          markers: "Markører",
+          print: "Udskriv",
+          privacy_policy: "Privatlivspolitik",
+          terms_of_service: "Servicevilkår",
+          search_placeholder: "Søg steder, adresser og vartegn",
+          voice_search_aria: "Start stemmesøgning",
+          mode_drive: "Bil",
+          mode_walk: "Gå",
+          mode_bike: "Cykel",
+          mode_transit: "Offentlig transport",
+          dir_from: "Fra",
+          dir_swap: "Byt start og destination",
+          get_directions: "Få rute",
+          clear_route: "Ryd rute",
+          start_nav: "Start navigation",
+          layer_map: "Kort",
+          layer_satellite: "Satellit",
+          layer_custom: "Tilpasset",
+          layer_tools: "Værktøjer",
+          layer_roads: "Veje",
+          settings: "Indstillinger",
+          settings_title: "Indstillinger",
+          pref_preferences: "Præferencer",
+          pref_language: "Sprog",
+          pref_theme: "Tema",
+          theme_light: "Lys",
+          theme_dark: "Mørk",
+          pref_voice_section: "Stemme",
+          pref_voice: "Stemme",
+          voice_default: "Standardstemme",
+          pref_data: "Data",
+          del_recent_dirs: "Slet seneste ruter",
+          del_markers: "Slet alle markører",
+          del_everything: "Slet alt",
+          custom_layer_title: "Tilpasset lag",
+          custom_font: "Skrifttype",
+          custom_color_target: "Farvemål",
+          custom_swatch: "Farveprøve",
+          custom_reset: "Nulstil",
+          custom_apply: "Anvend",
+          close: "Luk",
+          print_preview: "Forhåndsvisning",
+          print_btn: "Udskriv",
+          print_landscape: "Liggende",
+          print_portrait: "Stående",
+          tip_close_settings: "Luk indstillinger",
+        },
+        fi: {
+          app_name: "Munetios Kartat",
+          nav_maps: "KARTAT",
+          nav_more: "LISÄÄ",
+          directions: "Reittiohjeet",
+          near_me: "Lähellä",
+          history: "Historia",
+          markers: "Merkit",
+          print: "Tulosta",
+          privacy_policy: "Tietosuojakäytäntö",
+          terms_of_service: "Käyttöehdot",
+          search_placeholder: "Hae paikkoja, osoitteita ja maamerkkejä",
+          voice_search_aria: "Aloita puhehaku",
+          mode_drive: "Auto",
+          mode_walk: "Kävely",
+          mode_bike: "Pyörä",
+          mode_transit: "Joukkoliikenne",
+          dir_from: "Mistä",
+          get_directions: "Hae reitti",
+          clear_route: "Tyhjennä reitti",
+          start_nav: "Aloita navigointi",
+          layer_map: "Kartta",
+          layer_satellite: "Satelliitti",
+          layer_custom: "Mukautettu",
+          layer_tools: "Työkalut",
+          layer_roads: "Tiet",
+          settings: "Asetukset",
+          settings_title: "Asetukset",
+          pref_preferences: "Asetukset",
+          pref_language: "Kieli",
+          pref_theme: "Teema",
+          theme_light: "Vaalea",
+          theme_dark: "Tumma",
+          pref_voice_section: "Ääni",
+          pref_voice: "Ääni",
+          voice_default: "Oletusääni",
+          pref_data: "Tiedot",
+          del_recent_dirs: "Poista viime reitit",
+          del_markers: "Poista kaikki merkit",
+          del_everything: "Poista kaikki",
+          custom_layer_title: "Mukautettu taso",
+          custom_font: "Fontti",
+          custom_color_target: "Värikohde",
+          custom_swatch: "Värimalli",
+          custom_reset: "Nollaa",
+          custom_apply: "Käytä",
+          close: "Sulje",
+          print_preview: "Esikatselu",
+          print_btn: "Tulosta",
+          print_landscape: "Vaaka",
+          print_portrait: "Pysty",
+          tip_close_settings: "Sulje asetukset",
+        },
+        cs: {
+          app_name: "Munetios Mapy",
+          directions: "Trasa",
+          near_me: "V okolí",
+          history: "Historie",
+          markers: "Značky",
+          print: "Tisk",
+          search_placeholder: "Hledat místa, adresy a orientační body",
+          mode_drive: "Auto",
+          mode_walk: "Pěšky",
+          mode_bike: "Kolo",
+          mode_transit: "Doprava",
+          get_directions: "Získat trasu",
+          clear_route: "Vymazat trasu",
+          start_nav: "Spustit navigaci",
+          layer_map: "Mapa",
+          layer_satellite: "Satelit",
+          layer_custom: "Vlastní",
+          layer_tools: "Nástroje",
+          layer_roads: "Silnice",
+          settings: "Nastavení",
+          settings_title: "Nastavení",
+          pref_preferences: "Předvolby",
+          pref_language: "Jazyk",
+          pref_theme: "Motiv",
+          theme_light: "Světlý",
+          theme_dark: "Tmavý",
+          pref_voice: "Hlas",
+          voice_default: "Výchozí hlas",
+          pref_data: "Data",
+          custom_layer_title: "Vlastní vrstva",
+          custom_font: "Písmo",
+          custom_color_target: "Cíl barvy",
+          custom_reset: "Resetovat",
+          custom_apply: "Použít",
+          close: "Zavřít",
+        },
+        sk: {
+          app_name: "Munetios Mapy",
+          directions: "Trasa",
+          near_me: "V okolí",
+          history: "História",
+          markers: "Značky",
+          print: "Tlačiť",
+          search_placeholder: "Hľadať miesta, adresy a orientačné body",
+          mode_drive: "Autom",
+          mode_walk: "Pešo",
+          mode_bike: "Bicykel",
+          mode_transit: "Doprava",
+          get_directions: "Získať trasu",
+          clear_route: "Vymazať trasu",
+          start_nav: "Spustiť navigáciu",
+          layer_map: "Mapa",
+          layer_satellite: "Satelit",
+          layer_custom: "Vlastné",
+          layer_tools: "Nástroje",
+          layer_roads: "Cesty",
+          settings: "Nastavenia",
+          settings_title: "Nastavenia",
+          pref_preferences: "Predvoľby",
+          pref_language: "Jazyk",
+          pref_theme: "Téma",
+          theme_light: "Svetlá",
+          theme_dark: "Tmavá",
+          pref_voice: "Hlas",
+          voice_default: "Predvolený hlas",
+          pref_data: "Dáta",
+          custom_layer_title: "Vlastná vrstva",
+          custom_font: "Písmo",
+          custom_color_target: "Cieľ farby",
+          custom_reset: "Obnoviť",
+          custom_apply: "Použiť",
+          close: "Zavrieť",
+        },
+        hu: {
+          app_name: "Munetios Térképek",
+          directions: "Útvonalterv",
+          near_me: "A közelemben",
+          history: "Előzmények",
+          markers: "Jelölők",
+          print: "Nyomtatás",
+          search_placeholder: "Helyek, címek és nevezetességek keresése",
+          mode_drive: "Autó",
+          mode_walk: "Gyalog",
+          mode_bike: "Kerékpár",
+          mode_transit: "Tömegközlekedés",
+          get_directions: "Útvonalterv",
+          clear_route: "Útvonal törlése",
+          start_nav: "Navigáció indítása",
+          layer_map: "Térkép",
+          layer_satellite: "Műhold",
+          layer_custom: "Egyéni",
+          layer_tools: "Eszközök",
+          layer_roads: "Utak",
+          settings: "Beállítások",
+          settings_title: "Beállítások",
+          pref_preferences: "Beállítások",
+          pref_language: "Nyelv",
+          pref_theme: "Téma",
+          theme_light: "Világos",
+          theme_dark: "Sötét",
+          pref_voice: "Hang",
+          voice_default: "Alapértelmezett hang",
+          pref_data: "Adatok",
+          custom_layer_title: "Egyéni réteg",
+          custom_font: "Betűtípus",
+          custom_color_target: "Színcél",
+          custom_reset: "Visszaállítás",
+          custom_apply: "Alkalmaz",
+          close: "Bezárás",
+        },
+        ro: {
+          app_name: "Hărți Munetios",
+          directions: "Indicații",
+          near_me: "Aproape de mine",
+          history: "Istoric",
+          markers: "Marcaje",
+          print: "Tipărește",
+          search_placeholder: "Caută locuri, adrese și repere",
+          mode_drive: "Mașină",
+          mode_walk: "Mers",
+          mode_bike: "Bicicletă",
+          mode_transit: "Transport",
+          get_directions: "Obține indicații",
+          clear_route: "Șterge ruta",
+          start_nav: "Pornește navigarea",
+          layer_map: "Hartă",
+          layer_satellite: "Satelit",
+          layer_custom: "Personalizat",
+          layer_tools: "Instrumente",
+          layer_roads: "Drumuri",
+          settings: "Setări",
+          settings_title: "Setări",
+          pref_preferences: "Preferințe",
+          pref_language: "Limbă",
+          pref_theme: "Temă",
+          theme_light: "Luminos",
+          theme_dark: "Întunecat",
+          pref_voice: "Voce",
+          voice_default: "Voce implicită",
+          pref_data: "Date",
+          custom_layer_title: "Strat personalizat",
+          custom_font: "Font",
+          custom_color_target: "Țintă culoare",
+          custom_reset: "Resetează",
+          custom_apply: "Aplică",
+          close: "Închide",
+        },
+        uk: {
+          app_name: "Карти Munetios",
+          directions: "Маршрути",
+          near_me: "Поруч",
+          history: "Історія",
+          markers: "Маркери",
+          print: "Друк",
+          search_placeholder: "Шукати місця, адреси та орієнтири",
+          mode_drive: "Авто",
+          mode_walk: "Пішки",
+          mode_bike: "Велосипед",
+          mode_transit: "Транспорт",
+          get_directions: "Прокласти маршрут",
+          clear_route: "Очистити маршрут",
+          start_nav: "Почати навігацію",
+          layer_map: "Карта",
+          layer_satellite: "Супутник",
+          layer_custom: "Власний",
+          layer_tools: "Інструменти",
+          layer_roads: "Дороги",
+          settings: "Налаштування",
+          settings_title: "Налаштування",
+          pref_preferences: "Параметри",
+          pref_language: "Мова",
+          pref_theme: "Тема",
+          theme_light: "Світла",
+          theme_dark: "Темна",
+          pref_voice: "Голос",
+          voice_default: "Голос за замовчуванням",
+          pref_data: "Дані",
+          custom_layer_title: "Власний шар",
+          custom_font: "Шрифт",
+          custom_color_target: "Ціль кольору",
+          custom_reset: "Скинути",
+          custom_apply: "Застосувати",
+          close: "Закрити",
+        },
+        el: {
+          app_name: "Χάρτες Munetios",
+          directions: "Οδηγίες",
+          near_me: "Κοντά μου",
+          history: "Ιστορικό",
+          markers: "Δείκτες",
+          print: "Εκτύπωση",
+          search_placeholder: "Αναζήτηση μερών, διευθύνσεων και οροσήμων",
+          mode_drive: "Οδήγηση",
+          mode_walk: "Περπάτημα",
+          mode_bike: "Ποδήλατο",
+          mode_transit: "Συγκοινωνία",
+          get_directions: "Λήψη οδηγιών",
+          clear_route: "Εκκαθάριση διαδρομής",
+          start_nav: "Έναρξη πλοήγησης",
+          layer_map: "Χάρτης",
+          layer_satellite: "Δορυφόρος",
+          layer_custom: "Προσαρμοσμένο",
+          layer_tools: "Εργαλεία",
+          layer_roads: "Δρόμοι",
+          settings: "Ρυθμίσεις",
+          settings_title: "Ρυθμίσεις",
+          pref_preferences: "Προτιμήσεις",
+          pref_language: "Γλώσσα",
+          pref_theme: "Θέμα",
+          theme_light: "Φωτεινό",
+          theme_dark: "Σκούρο",
+          pref_voice: "Φωνή",
+          voice_default: "Προεπιλεγμένη φωνή",
+          pref_data: "Δεδομένα",
+          custom_layer_title: "Προσαρμοσμένο επίπεδο",
+          custom_font: "Γραμματοσειρά",
+          custom_color_target: "Στόχος χρώματος",
+          custom_reset: "Επαναφορά",
+          custom_apply: "Εφαρμογή",
+          close: "Κλείσιμο",
+        },
+        he: {
+          app_name: "מפות Munetios",
+          directions: "מסלולים",
+          near_me: "לידי",
+          history: "היסטוריה",
+          markers: "סמנים",
+          print: "הדפסה",
+          search_placeholder: "חיפוש מקומות, כתובות וציוני דרך",
+          mode_drive: "נהיגה",
+          mode_walk: "הליכה",
+          mode_bike: "אופניים",
+          mode_transit: "תחבורה",
+          get_directions: "קבל מסלול",
+          clear_route: "נקה מסלול",
+          start_nav: "התחל ניווט",
+          layer_map: "מפה",
+          layer_satellite: "לוויין",
+          layer_custom: "מותאם אישית",
+          layer_tools: "כלים",
+          layer_roads: "כבישים",
+          settings: "הגדרות",
+          settings_title: "הגדרות",
+          pref_preferences: "העדפות",
+          pref_language: "שפה",
+          pref_theme: "ערכת נושא",
+          theme_light: "בהיר",
+          theme_dark: "כהה",
+          pref_voice: "קול",
+          voice_default: "קול ברירת מחדל",
+          pref_data: "נתונים",
+          custom_layer_title: "שכבה מותאמת",
+          custom_font: "גופן",
+          custom_color_target: "יעד צבע",
+          custom_reset: "איפוס",
+          custom_apply: "החל",
+          close: "סגור",
+        },
+        th: {
+          app_name: "แผนที่ Munetios",
+          directions: "เส้นทาง",
+          near_me: "ใกล้ฉัน",
+          history: "ประวัติ",
+          markers: "หมุด",
+          print: "พิมพ์",
+          search_placeholder: "ค้นหาสถานที่ ที่อยู่ และจุดสังเกต",
+          mode_drive: "ขับรถ",
+          mode_walk: "เดิน",
+          mode_bike: "จักรยาน",
+          mode_transit: "ขนส่งสาธารณะ",
+          get_directions: "ขอเส้นทาง",
+          clear_route: "ล้างเส้นทาง",
+          start_nav: "เริ่มนำทาง",
+          layer_map: "แผนที่",
+          layer_satellite: "ดาวเทียม",
+          layer_custom: "กำหนดเอง",
+          layer_tools: "เครื่องมือ",
+          layer_roads: "ถนน",
+          settings: "การตั้งค่า",
+          settings_title: "การตั้งค่า",
+          pref_preferences: "ค่ากำหนด",
+          pref_language: "ภาษา",
+          pref_theme: "ธีม",
+          theme_light: "สว่าง",
+          theme_dark: "มืด",
+          pref_voice: "เสียง",
+          voice_default: "เสียงเริ่มต้น",
+          pref_data: "ข้อมูล",
+          custom_layer_title: "เลเยอร์กำหนดเอง",
+          custom_font: "แบบอักษร",
+          custom_color_target: "เป้าหมายสี",
+          custom_reset: "รีเซ็ต",
+          custom_apply: "ใช้",
+          close: "ปิด",
+        },
+        vi: {
+          app_name: "Bản đồ Munetios",
+          directions: "Chỉ đường",
+          near_me: "Gần tôi",
+          history: "Lịch sử",
+          markers: "Điểm đánh dấu",
+          print: "In",
+          search_placeholder: "Tìm địa điểm, địa chỉ và mốc",
+          mode_drive: "Lái xe",
+          mode_walk: "Đi bộ",
+          mode_bike: "Xe đạp",
+          mode_transit: "Phương tiện công cộng",
+          get_directions: "Nhận chỉ đường",
+          clear_route: "Xóa tuyến",
+          start_nav: "Bắt đầu điều hướng",
+          layer_map: "Bản đồ",
+          layer_satellite: "Vệ tinh",
+          layer_custom: "Tùy chỉnh",
+          layer_tools: "Công cụ",
+          layer_roads: "Đường",
+          settings: "Cài đặt",
+          settings_title: "Cài đặt",
+          pref_preferences: "Tùy chọn",
+          pref_language: "Ngôn ngữ",
+          pref_theme: "Giao diện",
+          theme_light: "Sáng",
+          theme_dark: "Tối",
+          pref_voice: "Giọng nói",
+          voice_default: "Giọng mặc định",
+          pref_data: "Dữ liệu",
+          custom_layer_title: "Lớp tùy chỉnh",
+          custom_font: "Phông chữ",
+          custom_color_target: "Mục tiêu màu",
+          custom_reset: "Đặt lại",
+          custom_apply: "Áp dụng",
+          close: "Đóng",
+        },
+        id: {
+          app_name: "Peta Munetios",
+          directions: "Petunjuk arah",
+          near_me: "Di dekat saya",
+          history: "Riwayat",
+          markers: "Penanda",
+          print: "Cetak",
+          search_placeholder: "Cari tempat, alamat, dan penanda lokasi",
+          mode_drive: "Mobil",
+          mode_walk: "Jalan",
+          mode_bike: "Sepeda",
+          mode_transit: "Transit",
+          get_directions: "Dapatkan arah",
+          clear_route: "Hapus rute",
+          start_nav: "Mulai navigasi",
+          layer_map: "Peta",
+          layer_satellite: "Satelit",
+          layer_custom: "Kustom",
+          layer_tools: "Alat",
+          layer_roads: "Jalan",
+          settings: "Pengaturan",
+          settings_title: "Pengaturan",
+          pref_preferences: "Preferensi",
+          pref_language: "Bahasa",
+          pref_theme: "Tema",
+          theme_light: "Terang",
+          theme_dark: "Gelap",
+          pref_voice: "Suara",
+          voice_default: "Suara default",
+          pref_data: "Data",
+          custom_layer_title: "Lapisan kustom",
+          custom_font: "Font",
+          custom_color_target: "Target warna",
+          custom_reset: "Setel ulang",
+          custom_apply: "Terapkan",
+          close: "Tutup",
+        },
+        ms: {
+          app_name: "Peta Munetios",
+          directions: "Arah",
+          near_me: "Berdekatan saya",
+          history: "Sejarah",
+          markers: "Penanda",
+          print: "Cetak",
+          search_placeholder: "Cari tempat, alamat dan mercu tanda",
+          mode_drive: "Kereta",
+          mode_walk: "Jalan kaki",
+          mode_bike: "Basikal",
+          mode_transit: "Transit",
+          get_directions: "Dapatkan arah",
+          clear_route: "Kosongkan laluan",
+          start_nav: "Mula navigasi",
+          layer_map: "Peta",
+          layer_satellite: "Satelit",
+          layer_custom: "Tersuai",
+          layer_tools: "Alat",
+          layer_roads: "Jalan",
+          settings: "Tetapan",
+          settings_title: "Tetapan",
+          pref_preferences: "Keutamaan",
+          pref_language: "Bahasa",
+          pref_theme: "Tema",
+          theme_light: "Cerah",
+          theme_dark: "Gelap",
+          pref_voice: "Suara",
+          voice_default: "Suara lalai",
+          pref_data: "Data",
+          custom_layer_title: "Lapisan tersuai",
+          custom_font: "Fon",
+          custom_color_target: "Sasaran warna",
+          custom_reset: "Tetapkan semula",
+          custom_apply: "Guna",
+          close: "Tutup",
+        },
+        fa: {
+          app_name: "نقشه‌های Munetios",
+          directions: "مسیرها",
+          near_me: "نزدیک من",
+          history: "تاریخچه",
+          markers: "نشانگرها",
+          print: "چاپ",
+          search_placeholder: "جستجوی مکان‌ها، نشانی‌ها و نقاط شاخص",
+          mode_drive: "رانندگی",
+          mode_walk: "پیاده",
+          mode_bike: "دوچرخه",
+          mode_transit: "حمل‌ونقل",
+          get_directions: "دریافت مسیر",
+          clear_route: "پاک کردن مسیر",
+          start_nav: "شروع ناوبری",
+          layer_map: "نقشه",
+          layer_satellite: "ماهواره",
+          layer_custom: "سفارشی",
+          layer_tools: "ابزارها",
+          layer_roads: "جاده‌ها",
+          settings: "تنظیمات",
+          settings_title: "تنظیمات",
+          pref_preferences: "ترجیحات",
+          pref_language: "زبان",
+          pref_theme: "پوسته",
+          theme_light: "روشن",
+          theme_dark: "تیره",
+          pref_voice: "صدا",
+          voice_default: "صدای پیش‌فرض",
+          pref_data: "داده‌ها",
+          custom_layer_title: "لایه سفارشی",
+          custom_font: "قلم",
+          custom_color_target: "هدف رنگ",
+          custom_reset: "بازنشانی",
+          custom_apply: "اعمال",
+          close: "بستن",
+        },
+        ur: {
+          app_name: "Munetios نقشے",
+          directions: "ہدایات",
+          near_me: "میرے قریب",
+          history: "تاریخچہ",
+          markers: "مارکرز",
+          print: "پرنٹ",
+          search_placeholder: "مقامات، پتے اور نشانیاں تلاش کریں",
+          mode_drive: "ڈرائیو",
+          mode_walk: "پیدل",
+          mode_bike: "سائیکل",
+          mode_transit: "ٹرانزٹ",
+          get_directions: "ہدایات حاصل کریں",
+          clear_route: "راستہ صاف کریں",
+          start_nav: "نیویگیشن شروع کریں",
+          layer_map: "نقشہ",
+          layer_satellite: "سیٹلائٹ",
+          layer_custom: "حسب ضرورت",
+          layer_tools: "اوزار",
+          layer_roads: "سڑکیں",
+          settings: "ترتیبات",
+          settings_title: "ترتیبات",
+          pref_preferences: "ترجیحات",
+          pref_language: "زبان",
+          pref_theme: "تھیم",
+          theme_light: "روشن",
+          theme_dark: "گہرا",
+          pref_voice: "آواز",
+          voice_default: "ڈیفالٹ آواز",
+          pref_data: "ڈیٹا",
+          custom_layer_title: "حسب ضرورت تہہ",
+          custom_font: "فونٹ",
+          custom_color_target: "رنگ کا ہدف",
+          custom_reset: "ری سیٹ",
+          custom_apply: "لاگو کریں",
+          close: "بند کریں",
+        },
+        af: {
+          app_name: "Munetios Kaarte",
+          directions: "Aanwysings",
+          near_me: "Naby my",
+          history: "Geskiedenis",
+          markers: "Merkers",
+          print: "Druk",
+          search_placeholder: "Soek plekke, adresse en landmerke",
+          mode_drive: "Ry",
+          mode_walk: "Stap",
+          mode_bike: "Fiets",
+          mode_transit: "Vervoer",
+          get_directions: "Kry aanwysings",
+          clear_route: "Maak roete skoon",
+          start_nav: "Begin navigasie",
+          layer_map: "Kaart",
+          layer_satellite: "Satelliet",
+          layer_custom: "Pasgemaak",
+          layer_tools: "Gereedskap",
+          layer_roads: "Paaie",
+          settings: "Instellings",
+          settings_title: "Instellings",
+          pref_language: "Taal",
+          pref_theme: "Tema",
+          theme_light: "Lig",
+          theme_dark: "Donker",
+          pref_voice: "Stem",
+          pref_data: "Data",
+          custom_layer_title: "Pasgemaakte laag",
+          custom_font: "Lettertipe",
+          custom_apply: "Pas toe",
+          close: "Sluit",
+        },
+        ca: {
+          app_name: "Mapes Munetios",
+          directions: "Indicacions",
+          near_me: "A prop meu",
+          history: "Historial",
+          markers: "Marcadors",
+          print: "Imprimeix",
+          search_placeholder: "Cerca llocs, adreces i punts de referència",
+          mode_drive: "Cotxe",
+          mode_walk: "Caminar",
+          mode_bike: "Bicicleta",
+          mode_transit: "Transport",
+          get_directions: "Obtén indicacions",
+          clear_route: "Esborra ruta",
+          start_nav: "Inicia navegació",
+          layer_map: "Mapa",
+          layer_satellite: "Satèl·lit",
+          layer_custom: "Personalitzat",
+          layer_tools: "Eines",
+          layer_roads: "Carreteres",
+          settings: "Configuració",
+          settings_title: "Configuració",
+          pref_preferences: "Preferències",
+          pref_language: "Idioma",
+          pref_theme: "Tema",
+          theme_light: "Clar",
+          theme_dark: "Fosc",
+          pref_voice: "Veu",
+          pref_data: "Dades",
+          custom_layer_title: "Capa personalitzada",
+          custom_font: "Tipus de lletra",
+          custom_apply: "Aplica",
+          close: "Tanca",
+        },
+        hr: {
+          app_name: "Munetios Karte",
+          directions: "Upute",
+          near_me: "U blizini",
+          history: "Povijest",
+          markers: "Oznake",
+          print: "Ispis",
+          search_placeholder: "Traži mjesta, adrese i znamenitosti",
+          mode_drive: "Vožnja",
+          mode_walk: "Pješice",
+          mode_bike: "Bicikl",
+          mode_transit: "Prijevoz",
+          get_directions: "Dohvati upute",
+          clear_route: "Očisti rutu",
+          start_nav: "Pokreni navigaciju",
+          layer_map: "Karta",
+          layer_satellite: "Satelit",
+          layer_custom: "Prilagođeno",
+          layer_tools: "Alati",
+          layer_roads: "Ceste",
+          settings: "Postavke",
+          settings_title: "Postavke",
+          pref_preferences: "Postavke",
+          pref_language: "Jezik",
+          pref_theme: "Tema",
+          theme_light: "Svijetlo",
+          theme_dark: "Tamno",
+          pref_voice: "Glas",
+          pref_data: "Podaci",
+          custom_layer_title: "Prilagođeni sloj",
+          custom_font: "Font",
+          custom_apply: "Primijeni",
+          close: "Zatvori",
+        },
+        bg: {
+          app_name: "Munetios Карти",
+          directions: "Упътвания",
+          near_me: "Наблизо",
+          history: "История",
+          markers: "Маркери",
+          print: "Печат",
+          search_placeholder: "Търсене на места, адреси и ориентири",
+          mode_drive: "С кола",
+          mode_walk: "Пеша",
+          mode_bike: "Велосипед",
+          mode_transit: "Транспорт",
+          get_directions: "Вземи упътвания",
+          clear_route: "Изчисти маршрут",
+          start_nav: "Стартирай навигация",
+          layer_map: "Карта",
+          layer_satellite: "Сателит",
+          layer_custom: "Персонализиран",
+          layer_tools: "Инструменти",
+          layer_roads: "Пътища",
+          settings: "Настройки",
+          settings_title: "Настройки",
+          pref_preferences: "Предпочитания",
+          pref_language: "Език",
+          pref_theme: "Тема",
+          theme_light: "Светла",
+          theme_dark: "Тъмна",
+          pref_voice: "Глас",
+          pref_data: "Данни",
+          custom_layer_title: "Персонализиран слой",
+          custom_font: "Шрифт",
+          custom_apply: "Приложи",
+          close: "Затвори",
+        },
+        lt: {
+          app_name: "Munetios Žemėlapiai",
+          directions: "Nuorodos",
+          near_me: "Netoli manęs",
+          history: "Istorija",
+          markers: "Žymekliai",
+          print: "Spausdinti",
+          search_placeholder: "Ieškoti vietų, adresų ir orientyrų",
+          mode_drive: "Automobiliu",
+          mode_walk: "Pėsčiomis",
+          mode_bike: "Dviračiu",
+          mode_transit: "Transportas",
+          get_directions: "Gauti nuorodas",
+          clear_route: "Išvalyti maršrutą",
+          start_nav: "Pradėti navigaciją",
+          layer_map: "Žemėlapis",
+          layer_satellite: "Palydovas",
+          layer_custom: "Pasirinktinis",
+          layer_tools: "Įrankiai",
+          layer_roads: "Keliai",
+          settings: "Nustatymai",
+          settings_title: "Nustatymai",
+          pref_language: "Kalba",
+          pref_theme: "Tema",
+          theme_light: "Šviesi",
+          theme_dark: "Tamsi",
+          pref_voice: "Balsas",
+          pref_data: "Duomenys",
+          custom_layer_title: "Pasirinktinis sluoksnis",
+          custom_font: "Šriftas",
+          custom_apply: "Taikyti",
+          close: "Uždaryti",
+        },
+        lv: {
+          app_name: "Munetios Kartes",
+          directions: "Norādes",
+          near_me: "Man tuvumā",
+          history: "Vēsture",
+          markers: "Marķieri",
+          print: "Drukāt",
+          search_placeholder: "Meklēt vietas, adreses un orientierus",
+          mode_drive: "Braukt",
+          mode_walk: "Iet",
+          mode_bike: "Velosipēds",
+          mode_transit: "Transports",
+          get_directions: "Saņemt norādes",
+          clear_route: "Notīrīt maršrutu",
+          start_nav: "Sākt navigāciju",
+          layer_map: "Karte",
+          layer_satellite: "Satelīts",
+          layer_custom: "Pielāgots",
+          layer_tools: "Rīki",
+          layer_roads: "Ceļi",
+          settings: "Iestatījumi",
+          settings_title: "Iestatījumi",
+          pref_language: "Valoda",
+          pref_theme: "Motīvs",
+          theme_light: "Gaišs",
+          theme_dark: "Tumšs",
+          pref_voice: "Balss",
+          pref_data: "Dati",
+          custom_layer_title: "Pielāgots slānis",
+          custom_font: "Fonts",
+          custom_apply: "Lietot",
+          close: "Aizvērt",
+        },
+        et: {
+          app_name: "Munetios Kaardid",
+          directions: "Juhised",
+          near_me: "Minu lähedal",
+          history: "Ajalugu",
+          markers: "Markerid",
+          print: "Prindi",
+          search_placeholder: "Otsi kohti, aadresse ja maamärke",
+          mode_drive: "Autoga",
+          mode_walk: "Jalgsi",
+          mode_bike: "Ratas",
+          mode_transit: "Transport",
+          get_directions: "Hangi juhised",
+          clear_route: "Tühjenda marsruut",
+          start_nav: "Alusta navigeerimist",
+          layer_map: "Kaart",
+          layer_satellite: "Satelliit",
+          layer_custom: "Kohandatud",
+          layer_tools: "Tööriistad",
+          layer_roads: "Teed",
+          settings: "Seaded",
+          settings_title: "Seaded",
+          pref_language: "Keel",
+          pref_theme: "Teema",
+          theme_light: "Hele",
+          theme_dark: "Tume",
+          pref_voice: "Hääl",
+          pref_data: "Andmed",
+          custom_layer_title: "Kohandatud kiht",
+          custom_font: "Font",
+          custom_apply: "Rakenda",
+          close: "Sulge",
+        },
+        sl: {
+          app_name: "Munetios Zemljevidi",
+          directions: "Navodila",
+          near_me: "V bližini",
+          history: "Zgodovina",
+          markers: "Oznake",
+          print: "Natisni",
+          search_placeholder: "Išči kraje, naslove in znamenitosti",
+          mode_drive: "Vožnja",
+          mode_walk: "Hoja",
+          mode_bike: "Kolo",
+          mode_transit: "Prevoz",
+          get_directions: "Pridobi navodila",
+          clear_route: "Počisti pot",
+          start_nav: "Začni navigacijo",
+          layer_map: "Zemljevid",
+          layer_satellite: "Satelit",
+          layer_custom: "Po meri",
+          layer_tools: "Orodja",
+          layer_roads: "Ceste",
+          settings: "Nastavitve",
+          settings_title: "Nastavitve",
+          pref_language: "Jezik",
+          pref_theme: "Tema",
+          theme_light: "Svetla",
+          theme_dark: "Temna",
+          pref_voice: "Glas",
+          pref_data: "Podatki",
+          custom_layer_title: "Plast po meri",
+          custom_font: "Pisava",
+          custom_apply: "Uporabi",
+          close: "Zapri",
+        },
+        sr: {
+          app_name: "Munetios Мапе",
+          directions: "Упутства",
+          near_me: "У близини",
+          history: "Историја",
+          markers: "Маркери",
+          print: "Штампај",
+          search_placeholder: "Претражи места, адресе и оријентире",
+          mode_drive: "Вожња",
+          mode_walk: "Пешке",
+          mode_bike: "Бицикл",
+          mode_transit: "Превоз",
+          get_directions: "Добиј упутства",
+          clear_route: "Обриши руту",
+          start_nav: "Покрени навигацију",
+          layer_map: "Мапа",
+          layer_satellite: "Сателит",
+          layer_custom: "Прилагођено",
+          layer_tools: "Алатке",
+          layer_roads: "Путеви",
+          settings: "Подешавања",
+          settings_title: "Подешавања",
+          pref_language: "Језик",
+          pref_theme: "Тема",
+          theme_light: "Светла",
+          theme_dark: "Тамна",
+          pref_voice: "Глас",
+          pref_data: "Подаци",
+          custom_layer_title: "Прилагођени слој",
+          custom_font: "Фонт",
+          custom_apply: "Примени",
+          close: "Затвори",
+        },
+      };
+
+      const SETTINGS_TRANSLATION_FILL = {
+        bn: "সেটিংস",
+        pa: "ਸੈਟਿੰਗਾਂ",
+        gu: "સેટિંગ્સ",
+        kn: "ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
+        ml: "ക്രമീകരണങ്ങൾ",
+        ta: "அமைப்புகள்",
+        te: "సెట్టింగులు",
+        mr: "सेटिंग्ज",
+        sw: "Mipangilio",
+        is: "Stillingar",
+        ga: "Socruithe",
+        mt: "Settings",
+        mk: "Поставки",
+        sq: "Cilësimet",
+        bs: "Postavke",
+        eu: "Ezarpenak",
+        gl: "Configuración",
+        fil: "Mga Setting",
+        jv: "Setelan",
+        am: "ቅንብሮች",
+        zu: "Izilungiselelo",
+        xh: "Iisetingi",
+      };
+
+      Object.entries(SETTINGS_TRANSLATION_FILL).forEach(([lang, settings]) => {
+        ADDITIONAL_UI_TRANSLATIONS[lang] = {
+          ...(ADDITIONAL_UI_TRANSLATIONS[lang] || {}),
+          settings,
+          settings_title: settings,
+        };
+      });
+
+      Object.entries(ADDITIONAL_UI_TRANSLATIONS).forEach(([lang, pack]) => {
+        UI_TRANSLATIONS[lang] = {
+          ...(UI_TRANSLATIONS.en || {}),
+          ...(UI_TRANSLATIONS[lang] || {}),
+          ...pack,
+        };
+      });
+
+      function _normalizeLanguageCode(lang) {
+        if (!lang || typeof lang !== "string") return "en-US";
+        const parts = lang.replace("_", "-").split("-");
+        const base = (parts[0] || "en").toLowerCase();
+        const region = parts[1] ? parts[1].toUpperCase() : "";
+        return region ? `${base}-${region}` : base;
+      }
+
+      function _getBaseLang(lang) {
+        return _normalizeLanguageCode(lang).split("-")[0];
+      }
+
       function _detectLang() {
-        return (navigator.language || "en").slice(0, 2).toLowerCase();
+        return _normalizeLanguageCode(navigator.language || "en-US");
       }
 
       function _getStoredLang() {
@@ -5661,7 +7354,19 @@
 
       function _getLang() {
         const stored = _getStoredLang();
-        return stored === "auto" ? _detectLang() : stored;
+        return stored === "auto"
+          ? _detectLang()
+          : _normalizeLanguageCode(stored);
+      }
+
+      function _getTranslationDict(lang) {
+        const normalized = _normalizeLanguageCode(lang);
+        const base = _getBaseLang(normalized);
+        return (
+          UI_TRANSLATIONS[normalized] ||
+          UI_TRANSLATIONS[base] ||
+          UI_TRANSLATIONS.en
+        );
       }
 
       const MAP_LABEL_FONT = ["Google Sans Flex"];
@@ -5669,15 +7374,30 @@
         document.fonts.load("16px 'Google Sans Flex'");
       }
 
+      function getActiveMapLabelFont() {
+        const custom = getCustomLayerSettings();
+        return currentLayer === "custom" && custom.font
+          ? [custom.font]
+          : MAP_LABEL_FONT;
+      }
+
       function getMapLabelExpression() {
         const lang = _getLang();
-        const fields = [`name:${lang}`, "name:latin", "name:en", "name"];
+        const baseLang = _getBaseLang(lang);
+        const fields = [
+          `name:${lang}`,
+          `name:${baseLang}`,
+          "name:latin",
+          "name:en",
+          "name",
+        ];
         return ["coalesce", ...fields.map((field) => ["get", field])];
       }
 
       function setMapLabelLanguage(targetMap) {
         if (!targetMap || !targetMap.getStyle) return;
         const labelExpression = getMapLabelExpression();
+        const labelFont = getActiveMapLabelFont();
         const style = targetMap.getStyle();
         (style.layers || []).forEach((layer) => {
           if (layer.type !== "symbol" || !targetMap.getLayer(layer.id)) return;
@@ -5687,7 +7407,7 @@
               "text-field",
               labelExpression,
             );
-            targetMap.setLayoutProperty(layer.id, "text-font", MAP_LABEL_FONT);
+            targetMap.setLayoutProperty(layer.id, "text-font", labelFont);
           } catch (e) {}
         });
       }
@@ -5699,20 +7419,121 @@
           if (layer.type !== "symbol") return;
           layer.layout = layer.layout || {};
           layer.layout["text-field"] = labelExpression;
-          layer.layout["text-font"] = MAP_LABEL_FONT;
+          layer.layout["text-font"] =
+            layer.layout["text-font"] || MAP_LABEL_FONT;
         });
         return copy;
       }
 
       function t(key) {
         const lang = _getLang();
-        const dict = UI_TRANSLATIONS[lang] || UI_TRANSLATIONS.en;
+        const dict = _getTranslationDict(lang);
         return dict[key] || UI_TRANSLATIONS.en[key] || key;
+      }
+
+      function loadingSpinner(size = 34) {
+        return `<div class="spinner-container" style="width:${size}px;height:${size}px"><svg class="google-spinner" viewBox="0 0 50 50"><circle class="spinner-circle" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg></div>`;
+      }
+
+      function getDropdownsWrapper() {
+        return document.getElementById("dropdownsWrapper") || document.body;
+      }
+
+      function mountFloatingList(listEl) {
+        const wrapper = getDropdownsWrapper();
+        if (listEl && listEl.parentElement !== wrapper) {
+          wrapper.appendChild(listEl);
+        }
+      }
+
+      function positionFloatingList(anchorEl, listEl, options = {}) {
+        if (!anchorEl || !listEl) return;
+        mountFloatingList(listEl);
+        const rect = anchorEl.getBoundingClientRect();
+        const gap = options.gap ?? 6;
+        const minWidth = options.minWidth ?? rect.width;
+        const maxWidth = Math.min(
+          options.maxWidth ?? Math.max(rect.width, 420),
+          window.innerWidth - 24,
+        );
+        const width = Math.max(minWidth, rect.width);
+        const finalWidth = Math.min(width, maxWidth);
+        const left = Math.max(
+          12,
+          Math.min(rect.left, window.innerWidth - finalWidth - 12),
+        );
+        const top = Math.min(
+          rect.bottom + gap,
+          window.innerHeight - Math.min(listEl.scrollHeight || 280, 280) - 12,
+        );
+        listEl.style.left = `${left}px`;
+        listEl.style.top = `${Math.max(12, top)}px`;
+        listEl.style.width = `${finalWidth}px`;
+        listEl.style.right = "auto";
+        listEl.style.position = "fixed";
+      }
+
+      function openFloatingList(anchorEl, listEl, options = {}) {
+        document
+          .querySelectorAll(".dropdowns-list.open, .autocomplete-list.open")
+          .forEach((el) => {
+            if (el !== listEl) {
+              el.classList.remove("open");
+              el.style.display = "none";
+            }
+          });
+        positionFloatingList(anchorEl, listEl, options);
+        listEl.style.display = "block";
+        listEl.classList.add("open");
+      }
+
+      function closeFloatingList(listEl) {
+        if (!listEl) return;
+        listEl.classList.remove("open");
+        listEl.style.display = "none";
+      }
+
+      function initBodyTooltips() {
+        const tooltip = document.getElementById("bodyTooltip");
+        if (!tooltip || tooltip.dataset.ready === "1") return;
+        tooltip.dataset.ready = "1";
+        const hide = () => {
+          tooltip.classList.remove("open");
+        };
+        document.addEventListener("pointerover", (event) => {
+          const target = event.target.closest("[data-tooltip]");
+          if (!target || !target.dataset.tooltip) return;
+          tooltip.textContent = target.dataset.tooltip;
+          const rect = target.getBoundingClientRect();
+          tooltip.style.left = "0px";
+          tooltip.style.top = "0px";
+          tooltip.classList.add("open");
+          const tipRect = tooltip.getBoundingClientRect();
+          const left = Math.max(
+            12,
+            Math.min(
+              rect.left + rect.width / 2 - tipRect.width / 2,
+              window.innerWidth - tipRect.width - 12,
+            ),
+          );
+          const top =
+            rect.top - tipRect.height - 9 > 12
+              ? rect.top - tipRect.height - 9
+              : rect.bottom + 9;
+          tooltip.style.left = `${left}px`;
+          tooltip.style.top = `${top}px`;
+        });
+        document.addEventListener("pointerout", (event) => {
+          if (event.target.closest("[data-tooltip]")) hide();
+        });
+        document.addEventListener("scroll", hide, true);
+        window.addEventListener("resize", hide);
       }
 
       function applyTranslations(langCode) {
         const resolvedLang = langCode === "auto" ? _detectLang() : langCode;
-        const dict = UI_TRANSLATIONS[resolvedLang] || UI_TRANSLATIONS.en;
+        const normalizedLang = _normalizeLanguageCode(resolvedLang);
+        const dict = _getTranslationDict(normalizedLang);
         const fallback = UI_TRANSLATIONS.en;
         const resolve = (k) => dict[k] || fallback[k] || k;
 
@@ -5729,13 +7550,19 @@
         document.querySelectorAll("[data-i18n-title]").forEach((el) => {
           el.title = resolve(el.dataset.i18nTitle);
         });
+        document.querySelectorAll("[data-i18n-tooltip]").forEach((el) => {
+          el.dataset.tooltip = resolve(el.dataset.i18nTooltip);
+        });
+        initBodyTooltips();
         // Aria-label attributes
         document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
           el.setAttribute("aria-label", resolve(el.dataset.i18nAria));
         });
         // RTL support
         const rtlLangs = ["ar", "he", "fa", "ur"];
-        document.documentElement.dir = rtlLangs.includes(resolvedLang)
+        document.documentElement.dir = rtlLangs.includes(
+          _getBaseLang(normalizedLang),
+        )
           ? "rtl"
           : "ltr";
         if (window._map && typeof window._refreshMapStyle === "function") {
@@ -5859,6 +7686,155 @@
         // Show the overlay (if not already visible)
         const overlay = document.getElementById("webglErrorOverlay");
         if (overlay) overlay.style.display = "flex";
+      }
+
+      const DEFAULT_CUSTOM_LAYER = {
+        font: "Google Sans Flex",
+        label: "#F3E8FF",
+        background: "#17092F",
+        water: "#21105D",
+        roads: "#A855F7",
+        land: "#251044",
+      };
+
+      const MAP_POI_CLASSES = [
+        "aerodrome",
+        "airport",
+        "atm",
+        "bank",
+        "bar",
+        "bus_station",
+        "cafe",
+        "cinema",
+        "clinic",
+        "college",
+        "fuel",
+        "hospital",
+        "hotel",
+        "library",
+        "museum",
+        "parking",
+        "pharmacy",
+        "place_of_worship",
+        "police",
+        "post",
+        "restaurant",
+        "school",
+        "shop",
+        "supermarket",
+        "theatre",
+        "university",
+      ];
+
+      function createPoiLayers(theme = "dark") {
+        const isLight = theme === "light";
+        return [
+          {
+            id: `poi-dots-${theme}`,
+            type: "circle",
+            source: "ofm",
+            "source-layer": "poi",
+            minzoom: 12,
+            filter: [
+              "any",
+              ["in", "class", ...MAP_POI_CLASSES],
+              ["in", "subclass", ...MAP_POI_CLASSES],
+            ],
+            paint: {
+              "circle-radius": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                12,
+                2,
+                16,
+                4.5,
+              ],
+              "circle-color": [
+                "match",
+                ["coalesce", ["get", "subclass"], ["get", "class"]],
+                ["airport", "aerodrome"],
+                "#38bdf8",
+                ["restaurant", "cafe", "bar"],
+                "#f59e0b",
+                ["hotel"],
+                "#a78bfa",
+                ["hospital", "clinic", "pharmacy"],
+                "#fb7185",
+                ["supermarket", "shop"],
+                "#34d399",
+                ["parking", "fuel", "atm", "bank"],
+                "#60a5fa",
+                "#d8b4fe",
+              ],
+              "circle-stroke-color": isLight ? "#ffffff" : "#120724",
+              "circle-stroke-width": 1.2,
+              "circle-opacity": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                12,
+                0,
+                13,
+                0.92,
+              ],
+            },
+          },
+          {
+            id: `poi-labels-${theme}`,
+            type: "symbol",
+            source: "ofm",
+            "source-layer": "poi",
+            minzoom: 14,
+            filter: [
+              "any",
+              ["in", "class", ...MAP_POI_CLASSES],
+              ["in", "subclass", ...MAP_POI_CLASSES],
+            ],
+            layout: {
+              "text-field": getMapLabelExpression(),
+              "text-font": MAP_LABEL_FONT,
+              "text-size": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                14,
+                10.5,
+                18,
+                13,
+              ],
+              "text-anchor": "top",
+              "text-offset": [0, 0.65],
+              "text-padding": 3,
+              "text-max-width": 9,
+              "symbol-sort-key": [
+                "match",
+                ["coalesce", ["get", "subclass"], ["get", "class"]],
+                ["airport", "aerodrome"],
+                1,
+                ["hospital", "hotel", "restaurant"],
+                2,
+                ["cafe", "bar", "supermarket", "pharmacy"],
+                3,
+                5,
+              ],
+            },
+            paint: {
+              "text-color": isLight ? "#22113f" : "#ffffff",
+              "text-halo-color": isLight ? "#fffffff2" : "#0d0620",
+              "text-halo-width": 1.5,
+              "text-opacity": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                14,
+                0,
+                15,
+                1,
+              ],
+            },
+          },
+        ];
       }
 
       const munetiosStyle = {
@@ -6099,6 +8075,7 @@
               "text-halo-width": 2,
             },
           },
+          ...createPoiLayers("dark"),
           {
             id: "label-road",
             type: "symbol",
@@ -6125,6 +8102,7 @@
       let markerPhotosEnabled = true;
 
       function normalizeLayerName(name) {
+        if (name === "custom") return "custom";
         if (name === "satellite" || name === "imagery") return "satellite";
         return "map";
       }
@@ -6252,6 +8230,7 @@
                 "text-halo-width": 1.5,
               },
             },
+            ...createPoiLayers("satellite"),
             {
               id: "satellite-place-labels",
               type: "raster",
@@ -6274,10 +8253,27 @@
         markerPhotosEnabled =
           localStorage.getItem("munetios_marker_photos") !== "0";
 
+        const RATE_LIMIT_MAX = 50;
+        const RATE_LIMIT_WINDOW = 7200000; // 2 hours
+
+        let lastCoords = null;
+
+        const searchResultsPanelEl = document.querySelector(
+          ".search-results-container",
+        );
+        const homePanelEl = document.querySelector(".home-panel");
+        const searchQuerySpan = document.getElementById("searchQuery");
+        const searchResultsEl = document.getElementById("searchResults");
+        const searchInputEl = document.getElementById("searchInput");
+
         const map = new maplibregl.Map({
           container: "mapCanvas",
           style:
-            savedLayer === "satellite" ? buildSatelliteStyle() : munetiosStyle,
+            savedLayer === "satellite"
+              ? buildSatelliteStyle()
+              : savedLayer === "custom"
+                ? buildCustomMapStyle()
+                : munetiosStyle,
           center: [0, 0],
           zoom: 2,
           pitch: 0,
@@ -6300,6 +8296,7 @@
 
         const layerMapBtn = document.getElementById("layerMap");
         const layerSatelliteBtn = document.getElementById("layerSatellite");
+        const layerCustomBtn = document.getElementById("layerCustom");
         const layerToolsBtn = document.getElementById("layerTools");
         const roadsToggleBtn = document.getElementById("toggleRoads");
         const markerPhotosBtn = document.getElementById("toggleMarkerPhotos");
@@ -6318,6 +8315,7 @@
           );
           layerMapBtn.classList.toggle("active", name === "map");
           layerSatelliteBtn.classList.toggle("active", name === "satellite");
+          layerCustomBtn.classList.toggle("active", name === "custom");
           layerToolsBtn.classList.toggle("active", toolsTrayOpen);
           roadsToggleBtn.classList.toggle("active", roadHighlightEnabled);
           roadsToggleBtn.classList.toggle("toggle-off", !roadHighlightEnabled);
@@ -6559,9 +8557,11 @@
           const nextStyle =
             currentLayer === "satellite"
               ? buildSatelliteStyle()
-              : currentTheme === "light"
-                ? lightMapStyle
-                : munetiosStyle;
+              : currentLayer === "custom"
+                ? buildCustomMapStyle()
+                : currentTheme === "light"
+                  ? lightMapStyle
+                  : munetiosStyle;
           const localizedStyle = cloneLocalizedMapStyle(nextStyle);
           const preview = showProgressiveStylePreview(localizedStyle);
           map.once("style.load", restoreMapOverlays);
@@ -6599,6 +8599,334 @@
         layerSatelliteBtn.addEventListener("click", () =>
           switchLayer("satellite"),
         );
+        layerCustomBtn.addEventListener("click", () => openCustomLayerModal());
+
+        function openCustomLayerModal() {
+          const backdrop = document.getElementById("customLayerBackdrop");
+          const settings = getCustomLayerSettings();
+          customLayerState.font = settings.font;
+          buildCustomLayerDropdowns();
+          initCustomColorPicker(settings);
+          backdrop.classList.add("open");
+        }
+
+        function closeCustomLayerModal() {
+          document
+            .getElementById("customLayerBackdrop")
+            .classList.remove("open");
+          closeFloatingList(document.getElementById("customLayerFontList"));
+          closeFloatingList(document.getElementById("customLayerTargetList"));
+        }
+
+        document
+          .getElementById("customLayerClose")
+          .addEventListener("click", closeCustomLayerModal);
+        document
+          .getElementById("customLayerBackdrop")
+          .addEventListener("click", (e) => {
+            if (e.target.id === "customLayerBackdrop") closeCustomLayerModal();
+          });
+
+        const customLayerState = {
+          font: "Google Sans Flex",
+          target: "label",
+          hue: 280,
+          saturation: 66,
+          value: 97,
+          colors: getCustomLayerSettings(),
+        };
+        const customLayerFonts = [
+          { value: "Google Sans Flex", label: "Google Sans Flex" },
+          { value: "Arial", label: "Arial Unicode MS" },
+          { value: "Inter", label: "Inter" },
+          { value: "Noto Sans Regular", label: "Noto Sans" },
+          { value: "Open Sans Regular", label: "Open Sans" },
+        ];
+        const customLayerTargets = [
+          { value: "label", key: "custom_target_labels" },
+          { value: "background", key: "custom_target_background" },
+          { value: "water", key: "custom_target_water" },
+          { value: "roads", key: "custom_target_roads" },
+          { value: "land", key: "custom_target_land" },
+        ];
+        const customSwatchColors = [
+          "#ffffff",
+          "#000000",
+          "#ef4444",
+          "#f59e0b",
+          "#fde047",
+          "#4ade80",
+          "#38bdf8",
+          "#9333ea",
+          "#ec4899",
+          "#8b5e3c",
+          "#64748b",
+          "#06b6d4",
+          "#f97316",
+          "#52f01c",
+          "#ff4f7b",
+          "#a3a3a3",
+        ];
+
+        function hexToRgb(hex) {
+          const clean = hex.replace("#", "");
+          return {
+            r: parseInt(clean.slice(0, 2), 16),
+            g: parseInt(clean.slice(2, 4), 16),
+            b: parseInt(clean.slice(4, 6), 16),
+          };
+        }
+
+        function rgbToHex(r, g, b) {
+          return (
+            "#" +
+            [r, g, b]
+              .map((x) =>
+                Math.max(0, Math.min(255, x)).toString(16).padStart(2, "0"),
+              )
+              .join("")
+              .toUpperCase()
+          );
+        }
+
+        function rgbToHsv(r, g, b) {
+          r /= 255;
+          g /= 255;
+          b /= 255;
+          const max = Math.max(r, g, b);
+          const min = Math.min(r, g, b);
+          const d = max - min;
+          let h = 0;
+          if (d) {
+            if (max === r) h = ((g - b) / d) % 6;
+            else if (max === g) h = (b - r) / d + 2;
+            else h = (r - g) / d + 4;
+            h *= 60;
+            if (h < 0) h += 360;
+          }
+          return {
+            h: Math.round(h),
+            s: max === 0 ? 0 : Math.round((d / max) * 100),
+            v: Math.round(max * 100),
+          };
+        }
+
+        function hsvToHex(h, s, v) {
+          s /= 100;
+          v /= 100;
+          const c = v * s;
+          const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+          const m = v - c;
+          let r = 0;
+          let g = 0;
+          let b = 0;
+          if (h < 60) [r, g, b] = [c, x, 0];
+          else if (h < 120) [r, g, b] = [x, c, 0];
+          else if (h < 180) [r, g, b] = [0, c, x];
+          else if (h < 240) [r, g, b] = [0, x, c];
+          else if (h < 300) [r, g, b] = [x, 0, c];
+          else [r, g, b] = [c, 0, x];
+          return rgbToHex(
+            Math.round((r + m) * 255),
+            Math.round((g + m) * 255),
+            Math.round((b + m) * 255),
+          );
+        }
+
+        function setCustomPickerColor(hex) {
+          const hsv = rgbToHsv(...Object.values(hexToRgb(hex)));
+          customLayerState.hue = hsv.h;
+          customLayerState.saturation = hsv.s;
+          customLayerState.value = hsv.v;
+          document.getElementById("customHue").value = hsv.h;
+          renderCustomColorPicker();
+        }
+
+        function renderCustomColorPicker() {
+          const hex = hsvToHex(
+            customLayerState.hue,
+            customLayerState.saturation,
+            customLayerState.value,
+          );
+          customLayerState.colors[customLayerState.target] = hex;
+          const saturation = document.getElementById("customSaturation");
+          const cursor = document.getElementById("customColorCursor");
+          const value = document.getElementById("customColorValue");
+          saturation.style.background = `hsl(${customLayerState.hue}, 100%, 50%)`;
+          cursor.style.left = `${customLayerState.saturation}%`;
+          cursor.style.top = `${100 - customLayerState.value}%`;
+          value.textContent = hex;
+          document.querySelectorAll(".custom-swatch").forEach((swatch) => {
+            swatch.classList.toggle(
+              "active",
+              swatch.dataset.color.toUpperCase() === hex,
+            );
+          });
+        }
+
+        function initCustomColorPicker(settings) {
+          customLayerState.colors = { ...settings };
+          customLayerState.font = settings.font;
+          setCustomPickerColor(
+            customLayerState.colors[customLayerState.target],
+          );
+        }
+
+        function buildCustomLayerDropdowns() {
+          const fontList = document.getElementById("customLayerFontList");
+          const fontBtn = document.getElementById("customLayerFontBtn");
+          const fontLabel = document.getElementById("customLayerFontLabel");
+          const targetList = document.getElementById("customLayerTargetList");
+          const targetBtn = document.getElementById("customLayerTargetBtn");
+          const targetLabel = document.getElementById("customLayerTargetLabel");
+          mountFloatingList(fontList);
+          mountFloatingList(targetList);
+          const selectedFont =
+            customLayerFonts.find(
+              (font) => font.value === customLayerState.font,
+            ) || customLayerFonts[0];
+          const selectedTarget =
+            customLayerTargets.find(
+              (target) => target.value === customLayerState.target,
+            ) || customLayerTargets[0];
+
+          fontLabel.textContent = selectedFont.label;
+          targetLabel.textContent = t(selectedTarget.key);
+          fontList.innerHTML = "";
+          targetList.innerHTML = "";
+
+          customLayerFonts.forEach((font) => {
+            const item = document.createElement("div");
+            item.className =
+              "custom-dropdown-item" +
+              (font.value === customLayerState.font ? " selected" : "");
+            item.textContent = font.label;
+            item.addEventListener("click", (event) => {
+              event.stopPropagation();
+              customLayerState.font = font.value;
+              fontLabel.textContent = font.label;
+              closeFloatingList(fontList);
+              buildCustomLayerDropdowns();
+            });
+            fontList.appendChild(item);
+          });
+
+          customLayerTargets.forEach((target) => {
+            const item = document.createElement("div");
+            item.className =
+              "custom-dropdown-item" +
+              (target.value === customLayerState.target ? " selected" : "");
+            item.textContent = t(target.key);
+            item.addEventListener("click", (event) => {
+              event.stopPropagation();
+              customLayerState.target = target.value;
+              targetLabel.textContent = t(target.key);
+              closeFloatingList(targetList);
+              setCustomPickerColor(
+                customLayerState.colors[customLayerState.target],
+              );
+              buildCustomLayerDropdowns();
+            });
+            targetList.appendChild(item);
+          });
+
+          fontBtn.onclick = (event) => {
+            event.stopPropagation();
+            closeFloatingList(targetList);
+            if (fontList.classList.contains("open")) {
+              closeFloatingList(fontList);
+            } else {
+              openFloatingList(fontBtn, fontList, {
+                minWidth: fontBtn.offsetWidth,
+                maxWidth: 420,
+              });
+            }
+          };
+          targetBtn.onclick = (event) => {
+            event.stopPropagation();
+            closeFloatingList(fontList);
+            if (targetList.classList.contains("open")) {
+              closeFloatingList(targetList);
+            } else {
+              openFloatingList(targetBtn, targetList, {
+                minWidth: targetBtn.offsetWidth,
+                maxWidth: 420,
+              });
+            }
+          };
+        }
+
+        const swatchWrap = document.getElementById("customSwatches");
+        customSwatchColors.forEach((color) => {
+          const swatch = document.createElement("button");
+          swatch.type = "button";
+          swatch.className = "custom-swatch";
+          swatch.dataset.color = color;
+          swatch.style.background = color;
+          swatch.addEventListener("click", () => setCustomPickerColor(color));
+          swatchWrap.appendChild(swatch);
+        });
+        document.getElementById("customHue").addEventListener("input", (e) => {
+          customLayerState.hue = Number(e.target.value);
+          renderCustomColorPicker();
+        });
+        document
+          .getElementById("customSaturation")
+          .addEventListener("pointerdown", (e) => {
+            const applyPointer = (event) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              customLayerState.saturation = Math.round(
+                Math.max(
+                  0,
+                  Math.min(1, (event.clientX - rect.left) / rect.width),
+                ) * 100,
+              );
+              customLayerState.value = Math.round(
+                (1 -
+                  Math.max(
+                    0,
+                    Math.min(1, (event.clientY - rect.top) / rect.height),
+                  )) *
+                  100,
+              );
+              renderCustomColorPicker();
+            };
+            applyPointer(e);
+            const move = (event) => applyPointer(event);
+            const up = () => {
+              window.removeEventListener("pointermove", move);
+              window.removeEventListener("pointerup", up);
+            };
+            window.addEventListener("pointermove", move);
+            window.addEventListener("pointerup", up);
+          });
+        document
+          .getElementById("customLayerReset")
+          .addEventListener("click", () => {
+            localStorage.removeItem("munetios_custom_layer");
+            customLayerState.colors = { ...DEFAULT_CUSTOM_LAYER };
+            customLayerState.font = DEFAULT_CUSTOM_LAYER.font;
+            buildCustomLayerDropdowns();
+            setCustomPickerColor(
+              customLayerState.colors[customLayerState.target],
+            );
+            if (currentLayer === "custom") refreshMapStyle();
+            showToast(t("toast_custom_reset"));
+          });
+        document
+          .getElementById("customLayerForm")
+          .addEventListener("submit", (e) => {
+            e.preventDefault();
+            customLayerState.colors.font = customLayerState.font;
+            localStorage.setItem(
+              "munetios_custom_layer",
+              JSON.stringify(customLayerState.colors),
+            );
+            closeCustomLayerModal();
+            switchLayer("custom");
+            if (currentLayer === "custom") refreshMapStyle();
+            showToast(t("toast_custom_applied"));
+          });
         layerToolsBtn.addEventListener("click", () => {
           toolsTrayOpen = !toolsTrayOpen;
           applyLayerUI(currentLayer);
@@ -6630,7 +8958,7 @@
         addMarkerToolBtn.addEventListener("click", () => {
           const next = !addMarkerMode;
           setAddMarkerMode(next);
-          if (next) showToast("Tap the map to place a marker");
+          if (next) showToast(t("toast_tap_marker"));
         });
 
         // ── Zoom & Pan ────────────────────────────────────────────────────
@@ -6689,7 +9017,6 @@
         let userMarker = null;
         let isTracking = false;
         let firstFix = true;
-        let lastCoords = null;
 
         function buildCircleGeoJSON(lng, lat, radiusMeters, steps = 64) {
           const km = radiusMeters / 1000;
@@ -7134,8 +9461,6 @@
         }
 
         // ── Rate Limiting ─────────────────────────────────────────────────
-        const RATE_LIMIT_MAX = 50;
-        const RATE_LIMIT_WINDOW = 7200000; // 2 hours
 
         function _getRateState() {
           try {
@@ -7239,7 +9564,7 @@
           if (!navSoundEnabled || !window.speechSynthesis || !text) return;
           window.speechSynthesis.cancel();
           const utt = new SpeechSynthesisUtterance(text);
-          utt.lang = navigator.language || "en-US";
+          utt.lang = _getLang();
           utt.rate = 1.0;
           // Use selected voice if set
           const _selVoice = localStorage.getItem("munetios_voice") || "";
@@ -7608,7 +9933,7 @@
             markerImageFileInput.value = "";
             markerImageFileName.textContent = "No file chosen";
             updateMarkerImagePreview();
-            showToast("Could not read image file");
+            showToast("Failed to read image file");
           }
         });
         document
@@ -8135,6 +10460,178 @@
           .getElementById("printPopupClose")
           .addEventListener("click", closePrintModal);
 
+        function addPrintWatermark(dataUrl) {
+          return new Promise((resolve) => {
+            if (!dataUrl || dataUrl.startsWith("data:,")) {
+              resolve(dataUrl || "");
+              return;
+            }
+            const img = new Image();
+            img.onload = () => {
+              const canvas = document.createElement("canvas");
+              canvas.width = img.naturalWidth || img.width;
+              canvas.height = img.naturalHeight || img.height;
+              const ctx = canvas.getContext("2d");
+              ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+              const scale = Math.max(
+                1,
+                Math.min(canvas.width, canvas.height) / 900,
+              );
+              const pad = Math.round(22 * scale);
+              const fontSize = Math.round(18 * scale);
+              const text = "Munetios Maps";
+              ctx.font = `700 ${fontSize}px "Google Sans Flex", Arial, sans-serif`;
+              const textWidth = ctx.measureText(text).width;
+              const badgeWidth = Math.round(textWidth + 42 * scale);
+              const badgeHeight = Math.round(36 * scale);
+              const x = canvas.width - badgeWidth - pad;
+              const y = canvas.height - badgeHeight - pad;
+              const radius = Math.round(12 * scale);
+
+              ctx.save();
+              ctx.globalAlpha = 0.9;
+              ctx.fillStyle = "rgba(24, 9, 50, 0.72)";
+              ctx.strokeStyle = "rgba(216, 180, 254, 0.48)";
+              ctx.lineWidth = Math.max(1, Math.round(scale));
+              ctx.beginPath();
+              ctx.moveTo(x + radius, y);
+              ctx.lineTo(x + badgeWidth - radius, y);
+              ctx.quadraticCurveTo(
+                x + badgeWidth,
+                y,
+                x + badgeWidth,
+                y + radius,
+              );
+              ctx.lineTo(x + badgeWidth, y + badgeHeight - radius);
+              ctx.quadraticCurveTo(
+                x + badgeWidth,
+                y + badgeHeight,
+                x + badgeWidth - radius,
+                y + badgeHeight,
+              );
+              ctx.lineTo(x + radius, y + badgeHeight);
+              ctx.quadraticCurveTo(
+                x,
+                y + badgeHeight,
+                x,
+                y + badgeHeight - radius,
+              );
+              ctx.lineTo(x, y + radius);
+              ctx.quadraticCurveTo(x, y, x + radius, y);
+              ctx.closePath();
+              ctx.fill();
+              ctx.stroke();
+
+              ctx.fillStyle = "#f5f3ff";
+              ctx.shadowColor = "rgba(0, 0, 0, 0.35)";
+              ctx.shadowBlur = 4 * scale;
+              ctx.fillText(
+                text,
+                x + Math.round(21 * scale),
+                y + Math.round(24 * scale),
+              );
+              ctx.restore();
+              resolve(canvas.toDataURL("image/png"));
+            };
+            img.onerror = () => resolve(dataUrl);
+            img.src = dataUrl;
+          });
+        }
+
+        function printWatermarkedImage(dataUrl, imgEl) {
+          addPrintWatermark(dataUrl).then((watermarkedUrl) => {
+            if (!watermarkedUrl || watermarkedUrl.startsWith("data:,")) {
+              showToast("Failed to add watermark");
+              return;
+            }
+            imgEl.innerHTML = "";
+            const printImg = new Image();
+            printImg.alt = "Munetios Maps print";
+            printImg.style.cssText =
+              "width:100%;height:100%;object-fit:contain;display:block;background:#000";
+            printImg.onload = () => {
+              closePrintModal();
+              const printNow = () => {
+                window.print();
+                setTimeout(() => {
+                  imgEl.innerHTML = "";
+                }, 2000);
+              };
+              if (printImg.decode) {
+                printImg.decode().then(printNow).catch(printNow);
+              } else {
+                requestAnimationFrame(printNow);
+              }
+            };
+            printImg.onerror = () => {
+              showToast("Print image failed to render");
+            };
+            imgEl.appendChild(printImg);
+            printImg.src = watermarkedUrl;
+          });
+        }
+
+        function captureCanvasDataUrl(canvas) {
+          if (!canvas || !canvas.width || !canvas.height) return "";
+          try {
+            const dataUrl = canvas.toDataURL("image/png");
+            return dataUrl && !dataUrl.startsWith("data:,") ? dataUrl : "";
+          } catch (e) {
+            return "";
+          }
+        }
+
+        function capturePreviewMapDataUrl() {
+          const previewContainer = document.getElementById("printPreviewMap");
+          const glCanvas = previewContainer
+            ? previewContainer.querySelector("canvas")
+            : null;
+          return captureCanvasDataUrl(glCanvas);
+        }
+
+        function renderFallbackPrintImage(imgEl) {
+          const canvas = document.createElement("canvas");
+          canvas.width = 1600;
+          canvas.height = _ppOrient === "portrait" ? 2100 : 1100;
+          const ctx = canvas.getContext("2d");
+          const gradient = ctx.createLinearGradient(
+            0,
+            0,
+            canvas.width,
+            canvas.height,
+          );
+          gradient.addColorStop(0, "#17092f");
+          gradient.addColorStop(1, "#070412");
+          ctx.fillStyle = gradient;
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = "rgba(168, 85, 247, 0.22)";
+          ctx.beginPath();
+          ctx.arc(
+            canvas.width * 0.18,
+            canvas.height * 0.18,
+            260,
+            0,
+            Math.PI * 2,
+          );
+          ctx.fill();
+          ctx.fillStyle = "#f5f3ff";
+          ctx.font = '700 64px "Google Sans Flex", Arial, sans-serif';
+          ctx.fillText("Munetios Maps", 90, 130);
+          ctx.font = '420 34px "Google Sans Flex", Arial, sans-serif';
+          ctx.fillStyle = "rgba(245, 243, 255, 0.78)";
+          ctx.fillText(
+            "Map image could not be captured. Try again after tiles finish loading.",
+            90,
+            190,
+          );
+          try {
+            printWatermarkedImage(canvas.toDataURL("image/png"), imgEl);
+          } catch (e) {
+            showToast("Failed to add watermark");
+          }
+        }
+
         document
           .getElementById("printPopupConfirm")
           .addEventListener("click", () => {
@@ -8149,21 +10646,7 @@
               }
               _ps.textContent = `@page { size: ${_ppSize === "a4" ? "A4" : "letter"} ${_ppOrient}; margin: 0; }`;
 
-              // Find the MapLibre canvas inside the preview container
-              const previewContainer =
-                document.getElementById("printPreviewMap");
-              const glCanvas = previewContainer
-                ? previewContainer.querySelector("canvas")
-                : null;
-              let dataUrl = null;
-              if (glCanvas) {
-                try {
-                  // MapLibre preserveDrawingBuffer must be set; attempt toDataURL
-                  dataUrl = glCanvas.toDataURL("image/png");
-                } catch (e) {
-                  dataUrl = null;
-                }
-              }
+              const dataUrl = capturePreviewMapDataUrl();
 
               // Create or update the print image element
               let imgEl = document.getElementById("_printImgEl");
@@ -8173,16 +10656,8 @@
                 document.body.appendChild(imgEl);
               }
 
-              if (dataUrl && !dataUrl.startsWith("data:,")) {
-                imgEl.innerHTML = `<img src="${dataUrl}" style="width:100%;height:100%;object-fit:contain;display:block;background:#000">`;
-                closePrintModal();
-                setTimeout(() => {
-                  window.print();
-                  // Clean up after print dialog closes
-                  setTimeout(() => {
-                    imgEl.innerHTML = "";
-                  }, 2000);
-                }, 200);
+              if (dataUrl) {
+                printWatermarkedImage(dataUrl, imgEl);
               } else {
                 // Canvas is blank (WebGL toDataURL needs preserveDrawingBuffer) — re-init with that flag
                 if (_ppMap) {
@@ -8202,18 +10677,12 @@
                 });
                 _ppMap = newMap;
                 newMap.once("idle", () => {
-                  const c = document
-                    .getElementById("printPreviewMap")
-                    .querySelector("canvas");
-                  const url = c ? c.toDataURL("image/png") : "";
-                  imgEl.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:contain;display:block;background:#000">`;
-                  closePrintModal();
-                  setTimeout(() => {
-                    window.print();
-                    setTimeout(() => {
-                      imgEl.innerHTML = "";
-                    }, 2000);
-                  }, 200);
+                  const url = capturePreviewMapDataUrl();
+                  if (url) {
+                    printWatermarkedImage(url, imgEl);
+                  } else {
+                    renderFallbackPrintImage(imgEl);
+                  }
                 });
               }
             };
@@ -8269,7 +10738,7 @@
           if (!query || !query.trim()) return [];
           const q = query.trim();
           const supportedLangs = ["en", "de", "es"];
-          let lang = (navigator.language || "en").slice(0, 2).toLowerCase();
+          let lang = _getBaseLang(_getLang());
           if (!supportedLangs.includes(lang)) lang = "en";
 
           let url =
@@ -8400,7 +10869,7 @@
               nomUrl +=
                 "&lat=" + lastCoords.latitude + "&lon=" + lastCoords.longitude;
             const resp2 = await fetchWithTimeout(nomUrl, {
-              headers: { "Accept-Language": navigator.language || "en" },
+              headers: { "Accept-Language": _getLang() },
             });
             if (resp2.ok) {
               const results = await resp2.json();
@@ -8513,13 +10982,6 @@
         }
 
         // ── Search ─────────────────────────────────────────────────────────
-        const searchResultsPanelEl = document.querySelector(
-          ".search-results-container",
-        );
-        const homePanelEl = document.querySelector(".home-panel");
-        const searchQuerySpan = document.getElementById("searchQuery");
-        const searchResultsEl = document.getElementById("searchResults");
-        const searchInputEl = document.getElementById("searchInput");
 
         function showSearchPanel() {
           homePanelEl.classList.add("hidden");
@@ -8550,8 +11012,7 @@
           }
           searchQuerySpan.textContent = query;
           showSearchPanel();
-          searchResultsEl.innerHTML =
-            '<center><div class="loading"></div></center>';
+          searchResultsEl.innerHTML = `<center>${loadingSpinner()}</center>`;
 
           const results = await geocodeQuery(query);
           if (results && results.length) {
@@ -8703,23 +11164,22 @@
         // ── Autocomplete for search bar ─────────────────────────────────
         let searchAcTimer = null;
         const searchAcList = document.createElement("div");
-        searchAcList.className = "autocomplete-list liquid-glass";
-        searchAcList.style.cssText =
-          "position:absolute;top:100%;left:0;right:0;z-index:100000000000;display:none;border-radius:12px;overflow:hidden;max-height:220px;overflow-y:auto;";
-        searchInputEl.parentElement.style.position = "relative";
-        searchInputEl.parentElement.appendChild(searchAcList);
+        searchAcList.className =
+          "autocomplete-list dropdowns-list liquid-glass";
+        searchAcList.style.display = "none";
+        mountFloatingList(searchAcList);
 
         searchInputEl.addEventListener("input", () => {
           clearTimeout(searchAcTimer);
           const val = searchInputEl.value.trim();
           if (!val) {
-            searchAcList.style.display = "none";
+            closeFloatingList(searchAcList);
             return;
           }
           searchAcTimer = setTimeout(async () => {
             const results = await geocodeQuery(val);
             if (!results.length) {
-              searchAcList.style.display = "none";
+              closeFloatingList(searchAcList);
               return;
             }
             searchAcList.innerHTML = results
@@ -8740,19 +11200,25 @@
               .forEach((item) => {
                 item.addEventListener("click", () => {
                   searchInputEl.value = item.dataset.name;
-                  searchAcList.style.display = "none";
+                  closeFloatingList(searchAcList);
                   performSearch(item.dataset.name);
                 });
               });
-            searchAcList.style.display = "block";
+            openFloatingList(searchInputEl.parentElement, searchAcList, {
+              minWidth: searchInputEl.parentElement.offsetWidth,
+              maxWidth: 620,
+            });
           }, 300);
         });
 
         searchInputEl.addEventListener("blur", () => {
           setTimeout(() => {
-            searchAcList.style.display = "none";
+            closeFloatingList(searchAcList);
           }, 180);
         });
+        window.addEventListener("resize", () =>
+          closeFloatingList(searchAcList),
+        );
 
         // ── Directions ─────────────────────────────────────────────────────
         const directionsPanelEl = document.getElementById("directionsPanel");
@@ -8760,6 +11226,10 @@
         const dirToInput = document.getElementById("dirTo");
         const fromAcList = document.getElementById("fromAutocomplete");
         const toAcList = document.getElementById("toAutocomplete");
+        [fromAcList, toAcList].forEach((listEl) => {
+          listEl.classList.add("dropdowns-list");
+          mountFloatingList(listEl);
+        });
         const routeInfoEl = document.getElementById("routeInfo");
         const routeSummaryEl = document.getElementById("routeSummary");
         const routeStepsEl = document.getElementById("routeSteps");
@@ -8799,13 +11269,13 @@
             clearTimeout(timer);
             const val = input.value.trim();
             if (!val) {
-              listEl.style.display = "none";
+              closeFloatingList(listEl);
               return;
             }
             timer = setTimeout(async () => {
               const results = await geocodeQuery(val);
               if (!results.length) {
-                listEl.style.display = "none";
+                closeFloatingList(listEl);
                 return;
               }
               listEl.innerHTML = results
@@ -8827,15 +11297,23 @@
                   input.value = item.dataset.name;
                   input.dataset.lat = item.dataset.lat;
                   input.dataset.lon = item.dataset.lon;
-                  listEl.style.display = "none";
+                  closeFloatingList(listEl);
                 });
               });
-              listEl.style.display = "block";
+              openFloatingList(
+                input.closest(".dir-input-row") || input,
+                listEl,
+                {
+                  minWidth:
+                    input.closest(".directions-inputs")?.offsetWidth || 280,
+                  maxWidth: 420,
+                },
+              );
             }, 300);
           });
           input.addEventListener("blur", () => {
             setTimeout(() => {
-              listEl.style.display = "none";
+              closeFloatingList(listEl);
             }, 180);
           });
         }
@@ -8958,7 +11436,7 @@
                   ],
                   costing: vallhallaCost,
                   directions_options: {
-                    language: "en-US",
+                    language: _getLang(),
                     units: "kilometers",
                   },
                 }),
@@ -9186,8 +11664,7 @@
             }
             clearRoute();
             routeInfoEl.style.display = "block";
-            routeSummaryEl.innerHTML =
-              '<center><div class="loading" style="width:24px;height:24px;border-width:3px"></div></center>';
+            routeSummaryEl.innerHTML = `<center>${loadingSpinner(24)}</center>`;
             routeStepsEl.innerHTML = "";
             try {
               let fromLat = parseFloat(dirFromInput.dataset.lat);
@@ -9722,8 +12199,7 @@
           const { lng: toLng, lat: toLat } = routeEndMarker.getLngLat();
           clearRoute();
           routeInfoEl.style.display = "block";
-          routeSummaryEl.innerHTML =
-            '<center><div class="loading" style="width:22px;height:22px;border-width:3px"></div></center>';
+          routeSummaryEl.innerHTML = `<center>${loadingSpinner(22)}</center>`;
           routeStepsEl.innerHTML = "";
           const result = await getRoute(
             fromLat,
@@ -10009,7 +12485,7 @@
                   <span><icon style="font-size:12px;vertical-align:middle">straighten</icon> ${distLabel}</span>
                 </div>
               </div>
-              <button class="recent-dir-start-btn" data-idx="${i}" style="display:flex;align-items:center;gap:4px;padding:7px 11px;border:none;border-radius:10px;background:rgba(34,197,94,0.2);color:#22c55e;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;flex-shrink:0;white-space:nowrap" title="Start navigation to ${escapeHtml(d.to)}">
+              <button class="recent-dir-start-btn" data-idx="${i}" style="display:flex;align-items:center;gap:4px;padding:7px 11px;border:none;border-radius:999px;background:rgba(34,197,94,0.2);color:#22c55e;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;flex-shrink:0;white-space:nowrap" title="Start navigation to ${escapeHtml(d.to)}">
                 <icon style="font-size:16px">navigation</icon>Start
               </button>
             </div>`;
@@ -10128,8 +12604,7 @@
             let lat = "";
             let lng = "";
 
-            nearMeResultsEl.innerHTML =
-              '<center><div class="loading" style="margin:20px auto;width:28px;height:28px;border-width:3px"></div></center>';
+            nearMeResultsEl.innerHTML = `<center style="display:block;margin:20px auto">${loadingSpinner(28)}</center>`;
 
             try {
               // Photon API (komoot) – privacy-respecting, production-ready geocoder
@@ -10138,7 +12613,7 @@
               lat = origin.lat.toFixed(6);
               lng = origin.lng.toFixed(6);
               const supportedLangs = ["en", "de", "es"];
-              let lang = (navigator.language || "en").slice(0, 2).toLowerCase();
+              let lang = _getBaseLang(_getLang());
               if (!supportedLangs.includes(lang)) lang = "en";
               const photonUrl =
                 "https://photon.komoot.io/api/?q=" +
@@ -10276,7 +12751,7 @@
             return;
           }
           const rec = new SR();
-          rec.lang = navigator.language || "en-US";
+          rec.lang = _getLang();
           rec.interimResults = false;
           rec.maxAlternatives = 1;
           activeRecognition = rec;
@@ -10396,7 +12871,8 @@
               searchMatch[1].replace(/\+/g, " "),
             );
             if (query) {
-              searchInputEl.value = query;
+              const _searchInputEl = document.getElementById("searchInput");
+              if (_searchInputEl) _searchInputEl.value = query;
               performSearch(query);
             }
           }
@@ -10417,12 +12893,16 @@
       }
 
       function closeAllModals() {
-        ["bookmarksBackdrop", "historyBackdrop", "markersBackdrop"].forEach(
-          (id) => {
-            const el = document.getElementById(id);
-            if (el) el.classList.remove("open");
-          },
-        );
+        [
+          "bookmarksBackdrop",
+          "historyBackdrop",
+          "markersBackdrop",
+          "customLayerBackdrop",
+          "settingsBackdrop",
+        ].forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) el.classList.remove("open");
+        });
       }
 
       function showToast(message) {
@@ -10473,7 +12953,86 @@
       });
 
       // ── Settings Modal ────────────────────────────────────────────────────
-      const LANGUAGES = [
+      const REGIONAL_LANGUAGES = [
+        { code: "auto", label: "Auto detect" },
+        { code: "en-US", label: "English (United States)" },
+        { code: "en-GB", label: "English (United Kingdom)" },
+        { code: "en-AU", label: "English (Australia)" },
+        { code: "en-CA", label: "English (Canada)" },
+        { code: "en-IN", label: "English (India)" },
+        { code: "en-NZ", label: "English (New Zealand)" },
+        { code: "en-ZA", label: "English (South Africa)" },
+        { code: "es-ES", label: "Spanish (Spain)" },
+        { code: "es-MX", label: "Spanish (Mexico)" },
+        { code: "es-US", label: "Spanish (United States)" },
+        { code: "es-AR", label: "Spanish (Argentina)" },
+        { code: "es-CO", label: "Spanish (Colombia)" },
+        { code: "fr-FR", label: "French (France)" },
+        { code: "fr-CA", label: "French (Canada)" },
+        { code: "fr-BE", label: "French (Belgium)" },
+        { code: "fr-CH", label: "French (Switzerland)" },
+        { code: "de-DE", label: "German (Germany)" },
+        { code: "de-AT", label: "German (Austria)" },
+        { code: "de-CH", label: "German (Switzerland)" },
+        { code: "it-IT", label: "Italian (Italy)" },
+        { code: "it-CH", label: "Italian (Switzerland)" },
+        { code: "pt-BR", label: "Portuguese (Brazil)" },
+        { code: "pt-PT", label: "Portuguese (Portugal)" },
+        { code: "nl-NL", label: "Dutch (Netherlands)" },
+        { code: "nl-BE", label: "Dutch (Belgium)" },
+        { code: "ru-RU", label: "Russian (Russia)" },
+        { code: "zh-CN", label: "Chinese Simplified (China)" },
+        { code: "zh-TW", label: "Chinese Traditional (Taiwan)" },
+        { code: "zh-HK", label: "Chinese Traditional (Hong Kong)" },
+        { code: "zh-SG", label: "Chinese Simplified (Singapore)" },
+        { code: "ja-JP", label: "Japanese (Japan)" },
+        { code: "ko-KR", label: "Korean (South Korea)" },
+        { code: "ar-SA", label: "Arabic (Saudi Arabia)" },
+        { code: "ar-AE", label: "Arabic (United Arab Emirates)" },
+        { code: "ar-EG", label: "Arabic (Egypt)" },
+        { code: "ar-MA", label: "Arabic (Morocco)" },
+        { code: "hi-IN", label: "Hindi (India)" },
+        { code: "gu-IN", label: "Gujarati (India)" },
+        { code: "kn-IN", label: "Kannada (India)" },
+        { code: "ml-IN", label: "Malayalam (India)" },
+        { code: "bn-BD", label: "Bengali (Bangladesh)" },
+        { code: "bn-IN", label: "Bengali (India)" },
+        { code: "pa-IN", label: "Punjabi (India)" },
+        { code: "tr-TR", label: "Turkish (Turkey)" },
+        { code: "pl-PL", label: "Polish (Poland)" },
+        { code: "sv-SE", label: "Swedish (Sweden)" },
+        { code: "no-NO", label: "Norwegian (Norway)" },
+        { code: "da-DK", label: "Danish (Denmark)" },
+        { code: "fi-FI", label: "Finnish (Finland)" },
+        { code: "cs-CZ", label: "Czech (Czech Republic)" },
+        { code: "sk-SK", label: "Slovak (Slovakia)" },
+        { code: "hu-HU", label: "Hungarian (Hungary)" },
+        { code: "ro-RO", label: "Romanian (Romania)" },
+        { code: "uk-UA", label: "Ukrainian (Ukraine)" },
+        { code: "el-GR", label: "Greek (Greece)" },
+        { code: "he-IL", label: "Hebrew (Israel)" },
+        { code: "th-TH", label: "Thai (Thailand)" },
+        { code: "vi-VN", label: "Vietnamese (Vietnam)" },
+        { code: "id-ID", label: "Indonesian (Indonesia)" },
+        { code: "ms-MY", label: "Malay (Malaysia)" },
+        { code: "fa-IR", label: "Persian (Iran)" },
+        { code: "ur-PK", label: "Urdu (Pakistan)" },
+        { code: "ta-IN", label: "Tamil (India)" },
+        { code: "te-IN", label: "Telugu (India)" },
+        { code: "mr-IN", label: "Marathi (India)" },
+        { code: "sw-KE", label: "Swahili (Kenya)" },
+        { code: "af-ZA", label: "Afrikaans (South Africa)" },
+        { code: "ca-ES", label: "Catalan (Spain)" },
+        { code: "hr-HR", label: "Croatian (Croatia)" },
+        { code: "bg-BG", label: "Bulgarian (Bulgaria)" },
+        { code: "lt-LT", label: "Lithuanian (Lithuania)" },
+        { code: "lv-LV", label: "Latvian (Latvia)" },
+        { code: "et-EE", label: "Estonian (Estonia)" },
+        { code: "sl-SI", label: "Slovenian (Slovenia)" },
+        { code: "sr-RS", label: "Serbian (Serbia)" },
+      ];
+      const LANGUAGES = REGIONAL_LANGUAGES;
+      const LEGACY_LANGUAGES = [
         { code: "auto", label: "Auto detect" },
         { code: "en", label: "English" },
         { code: "es", label: "Español" },
@@ -10492,6 +13051,139 @@
         { code: "tr", label: "Türkçe" },
         { code: "sv", label: "Svenska" },
       ];
+
+      const LOCALE_TRANSLATION_OVERRIDES = {
+        "en-GB": {
+          search_placeholder: "Search Munetios Maps",
+          my_location: "My location",
+          near_gas: "Petrol",
+          print_orient_label: "Orientation",
+          print_letter: "Letter",
+          custom_color_target: "Colour target",
+          tip_layer_custom: "Design a custom map layer",
+          toast_tap_marker: "Tap the map to place a marker",
+          stat_miles: "Miles",
+          stat_mi: "Miles",
+        },
+        "en-AU": {
+          my_location: "My location",
+          near_gas: "Petrol",
+          custom_color_target: "Colour target",
+          print_orient_label: "Orientation",
+        },
+        "en-CA": {
+          my_location: "My location",
+          custom_color_target: "Colour target",
+          print_orient_label: "Orientation",
+        },
+        "en-IN": {
+          my_location: "My location",
+          custom_color_target: "Colour target",
+          near_gas: "Fuel",
+          print_orient_label: "Orientation",
+        },
+        "en-NZ": {
+          my_location: "My location",
+          custom_color_target: "Colour target",
+          near_gas: "Petrol",
+          print_orient_label: "Orientation",
+        },
+        "en-ZA": {
+          my_location: "My location",
+          custom_color_target: "Colour target",
+          near_gas: "Petrol",
+          print_orient_label: "Orientation",
+        },
+        "es-ES": {
+          settings: "Ajustes",
+          settings_title: "Ajustes",
+          pref_preferences: "Preferencias",
+          near_gas: "Gasolineras",
+          near_parking: "Aparcamiento",
+          print_letter: "Carta",
+          custom_color_target: "Color objetivo",
+          tip_close_settings: "Cerrar ajustes",
+        },
+        "es-MX": {
+          settings: "Configuración",
+          settings_title: "Configuración",
+          near_gas: "Gasolina",
+          near_parking: "Estacionamiento",
+          print_letter: "Carta",
+          tip_close_settings: "Cerrar configuración",
+        },
+        "es-US": {
+          settings: "Configuración",
+          settings_title: "Configuración",
+          near_gas: "Gasolina",
+          near_parking: "Estacionamiento",
+          print_letter: "Carta",
+          tip_close_settings: "Cerrar configuración",
+        },
+        "es-AR": {
+          settings: "Configuración",
+          settings_title: "Configuración",
+          near_gas: "Nafta",
+          near_parking: "Estacionamiento",
+          print_letter: "Carta",
+        },
+        "es-CO": {
+          settings: "Configuración",
+          settings_title: "Configuración",
+          near_gas: "Gasolina",
+          near_parking: "Parqueadero",
+          print_letter: "Carta",
+        },
+        "pt-PT": {
+          settings: "Definições",
+          settings_title: "Definições",
+          near_gas: "Combustível",
+          near_grocery: "Mercearia",
+          print_btn: "Imprimir",
+          custom_color_target: "Destino da cor",
+        },
+        "fr-CA": {
+          settings: "Paramètres",
+          settings_title: "Paramètres",
+          near_gas: "Essence",
+          print_letter: "Lettre",
+        },
+        "zh-TW": {
+          settings: "設定",
+          settings_title: "設定",
+          layer_satellite: "衛星",
+          layer_custom: "自訂",
+          layer_tools: "工具",
+        },
+        "zh-HK": {
+          settings: "設定",
+          settings_title: "設定",
+          layer_satellite: "衛星",
+          layer_custom: "自訂",
+          layer_tools: "工具",
+        },
+      };
+
+      Object.entries(LOCALE_TRANSLATION_OVERRIDES).forEach(
+        ([locale, patch]) => {
+          const normalized = _normalizeLanguageCode(locale);
+          UI_TRANSLATIONS[normalized] = {
+            ...(UI_TRANSLATIONS[normalized] || {}),
+            ...patch,
+          };
+        },
+      );
+
+      LANGUAGES.forEach((language) => {
+        if (language.code === "auto") return;
+        const normalized = _normalizeLanguageCode(language.code);
+        const base = _getBaseLang(normalized);
+        UI_TRANSLATIONS[normalized] = {
+          ...UI_TRANSLATIONS.en,
+          ...(UI_TRANSLATIONS[base] || {}),
+          ...(UI_TRANSLATIONS[normalized] || {}),
+        };
+      });
 
       // Light map style (simple cleaner tiles)
       const lightMapStyle = {
@@ -10631,6 +13323,7 @@
               "text-halo-width": 1.5,
             },
           },
+          ...createPoiLayers("light"),
           {
             id: "road_labels",
             type: "symbol",
@@ -10652,6 +13345,64 @@
           },
         ],
       };
+
+      function getCustomLayerSettings() {
+        try {
+          return {
+            ...DEFAULT_CUSTOM_LAYER,
+            ...(JSON.parse(localStorage.getItem("munetios_custom_layer")) ||
+              {}),
+          };
+        } catch (e) {
+          return { ...DEFAULT_CUSTOM_LAYER };
+        }
+      }
+
+      function buildCustomMapStyle() {
+        const custom = getCustomLayerSettings();
+        const style = JSON.parse(JSON.stringify(munetiosStyle));
+        style.layers.forEach((layer) => {
+          if (layer.type === "background") {
+            layer.paint = layer.paint || {};
+            layer.paint["background-color"] = custom.background;
+          }
+          if (layer.type === "fill") {
+            layer.paint = layer.paint || {};
+            if (layer.id.includes("water"))
+              layer.paint["fill-color"] = custom.water;
+            if (layer.id.includes("landuse"))
+              layer.paint["fill-color"] = custom.land;
+            if (layer.id.includes("building")) {
+              layer.paint["fill-color"] = custom.land;
+              layer.paint["fill-outline-color"] = custom.roads;
+            }
+          }
+          if (layer.type === "line") {
+            layer.paint = layer.paint || {};
+            const lineKeys = ["line-color", "line-outline-color"];
+            lineKeys.forEach((key) => {
+              if (Object.prototype.hasOwnProperty.call(layer.paint, key)) {
+                layer.paint[key] = custom.roads;
+              }
+            });
+          }
+          if (layer.type === "circle") {
+            layer.paint = layer.paint || {};
+            if (layer.id.includes("poi")) {
+              layer.paint["circle-color"] = custom.roads;
+              layer.paint["circle-stroke-color"] = custom.background;
+            }
+          }
+          if (layer.type === "symbol") {
+            layer.layout = layer.layout || {};
+            layer.paint = layer.paint || {};
+            layer.layout["text-font"] = [custom.font];
+            layer.paint["text-color"] = custom.label;
+            layer.paint["text-halo-color"] = custom.background + "cc";
+          }
+        });
+        return style;
+      }
 
       let currentTheme = localStorage.getItem("munetios_theme") || "dark";
       let selectedLangCode = _getStoredLang();
@@ -10695,21 +13446,31 @@
         const list = document.getElementById("langDropdownList");
         const btn = document.getElementById("langDropdownBtn");
         const labelEl = document.getElementById("langDropdownLabel");
+        mountFloatingList(list);
         list.innerHTML = "";
+        const normalizedSelection =
+          selectedLangCode === "auto"
+            ? "auto"
+            : _normalizeLanguageCode(selectedLangCode);
         const cur =
-          LANGUAGES.find((l) => l.code === selectedLangCode) || LANGUAGES[0];
+          LANGUAGES.find((l) => l.code === normalizedSelection) ||
+          LANGUAGES.find(
+            (l) => _getBaseLang(l.code) === _getBaseLang(normalizedSelection),
+          ) ||
+          LANGUAGES[0];
         labelEl.textContent = cur.label;
         LANGUAGES.forEach((lang) => {
           const item = document.createElement("div");
           item.className =
-            "custom-dropdown-item" +
-            (lang.code === selectedLangCode ? " selected" : "");
+            "dropdown-item custom-dropdown-item" +
+            (lang.code === cur.code ? " selected" : "");
+          item.dataset.lang = lang.code;
           item.textContent = lang.label;
           item.addEventListener("click", () => {
             selectedLangCode = lang.code;
             localStorage.setItem("munetios_lang", lang.code);
             labelEl.textContent = lang.label;
-            list.classList.remove("open");
+            closeFloatingList(list);
             buildLangDropdown();
             applyTranslations(lang.code);
           });
@@ -10717,7 +13478,11 @@
         });
         btn.onclick = (e) => {
           e.stopPropagation();
-          list.classList.toggle("open");
+          if (list.classList.contains("open")) {
+            closeFloatingList(list);
+          } else {
+            openFloatingList(btn, list, { minWidth: 260, maxWidth: 360 });
+          }
         };
       }
 
@@ -10725,6 +13490,7 @@
         const list = document.getElementById("voiceDropdownList");
         const btn = document.getElementById("voiceDropdownBtn");
         const labelEl = document.getElementById("voiceDropdownLabel");
+        mountFloatingList(list);
         list.innerHTML = "";
         const voices = window.speechSynthesis
           ? window.speechSynthesis.getVoices()
@@ -10739,8 +13505,8 @@
         defaultItem.addEventListener("click", () => {
           selectedVoiceName = "";
           localStorage.setItem("munetios_voice", "");
-          labelEl.textContent = "Default";
-          list.classList.remove("open");
+          labelEl.textContent = t("voice_default");
+          closeFloatingList(list);
           buildVoiceDropdown();
         });
         list.appendChild(defaultItem);
@@ -10753,7 +13519,7 @@
             (v.name === selectedVoiceName ? " selected" : "");
           item.innerHTML =
             (isCloud
-              ? '<icon style="font-size:16px;opacity:0.7;color:#7dd3fc" title="Cloud voice">cloud</icon>'
+              ? `<icon style="font-size:16px;opacity:0.7;color:#7dd3fc" title="${t("voice_cloud")}">cloud</icon>`
               : '<icon style="font-size:16px;opacity:0.5">volume_up</icon>') +
             `<span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${v.name}</span><span style="font-size:11px;opacity:0.45;flex-shrink:0">${v.lang}</span>`;
           item.title = v.name;
@@ -10764,14 +13530,14 @@
               (isCloud
                 ? '<icon style="font-size:15px;color:#7dd3fc;margin-right:4px">cloud</icon>'
                 : "") + v.name.slice(0, 28);
-            list.classList.remove("open");
+            closeFloatingList(list);
             buildVoiceDropdown();
           });
           list.appendChild(item);
         });
 
         if (!selectedVoiceName) {
-          labelEl.textContent = "Default";
+          labelEl.textContent = t("voice_default");
         } else {
           const found = voices.find((v) => v.name === selectedVoiceName);
           if (found) {
@@ -10785,7 +13551,14 @@
 
         btn.onclick = (e) => {
           e.stopPropagation();
-          list.classList.toggle("open");
+          if (list.classList.contains("open")) {
+            closeFloatingList(list);
+          } else {
+            openFloatingList(btn, list, {
+              minWidth: btn.offsetWidth,
+              maxWidth: 420,
+            });
+          }
         };
       }
 
@@ -10802,8 +13575,8 @@
       }
       function closeSettingsModal() {
         document.getElementById("settingsBackdrop").classList.remove("open");
-        document.getElementById("langDropdownList").classList.remove("open");
-        document.getElementById("voiceDropdownList").classList.remove("open");
+        closeFloatingList(document.getElementById("langDropdownList"));
+        closeFloatingList(document.getElementById("voiceDropdownList"));
       }
 
       document
@@ -10825,8 +13598,8 @@
       // Close dropdowns when clicking outside
       document.addEventListener("click", () => {
         document
-          .querySelectorAll(".custom-dropdown-list.open")
-          .forEach((l) => l.classList.remove("open"));
+          .querySelectorAll(".dropdowns-list.open, .autocomplete-list.open")
+          .forEach((l) => closeFloatingList(l));
       });
 
       // Voice list updates async
