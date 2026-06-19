@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Munetios Maps</title>
+    <title data-i18n="app_name">Munetios Maps</title>
     <meta
       name="description"
       content="Munetios Maps: Explore the world without tracking or ads."
@@ -25,7 +25,7 @@
 
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' https://unpkg.com https://cdn.jsdelivr.net 'nonce-hDhji4fidj43djd432'; style-src 'self' 'unsafe-inline' https://unpkg.com  https://api.munetios.com; font-src 'self'  https://api.munetios.com; img-src 'self' data: blob: https:; connect-src 'self' https://*.wikipedia.org https://api.munetios.com https://nominatim.openstreetmap.org https://*.nasa.gov https://photon.komoot.io https://router.project-osrm.org https://*.openstreetmap.de https://tiles.openstreetmap.us https://server.arcgisonline.com https://cdn.jsdelivr.net https://unpkg.com; frame-src 'self' https://www.munetios.com https://munetios.com; worker-src blob:;"
+      content="default-src 'self'; script-src 'self' https://unpkg.com https://cdn.jsdelivr.net 'nonce-hDhji4fidj43djd432'; style-src 'self' 'unsafe-inline' https://unpkg.com  https://api.munetios.com; font-src 'self'  https://api.munetios.com; img-src 'self' data: blob: https:; connect-src 'self' data: https://*.wikipedia.org https://api.munetios.com https://nominatim.openstreetmap.org https://*.nasa.gov https://photon.komoot.io https://router.project-osrm.org https://*.openstreetmap.de https://tiles.openstreetmap.us https://server.arcgisonline.com https://cdn.jsdelivr.net https://unpkg.com; frame-src 'self' https://www.munetios.com https://munetios.com; worker-src blob:;"
     />
     <!-- MapLibre GL (Requires WebGL) -->
     <link
@@ -38,6 +38,13 @@
       nonce="hDhji4fidj43djd432"
       crossorigin="anonymous"
     ></script>
+    <script nonce="hDhji4fidj43djd432">
+      if (!window.maplibregl) {
+        document.write(
+          '<script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.js" crossorigin="anonymous" nonce="hDhji4fidj43djd432"><\/script>',
+        );
+      }
+    </script>
     <script
       src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"
       nonce="hDhji4fidj43djd432"
@@ -301,7 +308,7 @@
         top: 0;
         height: 100%;
         width: 280px;
-        z-index: 100;
+        z-index: 55100;
         display: flex;
         flex-direction: column;
         transform: translateX(-100%);
@@ -833,7 +840,7 @@
           max-width: 100% !important;
           left: 0 !important;
           top: auto !important;
-          bottom: 72px;
+          bottom: 19px;
           max-height: 300px;
           overflow-y: auto;
           padding: 12px;
@@ -1100,7 +1107,7 @@
         inset: 0;
         background: rgba(0, 0, 0, 0.45);
         z-index: 200;
-        display: flex;
+        display: none;
         align-items: center;
         justify-content: center;
         opacity: 0;
@@ -1109,7 +1116,8 @@
       }
       .modal-backdrop.open {
         opacity: 1;
-        pointer-events: auto;
+        display: flex;
+        pointer-events: none;
       }
       .modal {
         width: 90%;
@@ -1121,6 +1129,18 @@
         overflow: hidden;
         transform: translateY(20px) scale(0.97);
         transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: auto;
+        animation: modal-fade-in 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      @keyframes modal-fade-in {
+        from {
+          opacity: 0;
+          transform: translateY(20px) scale(0.97);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
       }
       .modal-backdrop.open .modal {
         transform: translateY(0) scale(1);
@@ -2038,20 +2058,33 @@
         inset: 0;
         background: rgba(0, 0, 0, 0.5);
         z-index: 250;
-        display: flex;
+        display: none;
         align-items: center;
         justify-content: center;
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.25s ease;
+        animation: modal-fade-in 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      @keyframes modal-fade-in {
+        from {
+          opacity: 0;
+          transform: translateY(20px) scale(0.97);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
       }
       #settingsBackdrop.open {
         opacity: 1;
-        pointer-events: auto;
+        display: flex;
+        pointer-events: none;
       }
-      #settingsModal {
+      #settingsModal,
+      .stacked-settings-modal {
         width: 90%;
-        max-width: 460px;
+        max-width: 760px;
         max-height: 85vh;
         border-radius: 24px;
         display: flex;
@@ -2059,9 +2092,29 @@
         overflow: hidden;
         transform: translateY(22px) scale(0.97);
         transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: auto;
       }
       #settingsBackdrop.open #settingsModal {
         transform: translateY(0) scale(1);
+      }
+      .stacked-settings-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.42);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+      }
+      .stacked-settings-modal {
+        width: 90%;
+        max-width: 760px;
+        max-height: 85vh;
+        border-radius: 24px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        pointer-events: auto;
       }
       .settings-header {
         display: flex;
@@ -2123,6 +2176,60 @@
       .settings-row-label icon {
         font-size: 22px;
         opacity: 0.75;
+      }
+      .settings-shell {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: 146px minmax(0, 1fr);
+      }
+      .settings-sidebar {
+        padding: 14px 10px;
+        border-right: 1px solid rgba(168, 85, 247, 0.16);
+        background: rgba(13, 6, 32, 0.2);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .settings-tab {
+        border: 1px solid transparent;
+        border-radius: 18px;
+        background: transparent;
+        color: inherit;
+        padding: 11px 10px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 700;
+        text-align: left;
+        transition:
+          background 0.18s ease,
+          border-color 0.18s ease,
+          transform 0.18s ease;
+      }
+      .settings-tab:hover {
+        background: rgba(124, 58, 237, 0.14);
+        transform: translateY(-1px);
+      }
+      .settings-tab icon {
+        font-size: 20px;
+        flex-shrink: 0;
+      }
+      .settings-tab.active {
+        background: rgba(124, 58, 237, 0.24);
+        border-color: rgba(216, 180, 254, 0.24);
+        color: #e9d5ff;
+      }
+      .settings-panel {
+        display: none;
+      }
+      .settings-panel.active {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
       }
       /* Custom Dropdown */
       .custom-dropdown {
@@ -2234,7 +2341,8 @@
       .settings-danger-btn:hover {
         background: rgba(220, 53, 69, 0.24);
       }
-      #settingsModal {
+      #settingsModal,
+      .stacked-settings-modal {
         box-shadow:
           0 26px 80px rgba(10, 4, 30, 0.58),
           inset 0 1px 0 rgba(255, 255, 255, 0.08);
@@ -2253,6 +2361,26 @@
       }
       .settings-body {
         gap: 8px;
+      }
+      @media (max-width: 680px) {
+        #settingsModal,
+        .stacked-settings-modal {
+          width: calc(100% - 20px);
+          max-height: calc(100vh - 24px);
+        }
+        .settings-shell {
+          grid-template-columns: 1fr;
+        }
+        .settings-sidebar {
+          flex-direction: row;
+          overflow-x: auto;
+          border-right: 0;
+          border-bottom: 1px solid rgba(168, 85, 247, 0.16);
+        }
+        .settings-tab {
+          white-space: nowrap;
+          flex: 0 0 auto;
+        }
       }
       .settings-section-label {
         opacity: 0.62;
@@ -2613,15 +2741,13 @@
         inset: 0;
         background: rgba(0, 0, 0, 0.55);
         z-index: 400;
-        display: flex;
+        display: none;
         align-items: center;
         justify-content: center;
-        opacity: 0;
         pointer-events: none;
-        transition: opacity 0.2s;
       }
       #confirmBackdrop.open {
-        opacity: 1;
+        display: flex;
         pointer-events: auto;
       }
       #confirmDialog {
@@ -2633,6 +2759,7 @@
         gap: 14px;
         transform: scale(0.95);
         transition: transform 0.2s;
+        pointer-events: auto;
       }
       #confirmBackdrop.open #confirmDialog {
         transform: scale(1);
@@ -2696,36 +2823,6 @@
         color: #1a1a2e;
       }
       /* ── Print ── */
-      @media print {
-        html,
-        body {
-          margin: 0 !important;
-          padding: 0 !important;
-          width: 100% !important;
-          height: 100% !important;
-          background: #fff !important;
-        }
-        body > *:not(#_printImgEl) {
-          display: none !important;
-        }
-        #_printImgEl {
-          position: fixed !important;
-          inset: 0 !important;
-          width: 100% !important;
-          height: 100vh !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          background: #fff !important;
-          z-index: 99999 !important;
-        }
-        #_printImgEl img {
-          width: 100% !important;
-          height: 100% !important;
-          object-fit: contain !important;
-          display: block !important;
-        }
-      }
     </style>
   </head>
   <body>
@@ -2845,16 +2942,44 @@
             >
           </div>
           <div class="top-right liquid-glass">
-            <div class="topbar-item" id="useMyLocationBtn">
+            <div
+              class="topbar-item"
+              id="useMyLocationBtn"
+              tabindex="0"
+              role="button"
+              aria-label="Use My Location"
+              data-i18n-aria="use_my_location_aria"
+            >
               <icon>my_location</icon>
             </div>
-            <div class="topbar-item" id="bookmarksBtn">
+            <div
+              class="topbar-item"
+              id="bookmarksBtn"
+              tabindex="0"
+              role="button"
+              aria-label="Bookmarks"
+              data-i18n-aria="bookmarks_aria"
+            >
               <icon>bookmark</icon>
             </div>
-            <div class="topbar-item" id="settingsBtn">
+            <div
+              class="topbar-item"
+              id="settingsBtn"
+              tabindex="0"
+              role="button"
+              aria-label="Settings"
+              data-i18n-aria="settings_aria"
+            >
               <icon>settings</icon>
             </div>
-            <div class="topbar-item" id="appsBtn">
+            <div
+              class="topbar-item"
+              id="appsBtn"
+              tabindex="0"
+              role="button"
+              aria-label="Apps"
+              data-i18n-aria="apps_aria"
+            >
               <icon>apps</icon>
             </div>
           </div>
@@ -3222,6 +3347,22 @@
               >
             </div>
           </div>
+          <div
+            class="layer"
+            id="toolMarkState"
+            data-tooltip="Mark the next state boundary you tap"
+            data-i18n-tooltip="tip_mark_state"
+          >
+            <icon>ink_highlighter</icon>
+            <div class="layer-text">
+              <span class="layer-label" data-i18n="layer_mark_state"
+                >Mark State</span
+              >
+              <span class="layer-subtitle" data-i18n="layer_mark_state_subtitle"
+                >Tap state</span
+              >
+            </div>
+          </div>
         </div>
         <div class="footer liquid-glass">
           <div class="attribution" id="attributionMaps">
@@ -3249,137 +3390,169 @@
       </div>
     </div>
     <!-- Bookmarks Modal -->
-    <div class="modal-backdrop" id="bookmarksBackdrop">
-      <div class="modal liquid-glass" id="bookmarksModal">
-        <div class="modal-header">
-          <span class="modal-title" data-i18n="bookmarks">Bookmarks</span>
-          <div class="modal-close" id="bookmarksClose"><icon>close</icon></div>
+    <template id="bookmarksModalTemplate">
+      <div
+        class="modal-backdrop"
+        id="bookmarksBackdrop"
+        data-modal-kind="bookmarks"
+      >
+        <div class="modal liquid-glass" id="bookmarksModal">
+          <div class="modal-header">
+            <span class="modal-title" data-i18n="bookmarks">Bookmarks</span>
+            <div class="modal-close" id="bookmarksClose">
+              <icon>close</icon>
+            </div>
+          </div>
+          <div class="modal-body" id="bookmarksList"></div>
         </div>
-        <div class="modal-body" id="bookmarksList"></div>
       </div>
-    </div>
+    </template>
+    <div data-modal-template="bookmarksModalTemplate"></div>
     <!-- History Modal -->
-    <div class="modal-backdrop" id="historyBackdrop">
-      <div class="modal liquid-glass" id="historyModal">
-        <div class="modal-header">
-          <span class="modal-title" data-i18n="search_history"
-            >Search History</span
-          >
-          <div style="display: flex; gap: 8px; align-items: center">
-            <div
-              class="modal-close"
-              id="historyClearAll"
-              title="Clear all"
-              data-i18n-title="clear_all"
-              style="opacity: 0.6"
+    <template id="historyModalTemplate">
+      <div
+        class="modal-backdrop"
+        id="historyBackdrop"
+        data-modal-kind="history"
+      >
+        <div class="modal liquid-glass" id="historyModal">
+          <div class="modal-header">
+            <span class="modal-title" data-i18n="search_history"
+              >Search History</span
             >
-              <icon style="font-size: 20px">delete_sweep</icon>
-            </div>
-            <div class="modal-close" id="historyClose"><icon>close</icon></div>
-          </div>
-        </div>
-        <div class="modal-body" id="historyList"></div>
-      </div>
-    </div>
-    <!-- Markers Modal -->
-    <div class="modal-backdrop" id="markersBackdrop">
-      <div class="modal liquid-glass" id="markersModal">
-        <div class="modal-header">
-          <span class="modal-title" data-i18n="my_markers">My Markers</span>
-          <div style="display: flex; gap: 8px; align-items: center">
-            <div
-              class="modal-close"
-              id="markersClearAll"
-              title="Clear all"
-              data-i18n-title="clear_all"
-              style="opacity: 0.6"
-            >
-              <icon style="font-size: 20px">delete_sweep</icon>
-            </div>
-            <div class="modal-close" id="markersClose"><icon>close</icon></div>
-          </div>
-        </div>
-        <div class="modal-body" id="markersList"></div>
-      </div>
-    </div>
-    <div class="modal-backdrop" id="markerEditorBackdrop">
-      <div class="modal liquid-glass" id="markerEditorModal">
-        <div class="modal-header">
-          <span class="modal-title" data-i18n="marker_new">New Marker</span>
-          <div class="modal-close" id="markerEditorClose">
-            <icon>close</icon>
-          </div>
-        </div>
-        <div class="modal-body">
-          <form class="marker-editor-form" id="markerEditorForm">
-            <div class="marker-editor-coords" id="markerEditorCoords"></div>
-            <div class="marker-editor-field">
-              <label for="markerLabelInput" data-i18n="marker_name"
-                >Marker name</label
+            <div style="display: flex; gap: 8px; align-items: center">
+              <div
+                class="modal-close"
+                id="historyClearAll"
+                title="Clear all"
+                data-i18n-title="clear_all"
+                style="opacity: 0.6"
               >
-              <input
-                class="marker-editor-input"
-                id="markerLabelInput"
-                type="text"
-                maxlength="80"
-                placeholder="Coffee stop, trail view, lookout..."
-                data-i18n-placeholder="marker_name_placeholder"
-              />
-            </div>
-            <div class="marker-editor-field">
-              <label for="markerImageInput" data-i18n="marker_image_url"
-                >Image URL</label
-              >
-              <input
-                class="marker-editor-input"
-                id="markerImageInput"
-                type="url"
-                inputmode="url"
-                placeholder="https://example.com/photo.jpg"
-              />
-            </div>
-            <div class="marker-editor-field">
-              <label for="markerImageFileInput" data-i18n="marker_upload_image"
-                >Or upload image file</label
-              >
-              <div class="file-picker-row">
-                <input
-                  class="file-picker-input"
-                  id="markerImageFileInput"
-                  type="file"
-                  accept="image/*"
-                />
-                <label class="file-picker-btn" for="markerImageFileInput">
-                  <icon>upload</icon>
-                  <span data-i18n="choose_file">Choose File</span>
-                </label>
-                <span
-                  class="file-picker-name"
-                  id="markerImageFileName"
-                  data-i18n="no_file_chosen"
-                  >No file chosen</span
-                >
+                <icon style="font-size: 20px">delete_sweep</icon>
+              </div>
+              <div class="modal-close" id="historyClose">
+                <icon>close</icon>
               </div>
             </div>
-            <div class="marker-editor-preview" id="markerImagePreviewWrap">
-              <img id="markerImagePreview" alt="Marker preview" />
-            </div>
-            <div class="marker-editor-actions">
-              <button
-                class="marker-editor-btn secondary"
-                id="markerEditorCancel"
-                type="button"
-              >
-                <span data-i18n="confirm_cancel">Cancel</span>
-              </button>
-              <button class="marker-editor-btn primary" type="submit">
-                <span data-i18n="marker_save">Save Marker</span>
-              </button>
-            </div>
-          </form>
+          </div>
+          <div class="modal-body" id="historyList"></div>
         </div>
       </div>
-    </div>
+    </template>
+    <div data-modal-template="historyModalTemplate"></div>
+    <!-- Markers Modal -->
+    <template id="markersModalTemplate">
+      <div
+        class="modal-backdrop"
+        id="markersBackdrop"
+        data-modal-kind="markers"
+      >
+        <div class="modal liquid-glass" id="markersModal">
+          <div class="modal-header">
+            <span class="modal-title" data-i18n="my_markers">My Markers</span>
+            <div style="display: flex; gap: 8px; align-items: center">
+              <div
+                class="modal-close"
+                id="markersClearAll"
+                title="Clear all"
+                data-i18n-title="clear_all"
+                style="opacity: 0.6"
+              >
+                <icon style="font-size: 20px">delete_sweep</icon>
+              </div>
+              <div class="modal-close" id="markersClose">
+                <icon>close</icon>
+              </div>
+            </div>
+          </div>
+          <div class="modal-body" id="markersList"></div>
+        </div>
+      </div>
+    </template>
+    <div data-modal-template="markersModalTemplate"></div>
+    <template id="markerEditorModalTemplate">
+      <div class="modal-backdrop" id="markerEditorBackdrop">
+        <div class="modal liquid-glass" id="markerEditorModal">
+          <div class="modal-header">
+            <span class="modal-title" data-i18n="marker_new">New Marker</span>
+            <div class="modal-close" id="markerEditorClose">
+              <icon>close</icon>
+            </div>
+          </div>
+          <div class="modal-body">
+            <form class="marker-editor-form" id="markerEditorForm">
+              <div class="marker-editor-coords" id="markerEditorCoords"></div>
+              <div class="marker-editor-field">
+                <label for="markerLabelInput" data-i18n="marker_name"
+                  >Marker name</label
+                >
+                <input
+                  class="marker-editor-input"
+                  id="markerLabelInput"
+                  type="text"
+                  maxlength="80"
+                  placeholder="Coffee stop, trail view, lookout..."
+                  data-i18n-placeholder="marker_name_placeholder"
+                />
+              </div>
+              <div class="marker-editor-field">
+                <label for="markerImageInput" data-i18n="marker_image_url"
+                  >Image URL</label
+                >
+                <input
+                  class="marker-editor-input"
+                  id="markerImageInput"
+                  type="url"
+                  inputmode="url"
+                  placeholder="https://example.com/photo.jpg"
+                />
+              </div>
+              <div class="marker-editor-field">
+                <label
+                  for="markerImageFileInput"
+                  data-i18n="marker_upload_image"
+                  >Or upload image file</label
+                >
+                <div class="file-picker-row">
+                  <input
+                    class="file-picker-input"
+                    id="markerImageFileInput"
+                    type="file"
+                    accept="image/*"
+                  />
+                  <label class="file-picker-btn" for="markerImageFileInput">
+                    <icon>upload</icon>
+                    <span data-i18n="choose_file">Choose File</span>
+                  </label>
+                  <span
+                    class="file-picker-name"
+                    id="markerImageFileName"
+                    data-i18n="no_file_chosen"
+                    >No file chosen</span
+                  >
+                </div>
+              </div>
+              <div class="marker-editor-preview" id="markerImagePreviewWrap">
+                <img id="markerImagePreview" alt="Marker preview" />
+              </div>
+              <div class="marker-editor-actions">
+                <button
+                  class="marker-editor-btn secondary"
+                  id="markerEditorCancel"
+                  type="button"
+                >
+                  <span data-i18n="confirm_cancel">Cancel</span>
+                </button>
+                <button class="marker-editor-btn primary" type="submit">
+                  <span data-i18n="marker_save">Save Marker</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </template>
+    <div data-modal-template="markerEditorModalTemplate"></div>
     <div class="custom-map-popup" id="customMapPopup">
       <div class="custom-map-popup-card liquid-glass" id="customMapPopupCard">
         <button class="custom-map-popup-close" id="customMapPopupClose">
@@ -3404,6 +3577,7 @@
     >
       <!-- Top bar -->
       <div
+        class="print-popup-bar liquid-glass"
         style="
           display: flex;
           align-items: center;
@@ -3485,6 +3659,7 @@
       </div>
       <!-- Bottom settings bar -->
       <div
+        class="print-settings-bar liquid-glass"
         style="
           display: flex;
           align-items: center;
@@ -3747,185 +3922,295 @@
     </div>
 
     <!-- Settings Modal -->
-    <div id="settingsBackdrop">
-      <div id="settingsModal" class="liquid-glass">
-        <div class="settings-header">
-          <span class="settings-title"
-            ><icon>settings</icon
-            ><span data-i18n="settings">Settings</span></span
-          >
-          <div
-            class="settings-close"
-            id="settingsClose"
-            data-tooltip="Close settings"
-            data-i18n-tooltip="tip_close_settings"
-          >
-            <icon>close</icon>
-          </div>
-        </div>
-        <div class="settings-body">
-          <div class="settings-section-label" data-i18n="pref_preferences">
-            Preferences
-          </div>
-
-          <!-- Language -->
-          <div class="settings-row">
-            <div class="settings-row-label">
-              <icon>language</icon
-              ><span data-i18n="pref_language">Language</span>
-            </div>
-            <div class="custom-dropdown" id="langDropdown">
-              <div class="custom-dropdown-btn" id="langDropdownBtn">
-                <span id="langDropdownLabel">English</span>
-                <icon style="font-size: 18px">expand_more</icon>
-              </div>
-            </div>
-          </div>
-
-          <!-- Theme -->
-          <div class="settings-row">
-            <div class="settings-row-label">
-              <icon>palette</icon><span data-i18n="pref_theme">Theme</span>
-            </div>
-            <div class="theme-toggle">
-              <div class="theme-opt" id="themeLight" data-theme="light">
-                <icon style="font-size: 18px">light_mode</icon
-                ><span data-i18n="theme_light">Light</span>
-              </div>
-              <div class="theme-opt active" id="themeDark" data-theme="dark">
-                <icon style="font-size: 18px">dark_mode</icon
-                ><span data-i18n="theme_dark">Dark</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="settings-section-label" data-i18n="pref_voice_section">
-            Navigation Voice
-          </div>
-
-          <!-- Voice -->
-          <div
-            class="settings-row"
-            style="flex-direction: column; align-items: flex-start; gap: 8px"
-          >
-            <div class="settings-row-label">
-              <icon>record_voice_over</icon
-              ><span data-i18n="pref_voice">Voice</span>
-            </div>
-            <div class="custom-dropdown" id="voiceDropdown" style="width: 100%">
-              <div
-                class="custom-dropdown-btn"
-                id="voiceDropdownBtn"
-                style="width: 100%; min-width: unset"
-              >
-                <span id="voiceDropdownLabel" data-i18n="voice_default"
-                  >Default</span
-                >
-                <icon style="font-size: 18px">expand_more</icon>
-              </div>
-            </div>
-          </div>
-
-          <div class="settings-section-label" data-i18n="pref_data">Data</div>
-
-          <button class="settings-danger-btn" id="deleteRecentDirsBtn">
-            <icon style="font-size: 20px">delete_sweep</icon
-            ><span data-i18n="del_recent_dirs"
-              >Delete all recent directions</span
+    <template id="settingsModalTemplate">
+      <div id="settingsBackdrop" data-modal-kind="settings">
+        <div id="settingsModal" class="liquid-glass">
+          <div class="settings-header">
+            <span class="settings-title"
+              ><icon>settings</icon
+              ><span data-i18n="settings">Settings</span></span
             >
-          </button>
-          <button class="settings-danger-btn" id="deleteMarkersBtn">
-            <icon style="font-size: 20px">location_off</icon
-            ><span data-i18n="del_markers">Delete all markers</span>
-          </button>
-          <button class="settings-danger-btn" id="deleteEverythingBtn">
-            <icon style="font-size: 20px">delete_forever</icon
-            ><span data-i18n="del_everything">Delete everything</span>
-          </button>
+            <div
+              class="settings-close"
+              id="settingsClose"
+              data-tooltip="Close settings"
+              data-i18n-tooltip="tip_close_settings"
+            >
+              <icon>close</icon>
+            </div>
+          </div>
+          <div class="settings-shell">
+            <nav class="settings-sidebar" aria-label="Settings sections">
+              <button class="settings-tab active" data-settings-panel="general">
+                <icon>tune</icon
+                ><span data-i18n="settings_general">General</span>
+              </button>
+              <button class="settings-tab" data-settings-panel="map">
+                <icon>map</icon><span data-i18n="settings_map">Map</span>
+              </button>
+              <button class="settings-tab" data-settings-panel="privacy">
+                <icon>shield</icon
+                ><span data-i18n="settings_privacy">Privacy</span>
+              </button>
+            </nav>
+            <div class="settings-body">
+              <section
+                class="settings-panel active"
+                data-settings-panel-content="general"
+              >
+                <div
+                  class="settings-section-label"
+                  data-i18n="pref_preferences"
+                >
+                  Preferences
+                </div>
+
+                <!-- Language -->
+                <div class="settings-row">
+                  <div class="settings-row-label">
+                    <icon>language</icon
+                    ><span data-i18n="pref_language">Language</span>
+                  </div>
+                  <div class="custom-dropdown" id="langDropdown">
+                    <div class="custom-dropdown-btn" id="langDropdownBtn">
+                      <span id="langDropdownLabel">English</span>
+                      <icon style="font-size: 18px">expand_more</icon>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Theme -->
+                <div class="settings-row">
+                  <div class="settings-row-label">
+                    <icon>palette</icon
+                    ><span data-i18n="pref_theme">Theme</span>
+                  </div>
+                  <div class="theme-toggle">
+                    <div class="theme-opt" id="themeLight" data-theme="light">
+                      <icon style="font-size: 18px">light_mode</icon
+                      ><span data-i18n="theme_light">Light</span>
+                    </div>
+                    <div
+                      class="theme-opt active"
+                      id="themeDark"
+                      data-theme="dark"
+                    >
+                      <icon style="font-size: 18px">dark_mode</icon
+                      ><span data-i18n="theme_dark">Dark</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="settings-row">
+                  <div class="settings-row-label">
+                    <icon>straighten</icon
+                    ><span data-i18n="pref_units">Distance Units</span>
+                  </div>
+                  <div class="theme-toggle">
+                    <div
+                      class="theme-opt active"
+                      id="unitsImperial"
+                      data-units="imperial"
+                    >
+                      <span data-i18n="units_imperial">Miles</span>
+                    </div>
+                    <div class="theme-opt" id="unitsMetric" data-units="metric">
+                      <span data-i18n="units_metric">Kilometers</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="settings-section-label"
+                  data-i18n="pref_voice_section"
+                >
+                  Navigation Voice
+                </div>
+
+                <!-- Voice -->
+                <div
+                  class="settings-row"
+                  style="
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 8px;
+                  "
+                >
+                  <div class="settings-row-label">
+                    <icon>record_voice_over</icon
+                    ><span data-i18n="pref_voice">Voice</span>
+                  </div>
+                  <div
+                    class="custom-dropdown"
+                    id="voiceDropdown"
+                    style="width: 100%"
+                  >
+                    <div
+                      class="custom-dropdown-btn"
+                      id="voiceDropdownBtn"
+                      style="width: 100%; min-width: unset"
+                    >
+                      <span id="voiceDropdownLabel" data-i18n="voice_default"
+                        >Default</span
+                      >
+                      <icon style="font-size: 18px">expand_more</icon>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="settings-panel" data-settings-panel-content="map">
+                <div class="settings-section-label" data-i18n="settings_map">
+                  Map
+                </div>
+                <div class="settings-row">
+                  <div class="settings-row-label">
+                    <icon>route</icon><span data-i18n="layer_roads">Roads</span>
+                  </div>
+                  <div class="theme-toggle">
+                    <div class="theme-opt" id="settingsRoadsOn">
+                      <span data-i18n="setting_on">On</span>
+                    </div>
+                    <div class="theme-opt" id="settingsRoadsOff">
+                      <span data-i18n="setting_off">Off</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="settings-row">
+                  <div class="settings-row-label">
+                    <icon>photo_library</icon
+                    ><span data-i18n="layer_marker_photos">Marker Photos</span>
+                  </div>
+                  <div class="theme-toggle">
+                    <div class="theme-opt" id="settingsPhotosOn">
+                      <span data-i18n="setting_on">On</span>
+                    </div>
+                    <div class="theme-opt" id="settingsPhotosOff">
+                      <span data-i18n="setting_off">Off</span>
+                    </div>
+                  </div>
+                </div>
+                <button class="settings-danger-btn" id="clearMarkedStatesBtn">
+                  <icon style="font-size: 20px">ink_eraser</icon
+                  ><span data-i18n="clear_marked_states"
+                    >Clear marked states</span
+                  >
+                </button>
+              </section>
+
+              <section
+                class="settings-panel"
+                data-settings-panel-content="privacy"
+              >
+                <div class="settings-section-label" data-i18n="pref_data">
+                  Data
+                </div>
+
+                <button class="settings-danger-btn" id="deleteRecentDirsBtn">
+                  <icon style="font-size: 20px">delete_sweep</icon
+                  ><span data-i18n="del_recent_dirs"
+                    >Delete all recent directions</span
+                  >
+                </button>
+                <button class="settings-danger-btn" id="deleteMarkersBtn">
+                  <icon style="font-size: 20px">location_off</icon
+                  ><span data-i18n="del_markers">Delete all markers</span>
+                </button>
+                <button class="settings-danger-btn" id="deleteEverythingBtn">
+                  <icon style="font-size: 20px">delete_forever</icon
+                  ><span data-i18n="del_everything">Delete everything</span>
+                </button>
+              </section>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </template>
+    <div data-modal-template="settingsModalTemplate"></div>
 
     <!-- Custom Layer Modal -->
-    <div class="modal-backdrop" id="customLayerBackdrop">
-      <div class="modal liquid-glass" id="customLayerModal">
-        <div class="modal-header">
-          <span class="modal-title"
-            ><icon>format_paint</icon
-            ><span data-i18n="custom_layer_title">Custom Layer</span></span
-          >
-          <div
-            class="modal-close"
-            id="customLayerClose"
-            data-tooltip="Close"
-            data-i18n-tooltip="close"
-          >
-            <icon>close</icon>
+    <template id="customLayerModalTemplate">
+      <div class="modal-backdrop" id="customLayerBackdrop">
+        <div class="modal liquid-glass" id="customLayerModal">
+          <div class="modal-header">
+            <span class="modal-title"
+              ><icon>format_paint</icon
+              ><span data-i18n="custom_layer_title">Custom Layer</span></span
+            >
+            <div
+              class="modal-close"
+              id="customLayerClose"
+              data-tooltip="Close"
+              data-i18n-tooltip="close"
+            >
+              <icon>close</icon>
+            </div>
+          </div>
+          <div class="modal-body">
+            <form class="custom-layer-form" id="customLayerForm">
+              <div class="custom-layer-field">
+                <label data-i18n="custom_font">Font</label>
+                <div class="custom-dropdown" id="customLayerFontDropdown">
+                  <div
+                    class="custom-dropdown-btn custom-layer-input"
+                    id="customLayerFontBtn"
+                  >
+                    <span id="customLayerFontLabel">Google Sans Flex</span>
+                    <icon style="font-size: 18px">expand_more</icon>
+                  </div>
+                </div>
+              </div>
+              <div class="custom-layer-field">
+                <label data-i18n="custom_color_target">Color target</label>
+                <div class="custom-dropdown" id="customLayerTargetDropdown">
+                  <div
+                    class="custom-dropdown-btn custom-layer-input"
+                    id="customLayerTargetBtn"
+                  >
+                    <span id="customLayerTargetLabel">Labels</span>
+                    <icon style="font-size: 18px">expand_more</icon>
+                  </div>
+                </div>
+              </div>
+              <div class="custom-color-picker" id="customColorPicker">
+                <div class="custom-color-title" data-i18n="custom_swatch">
+                  Swatch
+                </div>
+                <div class="custom-swatches" id="customSwatches"></div>
+                <div class="custom-saturation" id="customSaturation">
+                  <div class="custom-color-cursor" id="customColorCursor"></div>
+                </div>
+                <input
+                  class="custom-hue"
+                  id="customHue"
+                  type="range"
+                  min="0"
+                  max="360"
+                  value="280"
+                  aria-label="Hue"
+                />
+                <div class="custom-color-value" id="customColorValue">
+                  #A855F7
+                </div>
+              </div>
+              <div class="custom-layer-actions">
+                <button
+                  type="button"
+                  id="customLayerReset"
+                  data-i18n="custom_reset"
+                >
+                  Reset
+                </button>
+                <button type="submit" class="primary" data-i18n="custom_apply">
+                  Apply
+                </button>
+              </div>
+            </form>
           </div>
         </div>
-        <div class="modal-body">
-          <form class="custom-layer-form" id="customLayerForm">
-            <div class="custom-layer-field">
-              <label data-i18n="custom_font">Font</label>
-              <div class="custom-dropdown" id="customLayerFontDropdown">
-                <div
-                  class="custom-dropdown-btn custom-layer-input"
-                  id="customLayerFontBtn"
-                >
-                  <span id="customLayerFontLabel">Google Sans Flex</span>
-                  <icon style="font-size: 18px">expand_more</icon>
-                </div>
-              </div>
-            </div>
-            <div class="custom-layer-field">
-              <label data-i18n="custom_color_target">Color target</label>
-              <div class="custom-dropdown" id="customLayerTargetDropdown">
-                <div
-                  class="custom-dropdown-btn custom-layer-input"
-                  id="customLayerTargetBtn"
-                >
-                  <span id="customLayerTargetLabel">Labels</span>
-                  <icon style="font-size: 18px">expand_more</icon>
-                </div>
-              </div>
-            </div>
-            <div class="custom-color-picker" id="customColorPicker">
-              <div class="custom-color-title" data-i18n="custom_swatch">
-                Swatch
-              </div>
-              <div class="custom-swatches" id="customSwatches"></div>
-              <div class="custom-saturation" id="customSaturation">
-                <div class="custom-color-cursor" id="customColorCursor"></div>
-              </div>
-              <input
-                class="custom-hue"
-                id="customHue"
-                type="range"
-                min="0"
-                max="360"
-                value="280"
-                aria-label="Hue"
-              />
-              <div class="custom-color-value" id="customColorValue">
-                #A855F7
-              </div>
-            </div>
-            <div class="custom-layer-actions">
-              <button
-                type="button"
-                id="customLayerReset"
-                data-i18n="custom_reset"
-              >
-                Reset
-              </button>
-              <button type="submit" class="primary" data-i18n="custom_apply">
-                Apply
-              </button>
-            </div>
-          </form>
-        </div>
       </div>
-    </div>
+    </template>
+    <div data-modal-template="customLayerModalTemplate"></div>
 
     <!-- Map Context Menu -->
     <div id="mapContextMenu" class="liquid-glass">
@@ -3948,7 +4233,10 @@
       </button>
       <div class="ctx-divider"></div>
       <button class="ctx-item" id="ctxPrint">
-        <icon>print</icon><span data-i18n="ctx_print">Print map here</span>
+        <icon>print</icon
+        ><span data-i18n="ctx_print"
+          >Print map here (temporary unavailable)</span
+        >
       </button>
       <button class="ctx-item" id="ctxCopyCoords">
         <icon>content_copy</icon
@@ -3957,126 +4245,133 @@
     </div>
 
     <!-- Confirm Dialog -->
-    <div id="confirmBackdrop">
-      <div id="confirmDialog" class="liquid-glass">
-        <div id="confirmMsg">Are you sure?</div>
-        <div class="confirm-actions">
-          <button
-            class="confirm-cancel-btn"
-            id="confirmCancelBtn"
-            data-i18n="confirm_cancel"
-          >
-            Cancel
-          </button>
-          <button
-            class="confirm-ok-btn"
-            id="confirmOkBtn"
-            data-i18n="confirm_delete"
-          >
-            Delete
-          </button>
+    <div id="confirmBackdrop" data-modal-template="confirmDialogTemplate">
+      <template id="confirmDialogTemplate">
+        <div id="confirmDialog" class="liquid-glass">
+          <div id="confirmMsg">Are you sure?</div>
+          <div class="confirm-actions">
+            <button
+              class="confirm-cancel-btn"
+              id="confirmCancelBtn"
+              data-i18n="confirm_cancel"
+            >
+              Cancel
+            </button>
+            <button
+              class="confirm-ok-btn"
+              id="confirmOkBtn"
+              data-i18n="confirm_delete"
+            >
+              Delete
+            </button>
+          </div>
         </div>
-      </div>
+      </template>
     </div>
 
     <!-- Rate Limit / 429 Modal -->
-    <div class="modal-backdrop" id="rateLimitBackdrop">
-      <div class="modal liquid-glass" id="rateLimitModal">
-        <div class="modal-header">
-          <span class="modal-title" data-i18n="ratelimit_title"
-            >Too Many Requests</span
-          >
-        </div>
-        <div
-          class="modal-body"
-          style="
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 16px;
-            padding: 24px 20px;
-          "
-        >
-          <p
+    <template id="rateLimitModalTemplate">
+      <div class="modal-backdrop" id="rateLimitBackdrop">
+        <div class="modal liquid-glass" id="rateLimitModal">
+          <div class="modal-header">
+            <span class="modal-title" data-i18n="ratelimit_title"
+              >Too Many Requests</span
+            >
+          </div>
+          <div
+            class="modal-body"
             style="
-              text-align: center;
-              opacity: 0.72;
-              font-size: 14px;
-              margin: 0;
-              line-height: 1.6;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 16px;
+              padding: 24px 20px;
             "
           >
-            <span data-i18n="ratelimit_msg"
-              >You've made too many requests (50 per 2 hours). Solve the
-              challenge below to continue.</span
+            <p
+              style="
+                text-align: center;
+                opacity: 0.72;
+                font-size: 14px;
+                margin: 0;
+                line-height: 1.6;
+              "
             >
-          </p>
-          <canvas
-            id="captchaCanvas"
-            width="260"
-            height="72"
-            style="border-radius: 10px; display: block"
-          ></canvas>
-          <div
-            style="display: flex; gap: 8px; width: 100%; align-items: center"
-          >
+              <span data-i18n="ratelimit_msg"
+                >You've made too many requests (50 per 2 hours). Solve the
+                challenge below to continue.</span
+              >
+            </p>
+            <canvas
+              id="captchaCanvas"
+              width="260"
+              height="72"
+              style="border-radius: 10px; display: block"
+            ></canvas>
+            <div
+              style="display: flex; gap: 8px; width: 100%; align-items: center"
+            >
+              <button
+                id="captchaRefreshBtn"
+                class="captcha-btn"
+                style="
+                  background: rgba(255, 255, 255, 0.1);
+                  flex-shrink: 0;
+                  padding: 8px 12px;
+                "
+              >
+                <icon style="font-size: 18px">refresh</icon>
+              </button>
+              <input
+                type="text"
+                id="captchaInput"
+                placeholder="Enter letters"
+                data-i18n-placeholder="captcha_placeholder"
+                maxlength="6"
+                autocomplete="off"
+                spellcheck="false"
+                style="
+                  all: unset;
+                  flex: 1;
+                  padding: 10px 14px;
+                  border-radius: 30px;
+                  background: rgba(0, 0, 0, 0.25);
+                  border: 1px solid rgba(255, 255, 255, 0.15);
+                  text-align: center;
+                  font-size: 20px;
+                  letter-spacing: 0.15em;
+                  color: white;
+                  font-family: monospace;
+                  text-transform: uppercase;
+                "
+              />
+            </div>
+            <div
+              id="captchaError"
+              style="color: #ff6b6b; font-size: 13px; display: none"
+            >
+              <span data-i18n="captcha_error"
+                >Incorrect. Please try again.</span
+              >
+            </div>
             <button
-              id="captchaRefreshBtn"
+              id="captchaSubmitBtn"
               class="captcha-btn"
               style="
-                background: rgba(255, 255, 255, 0.1);
-                flex-shrink: 0;
-                padding: 8px 12px;
+                width: 100%;
+                padding: 12px;
+                font-size: 15px;
+                border-radius: 12px;
+                background: rgba(81, 29, 204, 0.5);
               "
             >
-              <icon style="font-size: 18px">refresh</icon>
+              <span data-i18n="captcha_submit">Continue</span>
             </button>
-            <input
-              type="text"
-              id="captchaInput"
-              placeholder="Enter letters"
-              data-i18n-placeholder="captcha_placeholder"
-              maxlength="6"
-              autocomplete="off"
-              spellcheck="false"
-              style="
-                all: unset;
-                flex: 1;
-                padding: 10px 14px;
-                border-radius: 30px;
-                background: rgba(0, 0, 0, 0.25);
-                border: 1px solid rgba(255, 255, 255, 0.15);
-                text-align: center;
-                font-size: 20px;
-                letter-spacing: 0.15em;
-                color: white;
-                font-family: monospace;
-                text-transform: uppercase;
-              "
-            />
           </div>
-          <div
-            id="captchaError"
-            style="color: #ff6b6b; font-size: 13px; display: none"
-          >
-            <span data-i18n="captcha_error">Incorrect. Please try again.</span>
-          </div>
-          <button
-            id="captchaSubmitBtn"
-            class="captcha-btn"
-            style="
-              width: 100%;
-              padding: 12px;
-              font-size: 15px;
-              border-radius: 12px;
-              background: rgba(81, 29, 204, 0.5);
-            "
-          >
-            <span data-i18n="captcha_submit">Continue</span>
-          </button>
         </div>
       </div>
-    </div>
+    </template>
+    <div data-modal-template="rateLimitModalTemplate"></div>
     <div class="dropdowns-wrapper" id="dropdownsWrapper">
       <div
         class="autocomplete-list dropdowns-list liquid-glass"
@@ -4110,6 +4405,17 @@
       ></div>
     </div>
     <div class="body-tooltip" id="bodyTooltip" role="tooltip"></div>
+    <script nonce="hDhji4fidj43djd432">
+      document.querySelectorAll("[data-modal-template]").forEach((host) => {
+        try {
+          const tpl = document.getElementById(host.dataset.modalTemplate);
+          if (tpl && !host.dataset.templateMounted) {
+            host.appendChild(tpl.content.cloneNode(true));
+            host.dataset.templateMounted = "1";
+          }
+        } catch (e) {}
+      });
+    </script>
     <script nonce="hDhji4fidj43djd432">
       // ── i18n ─────────────────────────────────────────────────────────────
       const UI_TRANSLATIONS = {
@@ -4154,6 +4460,8 @@
           layer_map: "Map",
           layer_satellite: "Satellite",
           layer_globe: "Globe",
+          layer_mark_state: "Mark State",
+          layer_mark_state_subtitle: "Tap state",
           navigation: "Navigation",
           my_location: "My Location",
           toggle_sound: "Toggle sound",
@@ -4182,8 +4490,17 @@
           pref_preferences: "Preferences",
           pref_language: "Language",
           pref_theme: "Theme",
+          pref_units: "Distance Units",
+          units_imperial: "Miles",
+          units_metric: "Kilometers",
           theme_light: "Light",
           theme_dark: "Dark",
+          settings_general: "General",
+          settings_map: "Map",
+          settings_privacy: "Privacy",
+          setting_on: "On",
+          setting_off: "Off",
+          clear_marked_states: "Clear marked states",
           pref_voice_section: "Navigation Voice",
           pref_voice: "Voice",
           voice_default: "Default",
@@ -4222,6 +4539,18 @@
           toast_mic_denied: "Enable Microphone to voice search",
           toast_no_hear: "Didn't hear that, try again",
           toast_voice_failed: "Voice search failed, try again",
+          toast_settings_failed:
+            "Couldn't update settings right now. Please try again",
+          toast_bookmarks_failed: "Couldn't load bookmarks.",
+          toast_location_failed:
+            "Failed to get your location. Please try again or allow location permissions",
+          toast_voice_permission_failed:
+            "Couldn't start voice search. Please ensure microphone permissions is allowed and try again.",
+          toast_tap_state: "Tap a state or province to mark it",
+          toast_state_lookup: "Finding state boundary...",
+          toast_state_marked: "State marked",
+          toast_state_unmarked: "State unmarked",
+          toast_state_not_found: "No state boundary found here",
           toast_dirs_deleted: "Recent directions deleted.",
           toast_markers_deleted: "All markers deleted.",
           toast_all_deleted: "All data deleted.",
@@ -4246,7 +4575,7 @@
           ctx_copied: "Coordinates copied",
         },
         es: {
-          app_name: "Munetios Maps",
+          app_name: "Mapas de Munetios",
           nav_maps: "MAPAS",
           nav_more: "MÁS",
           directions: "Indicaciones",
@@ -4256,7 +4585,7 @@
           print: "Imprimir",
           privacy_policy: "Política de privacidad",
           terms_of_service: "Términos de servicio",
-          search_placeholder: "Buscar en Munetios Maps",
+          search_placeholder: "Buscar en Mapas de Munetios",
           voice_search_aria: "Búsqueda por voz",
           recent_directions: "Indicaciones recientes:",
           no_recent_dirs: "Sin indicaciones recientes.",
@@ -4376,7 +4705,7 @@
           ctx_copied: "Coordenadas copiadas",
         },
         fr: {
-          app_name: "Munetios Maps",
+          app_name: "Cartes Munetios",
           nav_maps: "CARTES",
           nav_more: "PLUS",
           directions: "Itinéraire",
@@ -6166,6 +6495,8 @@
           layer_marker_photos_subtitle: "Popup previews",
           layer_add_marker: "Add Marker",
           layer_add_marker_subtitle: "Tap map next",
+          layer_mark_state: "Mark State",
+          layer_mark_state_subtitle: "Tap state",
           custom_layer_title: "Custom Layer",
           custom_font: "Font",
           custom_color_target: "Color target",
@@ -6190,13 +6521,24 @@
           tip_layer_satellite: "Satellite imagery",
           tip_layer_custom: "Design a custom layer",
           tip_layer_tools: "Open map tools",
+          tip_mark_state: "Mark the next state or province you tap",
           tip_roads: "Show highlighted roads",
           tip_marker_photos: "Show photos in marker popups",
           tip_add_marker: "Add a marker to the next map click",
+          tip_mark_state: "Mark the next state or province you tap",
           tip_close_settings: "Close settings",
           toast_custom_applied: "Custom layer applied",
           toast_custom_reset: "Custom layer reset",
           toast_tap_marker: "Tap the map to place a marker",
+          toast_state_save_failed: "Couldn't save marked states right now.",
+          toast_print_popup_blocked:
+            "Print popup was blocked. Please allow popups and try again.",
+          toast_print_capture_failed:
+            "Couldn't capture the map. Please wait for it to load and try again.",
+          print_loading_tiles: "Loading map tiles...",
+          print_vector_label: "Vector map",
+          print_satellite_label: "Satellite map",
+          print_attribution_aria: "Map attribution",
         },
         es: {
           close: "Cerrar",
@@ -6212,6 +6554,8 @@
           layer_marker_photos_subtitle: "Vista en popup",
           layer_add_marker: "Anadir marcador",
           layer_add_marker_subtitle: "Toca el mapa",
+          layer_mark_state: "Marcar estado",
+          layer_mark_state_subtitle: "Toca estado",
           custom_layer_title: "Capa personalizada",
           custom_font: "Fuente",
           custom_color_target: "Color objetivo",
@@ -6235,6 +6579,16 @@
           toast_custom_applied: "Capa personalizada aplicada",
           toast_custom_reset: "Capa personalizada restablecida",
           toast_tap_marker: "Toca el mapa para colocar un marcador",
+          toast_state_save_failed:
+            "No se pudieron guardar los estados marcados.",
+          toast_print_popup_blocked:
+            "Se bloqueo la ventana de impresion. Permite ventanas emergentes e intentalo de nuevo.",
+          toast_print_capture_failed:
+            "No se pudo capturar el mapa. Espera a que cargue e intentalo de nuevo.",
+          print_loading_tiles: "Cargando mosaicos del mapa...",
+          print_vector_label: "Mapa vectorial",
+          print_satellite_label: "Mapa satelital",
+          print_attribution_aria: "Atribucion del mapa",
         },
         fr: {
           close: "Fermer",
@@ -6250,6 +6604,8 @@
           layer_marker_photos_subtitle: "Apercus",
           layer_add_marker: "Ajouter repere",
           layer_add_marker_subtitle: "Touchez la carte",
+          layer_mark_state: "Marquer etat",
+          layer_mark_state_subtitle: "Touchez etat",
           custom_layer_title: "Couche personnalisee",
           custom_font: "Police",
           custom_color_target: "Cible couleur",
@@ -6273,6 +6629,16 @@
           toast_custom_applied: "Couche personnalisee appliquee",
           toast_custom_reset: "Couche personnalisee reinitialisee",
           toast_tap_marker: "Touchez la carte pour placer un repere",
+          toast_state_save_failed:
+            "Impossible d'enregistrer les regions marquees.",
+          toast_print_popup_blocked:
+            "La fenetre d'impression a ete bloquee. Autorisez les popups et reessayez.",
+          toast_print_capture_failed:
+            "Impossible de capturer la carte. Attendez son chargement et reessayez.",
+          print_loading_tiles: "Chargement des tuiles...",
+          print_vector_label: "Carte vectorielle",
+          print_satellite_label: "Carte satellite",
+          print_attribution_aria: "Attribution de la carte",
         },
         de: {
           close: "Schliessen",
@@ -6288,6 +6654,8 @@
           layer_marker_photos_subtitle: "Vorschauen",
           layer_add_marker: "Marker setzen",
           layer_add_marker_subtitle: "Karte antippen",
+          layer_mark_state: "Staat markieren",
+          layer_mark_state_subtitle: "Staat antippen",
           custom_layer_title: "Eigene Ebene",
           custom_font: "Schrift",
           custom_color_target: "Farbziel",
@@ -6311,6 +6679,16 @@
           toast_custom_applied: "Eigene Ebene angewendet",
           toast_custom_reset: "Eigene Ebene zurueckgesetzt",
           toast_tap_marker: "Tippe auf die Karte, um einen Marker zu setzen",
+          toast_state_save_failed:
+            "Markierte Bundeslaender konnten nicht gespeichert werden.",
+          toast_print_popup_blocked:
+            "Das Druckfenster wurde blockiert. Erlaube Popups und versuche es erneut.",
+          toast_print_capture_failed:
+            "Die Karte konnte nicht erfasst werden. Warte auf das Laden und versuche es erneut.",
+          print_loading_tiles: "Kartenkacheln werden geladen...",
+          print_vector_label: "Vektorkarte",
+          print_satellite_label: "Satellitenkarte",
+          print_attribution_aria: "Kartenattribution",
         },
       };
       [
@@ -7600,10 +7978,47 @@
       });
       navDrawerClose.addEventListener("click", closeDrawer);
       navBackdrop.addEventListener("click", closeDrawer);
+      function installKeyboardActivation() {
+        const selector = [
+          "[role='button']",
+          ".nav-item",
+          ".sidebar-item",
+          ".layer",
+          ".modal-close",
+          ".settings-close",
+          ".zoom-control",
+          ".pan-btn",
+          "#appsPopupClose",
+          "#navDrawerClose",
+          "#toggleSidebar",
+          "#mobileMenuBtn",
+        ].join(",");
+        document.querySelectorAll(selector).forEach((el) => {
+          if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "0");
+          if (!el.hasAttribute("role")) el.setAttribute("role", "button");
+          if (el.dataset.keyboardReady === "1") return;
+          el.dataset.keyboardReady = "1";
+          el.addEventListener("keydown", (event) => {
+            if (event.key !== "Enter" && event.key !== " ") return;
+            if (
+              event.target.matches("input, textarea, select, button") ||
+              event.target.closest("input, textarea, select, button")
+            ) {
+              return;
+            }
+            event.preventDefault();
+            el.click();
+          });
+        });
+      }
+      installKeyboardActivation();
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
           closeDrawer();
-          closeAllModals();
+          if (typeof closeTopModal !== "function" || !closeTopModal()) {
+            closeAllModals();
+          }
+          if (typeof closeAppsPopup === "function") closeAppsPopup();
         }
       });
 
@@ -8240,7 +8655,14 @@
         };
       }
 
-      if (!checkWebGL()) {
+      if (!window.maplibregl) {
+        const overlay = document.getElementById("webglErrorOverlay");
+        overlay.style.display = "flex";
+        overlay.querySelector("h1").textContent = "Map library unavailable";
+        overlay.querySelector("p").textContent =
+          "Munetios Maps could not load MapLibre. Check your connection and reload.";
+        initWebGLUnavailableMode();
+      } else if (!checkWebGL()) {
         document.getElementById("webglErrorOverlay").style.display = "flex";
         initWebGLUnavailableMode();
       } else {
@@ -8287,8 +8709,15 @@
         window._darkMapStyle = munetiosStyle;
         map.getContainer().style.fontFamily =
           '"Google Sans Flex", "Google Sans", Arial, sans-serif';
+        map.dragPan.enable();
+        map.scrollZoom.enable();
+        map.boxZoom.enable();
+        map.doubleClickZoom.enable();
+        map.keyboard.enable();
 
         map.on("load", () => {
+          applyMarkedStatesLayer();
+          void restoreMissingMarkedStatePolygons();
           parseAndApplyHash();
         });
         map.dragRotate.enable();
@@ -8301,10 +8730,62 @@
         const roadsToggleBtn = document.getElementById("toggleRoads");
         const markerPhotosBtn = document.getElementById("toggleMarkerPhotos");
         const addMarkerToolBtn = document.getElementById("toolAddMarker");
+        const markStateToolBtn = document.getElementById("toolMarkState");
         const toolsTray = document.getElementById("toolsTray");
         const attributionEl = document.getElementById("attributionMaps");
         let addMarkerMode = false;
+        let markStateMode = false;
+        let markStateLookupPending = false;
+        let mapGestureInProgress = false;
         let toolsTrayOpen = false;
+        let markedStates = [];
+
+        function loadMarkedStates() {
+          try {
+            const parsed = JSON.parse(
+              localStorage.getItem("munetios_marked_states") || "[]",
+            );
+            if (!Array.isArray(parsed)) return [];
+            return parsed
+              .map((item) => {
+                if (typeof item === "string") {
+                  return {
+                    id: item.toLowerCase(),
+                    name: item,
+                    country: "",
+                    countryCode: "",
+                    geojson: null,
+                  };
+                }
+                return compactMarkedStateRecord(item);
+              })
+              .filter(
+                (item) =>
+                  item &&
+                  typeof item.id === "string" &&
+                  typeof item.name === "string",
+              );
+          } catch (e) {
+            return [];
+          }
+        }
+
+        function saveMarkedStates() {
+          try {
+            const compactStates = markedStates.map(compactMarkedStateRecord);
+            localStorage.setItem(
+              "munetios_marked_states",
+              JSON.stringify(compactStates),
+            );
+            markedStates = compactStates;
+            return true;
+          } catch (e) {
+            showToast(t("toast_state_save_failed"));
+            return false;
+          }
+        }
+
+        markedStates = loadMarkedStates();
 
         function applyLayerUI(name) {
           attributionEl.innerHTML =
@@ -8322,6 +8803,18 @@
           markerPhotosBtn.classList.toggle("active", markerPhotosEnabled);
           markerPhotosBtn.classList.toggle("toggle-off", !markerPhotosEnabled);
           addMarkerToolBtn.classList.toggle("add-marker-mode", addMarkerMode);
+          markStateToolBtn.classList.toggle("mark-state-mode", markStateMode);
+          layerToolsBtn.setAttribute("aria-expanded", String(toolsTrayOpen));
+          roadsToggleBtn.setAttribute(
+            "aria-pressed",
+            String(roadHighlightEnabled),
+          );
+          markerPhotosBtn.setAttribute(
+            "aria-pressed",
+            String(markerPhotosEnabled),
+          );
+          addMarkerToolBtn.setAttribute("aria-pressed", String(addMarkerMode));
+          markStateToolBtn.setAttribute("aria-pressed", String(markStateMode));
           toolsTray.classList.toggle("open", toolsTrayOpen);
         }
         applyLayerUI(savedLayer);
@@ -8344,7 +8837,366 @@
           }
           setMapLabelLanguage(map);
           applyRoadHighlight();
+          applyMarkedStatesLayer();
           applyLayerUI(currentLayer);
+        }
+
+        function getMarkedStatesGeoJSON() {
+          return {
+            type: "FeatureCollection",
+            features: markedStates
+              .filter((state) => state.geojson)
+              .map((state) => {
+                const geometry = simplifyMarkedGeometry(state.geojson);
+                if (!geometry) return null;
+                return {
+                  type: "Feature",
+                  properties: {
+                    id: state.id,
+                    name: state.name,
+                    country: state.country || "",
+                    countryCode: state.countryCode || "",
+                  },
+                  geometry,
+                };
+              })
+              .filter(Boolean),
+          };
+        }
+
+        function applyMarkedStatesLayer() {
+          try {
+            const data = getMarkedStatesGeoJSON();
+            if (!map.getSource("marked-states")) {
+              map.addSource("marked-states", { type: "geojson", data });
+            } else {
+              map.getSource("marked-states").setData(data);
+            }
+            if (!map.getLayer("marked-state-fill")) {
+              map.addLayer(
+                {
+                  id: "marked-state-fill",
+                  type: "fill",
+                  source: "marked-states",
+                  paint: {
+                    "fill-color": "#d8b4fe",
+                    "fill-opacity": 0.28,
+                  },
+                },
+                map.getLayer("boundary-state") ? "boundary-state" : undefined,
+              );
+            }
+            if (!map.getLayer("marked-state-boundary")) {
+              map.addLayer(
+                {
+                  id: "marked-state-boundary",
+                  type: "line",
+                  source: "marked-states",
+                  layout: { "line-cap": "round", "line-join": "round" },
+                  paint: {
+                    "line-color": "#f5d0fe",
+                    "line-opacity": 0.98,
+                    "line-width": [
+                      "interpolate",
+                      ["linear"],
+                      ["zoom"],
+                      3,
+                      1.6,
+                      8,
+                      3.5,
+                      12,
+                      6,
+                    ],
+                    "line-blur": 0.4,
+                  },
+                },
+                map.getLayer("label-water") ? "label-water" : undefined,
+              );
+            }
+          } catch (e) {}
+        }
+
+        function getAdminStateName(address = {}, properties = {}) {
+          return (
+            properties.state ||
+            properties.province ||
+            properties.region ||
+            properties.county ||
+            address.state ||
+            address.province ||
+            address.region ||
+            address.state_district ||
+            address.county ||
+            ""
+          )
+            .toString()
+            .trim();
+        }
+
+        function buildMarkedStateId(state) {
+          return [state.countryCode || state.country || "world", state.name]
+            .join(":")
+            .toLowerCase()
+            .replace(/\s+/g, "-");
+        }
+
+        function normalizeGeoJSONGeometry(geojson) {
+          if (!geojson || typeof geojson !== "object") return null;
+          if (geojson.type === "Polygon" || geojson.type === "MultiPolygon") {
+            return geojson;
+          }
+          if (geojson.type === "Feature" && geojson.geometry) {
+            return normalizeGeoJSONGeometry(geojson.geometry);
+          }
+          return null;
+        }
+
+        function simplifyRingCoordinates(ring, maxPoints = 420) {
+          if (!Array.isArray(ring) || ring.length < 4) return [];
+          const step = Math.max(1, Math.ceil(ring.length / maxPoints));
+          const simplified = ring
+            .filter((_, index) => index % step === 0)
+            .map((point) => [
+              Number(Number(point[0]).toFixed(5)),
+              Number(Number(point[1]).toFixed(5)),
+            ]);
+          const first = simplified[0];
+          const last = simplified[simplified.length - 1];
+          if (first && last && (first[0] !== last[0] || first[1] !== last[1])) {
+            simplified.push(first);
+          }
+          return simplified;
+        }
+
+        function getGeometryRings(geometry) {
+          const normalized = normalizeGeoJSONGeometry(geometry);
+          if (!normalized) return [];
+          return normalized.type === "Polygon"
+            ? normalized.coordinates
+            : normalized.coordinates.flat();
+        }
+
+        function compactMarkedGeometryForStorage(geometry, pointBudget = 2600) {
+          const normalized = normalizeGeoJSONGeometry(geometry);
+          if (!normalized) return null;
+          const rings = getGeometryRings(normalized);
+          const totalPoints = rings.reduce((sum, ring) => sum + ring.length, 0);
+          const scale =
+            totalPoints > pointBudget ? pointBudget / totalPoints : 1;
+          const compactRing = (ring) =>
+            simplifyRingCoordinates(
+              ring,
+              Math.max(4, Math.floor(ring.length * scale)),
+            );
+          if (normalized.type === "Polygon") {
+            return {
+              type: "Polygon",
+              coordinates: normalized.coordinates
+                .map(compactRing)
+                .filter((ring) => ring.length >= 4),
+            };
+          }
+          return {
+            type: "MultiPolygon",
+            coordinates: normalized.coordinates
+              .map((polygon) =>
+                polygon.map(compactRing).filter((ring) => ring.length >= 4),
+              )
+              .filter((polygon) => polygon.length),
+          };
+        }
+
+        function compactMarkedStateRecord(state) {
+          return {
+            id: String(state?.id || ""),
+            name: String(state?.name || ""),
+            country: String(state?.country || ""),
+            countryCode: String(state?.countryCode || ""),
+            geojson: compactMarkedGeometryForStorage(state?.geojson),
+          };
+        }
+
+        function simplifyMarkedGeometry(geometry) {
+          const normalized = normalizeGeoJSONGeometry(geometry);
+          if (!normalized) return null;
+          if (normalized.type === "Polygon") {
+            return {
+              type: "Polygon",
+              coordinates: normalized.coordinates.map((ring, index) =>
+                simplifyRingCoordinates(ring, index === 0 ? 520 : 180),
+              ),
+            };
+          }
+          if (normalized.type === "MultiPolygon") {
+            return {
+              type: "MultiPolygon",
+              coordinates: normalized.coordinates.map((polygon) =>
+                polygon.map((ring, index) =>
+                  simplifyRingCoordinates(ring, index === 0 ? 420 : 140),
+                ),
+              ),
+            };
+          }
+          return normalized;
+        }
+
+        async function reverseStateWithPhoton(lat, lng) {
+          const lang = _getBaseLang(_getLang()) || "en";
+          const url =
+            "https://photon.komoot.io/reverse?lat=" +
+            encodeURIComponent(lat) +
+            "&lon=" +
+            encodeURIComponent(lng) +
+            "&lang=" +
+            encodeURIComponent(lang);
+          const resp = await fetchWithTimeout(url, {}, 9000);
+          if (!resp.ok) throw new Error("Photon reverse failed");
+          const data = await resp.json();
+          const feature = data?.features?.[0];
+          const props = feature?.properties || {};
+          const name = getAdminStateName({}, props);
+          if (!name) return null;
+          return {
+            name,
+            country: props.country || "",
+            countryCode: (props.countrycode || "").toString().toUpperCase(),
+          };
+        }
+
+        async function reverseStateWithOpenStreetMap(lat, lng) {
+          const url =
+            "https://nominatim.openstreetmap.org/reverse?format=jsonv2&addressdetails=1&zoom=10&lat=" +
+            encodeURIComponent(lat) +
+            "&lon=" +
+            encodeURIComponent(lng);
+          const resp = await fetchWithTimeout(
+            url,
+            {
+              headers: { "Accept-Language": _getLang() },
+            },
+            11000,
+          );
+          if (!resp.ok) throw new Error("OpenStreetMap reverse failed");
+          const data = await resp.json();
+          const address = data.address || {};
+          const name = getAdminStateName(address, {});
+          if (!name) return null;
+          return {
+            name,
+            country: address.country || "",
+            countryCode: (address.country_code || "").toString().toUpperCase(),
+          };
+        }
+
+        async function fetchMarkedStatePolygon(state) {
+          const q = [state.name, state.country].filter(Boolean).join(", ");
+          const params = new URLSearchParams({
+            q,
+            format: "jsonv2",
+            addressdetails: "1",
+            polygon_geojson: "1",
+            featureType: "state",
+            limit: "8",
+            dedupe: "1",
+          });
+          const url =
+            "https://nominatim.openstreetmap.org/search?" + params.toString();
+          const resp = await fetchWithTimeout(
+            url,
+            {
+              headers: { "Accept-Language": _getLang() },
+            },
+            14000,
+          );
+          if (!resp.ok) throw new Error("OpenStreetMap polygon failed");
+          const results = await resp.json();
+          const normalizedName = state.name.toLowerCase();
+          const normalizedCountry = (state.countryCode || state.country)
+            .toString()
+            .toLowerCase();
+          const match =
+            (results || []).find((result) => {
+              const address = result.address || {};
+              const resultName = getAdminStateName(address, {
+                state: result.display_name?.split(",")[0],
+              }).toLowerCase();
+              const resultCountry = (
+                address.country_code ||
+                address.country ||
+                ""
+              )
+                .toString()
+                .toLowerCase();
+              return (
+                normalizeGeoJSONGeometry(result.geojson) &&
+                (!normalizedName || resultName === normalizedName) &&
+                (!normalizedCountry ||
+                  resultCountry === normalizedCountry ||
+                  address.country?.toLowerCase() === normalizedCountry)
+              );
+            }) ||
+            (results || []).find((result) =>
+              normalizeGeoJSONGeometry(result.geojson),
+            );
+          return simplifyMarkedGeometry(match?.geojson);
+        }
+
+        async function resolveMarkedState(lngLat) {
+          let state = null;
+          try {
+            state = await reverseStateWithPhoton(lngLat.lat, lngLat.lng);
+          } catch (e) {}
+          if (!state) {
+            state = await reverseStateWithOpenStreetMap(lngLat.lat, lngLat.lng);
+          }
+          if (!state?.name) return null;
+          state.id = buildMarkedStateId(state);
+          state.geojson = await fetchMarkedStatePolygon(state);
+          return state.geojson ? state : null;
+        }
+
+        async function restoreMissingMarkedStatePolygons() {
+          const missingStates = markedStates.filter((state) => !state.geojson);
+          if (!missingStates.length) return;
+          for (const state of missingStates) {
+            try {
+              const geometry = await fetchMarkedStatePolygon(state);
+              if (geometry) {
+                state.geojson = compactMarkedGeometryForStorage(geometry);
+                saveMarkedStates();
+                applyMarkedStatesLayer();
+              }
+            } catch (e) {}
+            await new Promise((resolve) => setTimeout(resolve, 1100));
+          }
+        }
+
+        async function toggleMarkedStateAt(lngLat) {
+          try {
+            if (markStateLookupPending || mapGestureInProgress) return;
+            markStateLookupPending = true;
+            showToast(t("toast_state_lookup"));
+            const state = await resolveMarkedState(lngLat);
+            if (!state) {
+              showToast(t("toast_state_not_found"));
+              return;
+            }
+            if (markedStates.some((item) => item.id === state.id)) {
+              markedStates = markedStates.filter(
+                (item) => item.id !== state.id,
+              );
+              showToast(t("toast_state_unmarked"));
+            } else {
+              markedStates.push(state);
+              showToast(t("toast_state_marked"));
+            }
+            saveMarkedStates();
+            applyMarkedStatesLayer();
+          } catch (e) {
+            showToast(t("toast_settings_failed"));
+          } finally {
+            markStateLookupPending = false;
+          }
         }
 
         function applyRoadHighlight() {
@@ -8589,9 +9441,28 @@
 
         function setAddMarkerMode(enabled) {
           addMarkerMode = enabled;
+          if (enabled) markStateMode = false;
           if (enabled) toolsTrayOpen = true;
           addMarkerToolBtn.classList.toggle("add-marker-mode", enabled);
-          map.getCanvas().style.cursor = enabled ? "crosshair" : "";
+          map.getCanvas().style.cursor = enabled
+            ? "crosshair"
+            : markStateMode
+              ? "pointer"
+              : "";
+          applyLayerUI(currentLayer);
+        }
+
+        function setMarkStateMode(enabled) {
+          markStateMode = enabled;
+          if (enabled) {
+            addMarkerMode = false;
+            toolsTrayOpen = true;
+          }
+          map.getCanvas().style.cursor = enabled
+            ? "pointer"
+            : addMarkerMode
+              ? "crosshair"
+              : "";
           applyLayerUI(currentLayer);
         }
 
@@ -8602,6 +9473,7 @@
         layerCustomBtn.addEventListener("click", () => openCustomLayerModal());
 
         function openCustomLayerModal() {
+          closeAllModals();
           const backdrop = document.getElementById("customLayerBackdrop");
           const settings = getCustomLayerSettings();
           customLayerState.font = settings.font;
@@ -8960,6 +9832,50 @@
           setAddMarkerMode(next);
           if (next) showToast(t("toast_tap_marker"));
         });
+        markStateToolBtn.addEventListener("click", () => {
+          const next = !markStateMode;
+          setMarkStateMode(next);
+          if (next) showToast(t("toast_tap_state"));
+        });
+        window._setMunetiosRoadHighlight = (enabled) => {
+          try {
+            roadHighlightEnabled = Boolean(enabled);
+            localStorage.setItem(
+              "munetios_road_highlight",
+              roadHighlightEnabled ? "1" : "0",
+            );
+            if (currentLayer === "satellite") refreshMapStyle();
+            else applyRoadHighlight();
+            applyLayerUI(currentLayer);
+          } catch (e) {
+            showToast(t("toast_settings_failed"));
+          }
+        };
+        window._setMunetiosMarkerPhotos = (enabled) => {
+          try {
+            markerPhotosEnabled = Boolean(enabled);
+            localStorage.setItem(
+              "munetios_marker_photos",
+              markerPhotosEnabled ? "1" : "0",
+            );
+            if (typeof refreshCustomMarkers === "function") {
+              refreshCustomMarkers();
+            }
+            applyLayerUI(currentLayer);
+          } catch (e) {
+            showToast(t("toast_settings_failed"));
+          }
+        };
+        window._clearMunetiosMarkedStates = () => {
+          try {
+            markedStates = [];
+            saveMarkedStates();
+            applyMarkedStatesLayer();
+            applyLayerUI(currentLayer);
+          } catch (e) {
+            showToast(t("toast_settings_failed"));
+          }
+        };
 
         // ── Zoom & Pan ────────────────────────────────────────────────────
         document.getElementById("zoomInBtn").addEventListener("click", () => {
@@ -9158,28 +10074,28 @@
         }
 
         function onPositionError(err) {
-          const msgs = {
-            1: "Location access denied.",
-            2: "Location unavailable.",
-            3: "Location request timed out.",
-          };
-          showToast(msgs[err.code] || "Unable to get your location.");
+          showToast(t("toast_location_failed"));
           stopTracking();
         }
 
         function startTracking() {
-          if (!navigator.geolocation) {
-            showToast(t("toast_location_unavail"));
-            return;
+          try {
+            if (!navigator.geolocation) {
+              showToast(t("toast_location_failed"));
+              return;
+            }
+            isTracking = true;
+            firstFix = true;
+            useMyLocationBtn.classList.add("active");
+            watchId = navigator.geolocation.watchPosition(
+              onPosition,
+              onPositionError,
+              { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 },
+            );
+          } catch (e) {
+            showToast(t("toast_location_failed"));
+            stopTracking();
           }
-          isTracking = true;
-          firstFix = true;
-          useMyLocationBtn.classList.add("active");
-          watchId = navigator.geolocation.watchPosition(
-            onPosition,
-            onPositionError,
-            { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 },
-          );
         }
 
         function stopTracking() {
@@ -9211,7 +10127,8 @@
                 else if (result.state === "granted" && !isTracking)
                   startTracking();
               });
-            });
+            })
+            .catch(() => {});
         }
 
         // ── Utilities ─────────────────────────────────────────────────────
@@ -9268,7 +10185,10 @@
         }
 
         function isImperial() {
-          return dirMode === "car" || dirMode === "transit";
+          return (
+            (localStorage.getItem("munetios_units") || "imperial") ===
+            "imperial"
+          );
         }
 
         function formatDistance(meters, imperial) {
@@ -9892,6 +10812,7 @@
         }
 
         function openMarkerEditor(lat, lng) {
+          closeAllModals();
           pendingMarkerCoords = { lat, lng };
           toolsTrayOpen = true;
           markerEditorCoords.textContent = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
@@ -9999,11 +10920,31 @@
           const point = e.point;
           openMapCtxMenu(point.x, point.y, lat, lng);
         });
+        const beginMapGesture = () => {
+          mapGestureInProgress = true;
+        };
+        const endMapGesture = () => {
+          setTimeout(() => {
+            mapGestureInProgress = false;
+          }, 80);
+        };
+        map.on("dragstart", beginMapGesture);
+        map.on("zoomstart", beginMapGesture);
+        map.on("rotatestart", beginMapGesture);
+        map.on("pitchstart", beginMapGesture);
+        map.on("dragend", endMapGesture);
+        map.on("zoomend", endMapGesture);
+        map.on("rotateend", endMapGesture);
+        map.on("pitchend", endMapGesture);
 
         // Close on map click or drag
         map.on("click", (e) => {
           closeMapCtxMenu();
           closeCustomMapPopup();
+          if (markStateMode) {
+            toggleMarkedStateAt(e.lngLat);
+            return;
+          }
           if (!addMarkerMode) return;
           setAddMarkerMode(false);
           openMarkerEditor(e.lngLat.lat, e.lngLat.lng);
@@ -10091,45 +11032,66 @@
               localStorage.getItem("munetios_bookmarks") || "[]",
             );
           } catch {
+            showToast(t("toast_bookmarks_failed"));
             return [];
           }
         }
         function saveBookmarksStore(bms) {
-          localStorage.setItem("munetios_bookmarks", JSON.stringify(bms));
+          try {
+            localStorage.setItem("munetios_bookmarks", JSON.stringify(bms));
+          } catch (e) {
+            showToast(t("toast_bookmarks_failed"));
+          }
         }
         function addBookmark(bm) {
-          if (!checkRateLimit()) return false;
-          const bms = getBookmarks();
-          if (bms.some((b) => b.lat === bm.lat && b.lng === bm.lng)) {
-            showToast(t("toast_already_bookmarked"));
+          try {
+            if (!checkRateLimit()) return false;
+            const bms = getBookmarks();
+            if (bms.some((b) => b.lat === bm.lat && b.lng === bm.lng)) {
+              showToast(t("toast_already_bookmarked"));
+              return false;
+            }
+            bms.unshift({ ...bm, id: Date.now() });
+            saveBookmarksStore(bms);
+            return true;
+          } catch (e) {
+            showToast(t("toast_bookmarks_failed"));
             return false;
           }
-          bms.unshift({ ...bm, id: Date.now() });
-          saveBookmarksStore(bms);
-          return true;
         }
         function removeBookmark(id) {
-          saveBookmarksStore(getBookmarks().filter((b) => b.id !== id));
+          try {
+            saveBookmarksStore(getBookmarks().filter((b) => b.id !== id));
+          } catch (e) {
+            showToast(t("toast_bookmarks_failed"));
+          }
         }
 
         function openBookmarksModal() {
           renderBookmarksList();
-          document.getElementById("bookmarksBackdrop").classList.add("open");
+          openStackedModal("bookmarksBackdrop");
+          document
+            .getElementById("bookmarksBtn")
+            ?.setAttribute("aria-expanded", "true");
         }
         function closeBookmarksModal() {
           document.getElementById("bookmarksBackdrop").classList.remove("open");
+          document
+            .getElementById("bookmarksBtn")
+            ?.setAttribute("aria-expanded", "false");
         }
 
         function renderBookmarksList() {
-          const list = document.getElementById("bookmarksList");
-          const bms = getBookmarks();
-          if (!bms.length) {
-            list.innerHTML = `<div class="modal-empty">${t("no_bookmarks")}</div>`;
-            return;
-          }
-          list.innerHTML = bms
-            .map(
-              (b) => `
+          try {
+            const list = document.getElementById("bookmarksList");
+            const bms = getBookmarks();
+            if (!bms.length) {
+              list.innerHTML = `<div class="modal-empty">${t("no_bookmarks")}</div>`;
+              return;
+            }
+            list.innerHTML = bms
+              .map(
+                (b) => `
             <div class="bookmark-item" data-id="${b.id}" data-lat="${b.lat}" data-lng="${b.lng}">
               <icon style="font-size:20px;opacity:0.7;flex-shrink:0">bookmark</icon>
               <div class="bookmark-item-info">
@@ -10138,29 +11100,32 @@
               </div>
               <div class="bookmark-remove-btn" data-id="${b.id}" title="Remove"><icon style="font-size:18px">delete</icon></div>
             </div>`,
-            )
-            .join("");
-          list.querySelectorAll(".bookmark-item").forEach((item) => {
-            item.addEventListener("click", (e) => {
-              if (e.target.closest(".bookmark-remove-btn")) return;
-              map.flyTo({
-                center: [
-                  parseFloat(item.dataset.lng),
-                  parseFloat(item.dataset.lat),
-                ],
-                zoom: 14,
-                speed: 1.5,
+              )
+              .join("");
+            list.querySelectorAll(".bookmark-item").forEach((item) => {
+              item.addEventListener("click", (e) => {
+                if (e.target.closest(".bookmark-remove-btn")) return;
+                map.flyTo({
+                  center: [
+                    parseFloat(item.dataset.lng),
+                    parseFloat(item.dataset.lat),
+                  ],
+                  zoom: 14,
+                  speed: 1.5,
+                });
+                closeBookmarksModal();
               });
-              closeBookmarksModal();
             });
-          });
-          list.querySelectorAll(".bookmark-remove-btn").forEach((btn) => {
-            btn.addEventListener("click", (e) => {
-              e.stopPropagation();
-              removeBookmark(Number(btn.dataset.id));
-              renderBookmarksList();
+            list.querySelectorAll(".bookmark-remove-btn").forEach((btn) => {
+              btn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                removeBookmark(Number(btn.dataset.id));
+                renderBookmarksList();
+              });
             });
-          });
+          } catch (e) {
+            showToast(t("toast_bookmarks_failed"));
+          }
         }
 
         document
@@ -10178,10 +11143,16 @@
         // ── History Modal ────────────────────────────────────────────────
         function openHistoryModal() {
           renderHistoryList();
-          document.getElementById("historyBackdrop").classList.add("open");
+          openStackedModal("historyBackdrop");
+          document
+            .getElementById("navHistoryBtn")
+            ?.setAttribute("aria-expanded", "true");
         }
         function closeHistoryModal() {
           document.getElementById("historyBackdrop").classList.remove("open");
+          document
+            .getElementById("navHistoryBtn")
+            ?.setAttribute("aria-expanded", "false");
         }
 
         function renderHistoryList() {
@@ -10249,10 +11220,16 @@
         // ── Markers Modal ─────────────────────────────────────────────────
         function openMarkersModal() {
           renderMarkersList();
-          document.getElementById("markersBackdrop").classList.add("open");
+          openStackedModal("markersBackdrop");
+          document
+            .getElementById("navMarkersBtn")
+            ?.setAttribute("aria-expanded", "true");
         }
         function closeMarkersModal() {
           document.getElementById("markersBackdrop").classList.remove("open");
+          document
+            .getElementById("navMarkersBtn")
+            ?.setAttribute("aria-expanded", "false");
         }
 
         function renderMarkersList() {
@@ -10393,6 +11370,7 @@
         }
 
         function openPrintModal() {
+          closeAllModals();
           closeDrawer();
           const popup = document.getElementById("printPopup");
           popup.style.display = "flex";
@@ -10539,42 +11517,370 @@
           });
         }
 
-        function printWatermarkedImage(dataUrl, imgEl) {
-          addPrintWatermark(dataUrl).then((watermarkedUrl) => {
-            if (!watermarkedUrl || watermarkedUrl.startsWith("data:,")) {
-              showToast("Failed to add watermark");
+        function openPrintWindow() {
+          const popupWidth = Math.min(
+            1180,
+            Math.max(760, screen.availWidth - 120),
+          );
+          const popupHeight = Math.min(
+            900,
+            Math.max(620, screen.availHeight - 120),
+          );
+          const popupLeft = Math.max(
+            0,
+            Math.round((screen.availWidth - popupWidth) / 2),
+          );
+          const popupTop = Math.max(
+            0,
+            Math.round((screen.availHeight - popupHeight) / 2),
+          );
+          const printWindow = window.open(
+            "",
+            "munetiosMapsPrintPopup",
+            `popup=yes,width=${popupWidth},height=${popupHeight},left=${popupLeft},top=${popupTop},resizable=yes,scrollbars=yes`,
+          );
+          if (!printWindow) {
+            showToast(t("toast_print_popup_blocked"));
+            return null;
+          }
+          const pageSize = _ppSize === "a4" ? "A4" : "letter";
+          const mapModeLabel =
+            _ppTile === "satellite"
+              ? t("print_satellite_label")
+              : t("print_vector_label");
+          printWindow.document.open();
+          printWindow.document.write(`<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Munetios Maps Print</title>
+    <link rel="stylesheet" href="https://api.munetios.com/beautiful-css/beautiful.css" />
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css" />
+    <style>
+      @font-face {
+        font-family: "Google Sans Flex";
+        src: url("https://api.munetios.com/fonts/google-sans-flex/googlesansflex.ttf") format("truetype");
+        font-display: swap;
+      }
+      @page { size: ${pageSize} ${_ppOrient}; margin: 0; }
+      html, body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        background: #10052d;
+        font-family: "Google Sans Flex", Arial, sans-serif;
+        font-feature-settings: "ss01" 1;
+      }
+      body {
+        color: #fff;
+        overflow: hidden;
+      }
+      #printMap { position: fixed; inset: 0; }
+      #printToolbar {
+        position: fixed;
+        top: 14px;
+        left: 14px;
+        right: 14px;
+        z-index: 10;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        pointer-events: none;
+      }
+      #printToolbarInner {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        border-radius: 24px;
+        background: rgba(22, 7, 58, 0.78);
+        border: 1px solid rgba(216, 180, 254, 0.28);
+        backdrop-filter: blur(3px);
+        pointer-events: auto;
+      }
+      #printTitle { font-size: 15px; font-weight: 720; }
+      #printMode {
+        font-size: 12px;
+        opacity: .72;
+        padding-left: 10px;
+        border-left: 1px solid rgba(255,255,255,.18);
+      }
+      #printAction {
+        border: 0;
+        border-radius: 999px;
+        padding: 10px 18px;
+        background: #6d28d9;
+        color: #fff;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        pointer-events: auto;
+      }
+      #printAction:disabled { opacity: .55; cursor: wait; }
+      #printStatus {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9;
+        color: #f5f3ff;
+        background: rgba(16, 5, 45, .72);
+        font-size: 16px;
+        font-weight: 650;
+        pointer-events: none;
+      }
+      #printMapImage {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: none;
+        background: #fff;
+        z-index: 20;
+      }
+      #printAttribution {
+        position: fixed;
+        right: 8px;
+        bottom: 8px;
+        z-index: 30;
+        max-width: calc(100% - 16px);
+        padding: 5px 8px;
+        border-radius: 8px;
+        background: rgba(18, 7, 45, .78);
+        color: #fff;
+        font-size: 10px;
+        line-height: 1.35;
+        backdrop-filter: blur(3px);
+      }
+      #printAttribution a { color: inherit; }
+      @media print {
+        #printMap, #printToolbar, #printStatus { display: none !important; }
+        #printMapImage { display: block !important; }
+        #printAttribution {
+          color: #111;
+          background: rgba(255,255,255,.86);
+          border: 1px solid rgba(0,0,0,.12);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="printMap"></div>
+    <div id="printToolbar">
+      <div id="printToolbarInner" class="liquid-glass">
+        <span id="printTitle">Munetios Maps</span>
+        <span id="printMode">${escapeHtml(mapModeLabel)}</span>
+      </div>
+      <button id="printAction" type="button">${escapeHtml(t("print_btn"))}</button>
+    </div>
+    <div id="printStatus">${escapeHtml(t("print_loading_tiles"))}</div>
+    <img id="printMapImage" alt="Munetios Maps print" />
+    <div id="printAttribution" aria-label="${escapeHtml(t("print_attribution_aria"))}"></div>
+  </body>
+</html>`);
+          printWindow.document.close();
+          printWindow.focus();
+          initializePrintPopupMap(printWindow, {
+            style:
+              _ppTile === "satellite"
+                ? buildSatelliteStyle()
+                : cloneLocalizedMapStyle(munetiosStyle),
+            center: _ppMap
+              ? _ppMap.getCenter().toArray()
+              : map.getCenter().toArray(),
+            zoom: _ppMap ? _ppMap.getZoom() : map.getZoom(),
+            bearing: _ppMap ? _ppMap.getBearing() : map.getBearing(),
+            pitch: _ppMap ? _ppMap.getPitch() : map.getPitch(),
+            attribution:
+              _ppTile === "satellite" ? SATELLITE_ATTRIBUTION : MAP_ATTRIBUTION,
+          });
+          return printWindow;
+        }
+
+        function loadPrintPopupMapLibre(printWindow) {
+          return new Promise((resolve, reject) => {
+            if (printWindow.maplibregl) {
+              resolve(printWindow.maplibregl);
               return;
             }
-            imgEl.innerHTML = "";
-            const printImg = new Image();
-            printImg.alt = "Munetios Maps print";
-            printImg.style.cssText =
-              "width:100%;height:100%;object-fit:contain;display:block;background:#000";
-            printImg.onload = () => {
-              closePrintModal();
-              const printNow = () => {
-                window.print();
-                setTimeout(() => {
-                  imgEl.innerHTML = "";
-                }, 2000);
+            const loadScript = (src, fallback = false) => {
+              const script = printWindow.document.createElement("script");
+              script.src = src;
+              script.crossOrigin = "anonymous";
+              script.onload = () => resolve(printWindow.maplibregl);
+              script.onerror = () => {
+                if (!fallback) {
+                  loadScript(
+                    "https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.js",
+                    true,
+                  );
+                } else {
+                  reject(new Error("MapLibre failed to load in print popup"));
+                }
               };
-              if (printImg.decode) {
-                printImg.decode().then(printNow).catch(printNow);
-              } else {
-                requestAnimationFrame(printNow);
-              }
+              printWindow.document.head.appendChild(script);
             };
-            printImg.onerror = () => {
-              showToast("Print image failed to render");
-            };
-            imgEl.appendChild(printImg);
-            printImg.src = watermarkedUrl;
+            loadScript(
+              "https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js",
+            );
           });
+        }
+
+        async function initializePrintPopupMap(printWindow, config) {
+          try {
+            const popupMapLibre = await loadPrintPopupMapLibre(printWindow);
+            if (!popupMapLibre || printWindow.closed) {
+              throw new Error("Print map unavailable");
+            }
+            const attribution =
+              printWindow.document.getElementById("printAttribution");
+            attribution.innerHTML = config.attribution;
+            const popupMap = new popupMapLibre.Map({
+              container: printWindow.document.getElementById("printMap"),
+              style: config.style,
+              center: config.center,
+              zoom: config.zoom,
+              bearing: config.bearing,
+              pitch: config.pitch,
+              interactive: true,
+              attributionControl: false,
+              preserveDrawingBuffer: true,
+              localIdeographFontFamily:
+                '"Google Sans Flex", "Google Sans", Arial, sans-serif',
+            });
+            printWindow.__munetiosPrintMap = popupMap;
+            popupMap.dragPan.enable();
+            popupMap.scrollZoom.enable();
+            popupMap.touchZoomRotate.enable();
+            popupMap.once("idle", () => {
+              printWindow.document.getElementById("printStatus").style.display =
+                "none";
+            });
+            printWindow.document
+              .getElementById("printAction")
+              .addEventListener("click", async () => {
+                const button =
+                  printWindow.document.getElementById("printAction");
+                button.disabled = true;
+                try {
+                  popupMap.triggerRepaint();
+                  const screenshot = captureCanvasDataUrl(popupMap.getCanvas());
+                  if (!screenshot) throw new Error("Print map was blank");
+                  const imageUrl = createPrintBlobUrl(screenshot);
+                  if (!imageUrl) throw new Error("Print Blob URL unavailable");
+                  await printBlobImage(imageUrl, printWindow);
+                } catch (e) {
+                  showToast(t("toast_print_capture_failed"));
+                } finally {
+                  button.disabled = false;
+                }
+              });
+          } catch (e) {
+            if (!printWindow.closed) {
+              printWindow.document.getElementById("printStatus").textContent =
+                t("toast_print_capture_failed");
+            }
+          }
+        }
+
+        function createPrintBlobUrl(dataUrl) {
+          if (!dataUrl || dataUrl.startsWith("data:,")) return "";
+          try {
+            const [metadata, payload] = dataUrl.split(",", 2);
+            const mimeType =
+              metadata.match(/^data:([^;]+)/)?.[1] || "image/png";
+            const binary = atob(payload);
+            const bytes = new Uint8Array(binary.length);
+            for (let index = 0; index < binary.length; index += 1) {
+              bytes[index] = binary.charCodeAt(index);
+            }
+            return URL.createObjectURL(new Blob([bytes], { type: mimeType }));
+          } catch (e) {
+            return "";
+          }
+        }
+
+        async function printBlobImage(imageUrl, printWindow) {
+          try {
+            if (!imageUrl || !printWindow || printWindow.closed) {
+              throw new Error("Print image unavailable");
+            }
+            const printImage =
+              printWindow.document.getElementById("printMapImage");
+            const status = printWindow.document.getElementById("printStatus");
+            await new Promise((resolve, reject) => {
+              printImage.onload = resolve;
+              printImage.onerror = reject;
+              printImage.src = imageUrl;
+            });
+            if (printImage.decode) await printImage.decode().catch(() => {});
+            if (status) status.style.display = "none";
+            await new Promise((resolve) =>
+              printWindow.requestAnimationFrame(() =>
+                printWindow.requestAnimationFrame(resolve),
+              ),
+            );
+            printWindow.focus();
+            printWindow.print();
+            printImage.style.display = "none";
+            printWindow.requestAnimationFrame(() => {
+              printWindow.__munetiosPrintMap?.resize();
+              printWindow.__munetiosPrintMap?.triggerRepaint();
+            });
+            setTimeout(() => URL.revokeObjectURL(imageUrl), 60000);
+            return true;
+          } catch (e) {
+            if (imageUrl) URL.revokeObjectURL(imageUrl);
+            if (printWindow && !printWindow.closed) {
+              const status = printWindow.document.getElementById("printStatus");
+              if (status) status.textContent = t("toast_print_capture_failed");
+            }
+            showToast(t("toast_print_capture_failed"));
+            return false;
+          }
+        }
+
+        function canvasHasMapPixels(canvas) {
+          if (!canvas || !canvas.width || !canvas.height) return false;
+          try {
+            const sample = document.createElement("canvas");
+            sample.width = 48;
+            sample.height = 48;
+            const context = sample.getContext("2d", {
+              willReadFrequently: true,
+            });
+            context.drawImage(canvas, 0, 0, 48, 48);
+            const pixels = context.getImageData(0, 0, 48, 48).data;
+            let visiblePixels = 0;
+            let maxBrightness = 0;
+            for (let index = 0; index < pixels.length; index += 4) {
+              if (pixels[index + 3] < 12) continue;
+              visiblePixels += 1;
+              const brightness =
+                pixels[index] * 0.299 +
+                pixels[index + 1] * 0.587 +
+                pixels[index + 2] * 0.114;
+              maxBrightness = Math.max(maxBrightness, brightness);
+            }
+            if (visiblePixels > 900 && maxBrightness > 1) return true;
+            const encoded = canvas.toDataURL("image/png");
+            const minimumEncodedLength = Math.max(
+              3000,
+              Math.round(canvas.width * canvas.height * 0.01),
+            );
+            return encoded.length > minimumEncodedLength;
+          } catch (e) {
+            return false;
+          }
         }
 
         function captureCanvasDataUrl(canvas) {
           if (!canvas || !canvas.width || !canvas.height) return "";
           try {
+            if (!canvasHasMapPixels(canvas)) return "";
             const dataUrl = canvas.toDataURL("image/png");
             return dataUrl && !dataUrl.startsWith("data:,") ? dataUrl : "";
           } catch (e) {
@@ -10587,113 +11893,60 @@
           const glCanvas = previewContainer
             ? previewContainer.querySelector("canvas")
             : null;
-          return captureCanvasDataUrl(glCanvas);
+          const paperFrame = document.getElementById("printPaperFrame");
+          if (!glCanvas || !paperFrame || !canvasHasMapPixels(glCanvas)) {
+            return "";
+          }
+          try {
+            const canvasRect = glCanvas.getBoundingClientRect();
+            const frameRect = paperFrame.getBoundingClientRect();
+            const left = Math.max(canvasRect.left, frameRect.left);
+            const top = Math.max(canvasRect.top, frameRect.top);
+            const right = Math.min(canvasRect.right, frameRect.right);
+            const bottom = Math.min(canvasRect.bottom, frameRect.bottom);
+            if (right <= left || bottom <= top) return "";
+            const scaleX = glCanvas.width / canvasRect.width;
+            const scaleY = glCanvas.height / canvasRect.height;
+            const sourceX = (left - canvasRect.left) * scaleX;
+            const sourceY = (top - canvasRect.top) * scaleY;
+            const sourceWidth = (right - left) * scaleX;
+            const sourceHeight = (bottom - top) * scaleY;
+            const outputScale = Math.min(
+              1,
+              2400 / Math.max(sourceWidth, sourceHeight),
+            );
+            const output = document.createElement("canvas");
+            output.width = Math.max(1, Math.round(sourceWidth * outputScale));
+            output.height = Math.max(1, Math.round(sourceHeight * outputScale));
+            const context = output.getContext("2d");
+            context.fillStyle = "#ffffff";
+            context.fillRect(0, 0, output.width, output.height);
+            context.drawImage(
+              glCanvas,
+              sourceX,
+              sourceY,
+              sourceWidth,
+              sourceHeight,
+              0,
+              0,
+              output.width,
+              output.height,
+            );
+            return captureCanvasDataUrl(output);
+          } catch (e) {
+            return "";
+          }
         }
 
-        function renderFallbackPrintImage(imgEl) {
-          const canvas = document.createElement("canvas");
-          canvas.width = 1600;
-          canvas.height = _ppOrient === "portrait" ? 2100 : 1100;
-          const ctx = canvas.getContext("2d");
-          const gradient = ctx.createLinearGradient(
-            0,
-            0,
-            canvas.width,
-            canvas.height,
-          );
-          gradient.addColorStop(0, "#17092f");
-          gradient.addColorStop(1, "#070412");
-          ctx.fillStyle = gradient;
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.fillStyle = "rgba(168, 85, 247, 0.22)";
-          ctx.beginPath();
-          ctx.arc(
-            canvas.width * 0.18,
-            canvas.height * 0.18,
-            260,
-            0,
-            Math.PI * 2,
-          );
-          ctx.fill();
-          ctx.fillStyle = "#f5f3ff";
-          ctx.font = '700 64px "Google Sans Flex", Arial, sans-serif';
-          ctx.fillText("Munetios Maps", 90, 130);
-          ctx.font = '420 34px "Google Sans Flex", Arial, sans-serif';
-          ctx.fillStyle = "rgba(245, 243, 255, 0.78)";
-          ctx.fillText(
-            "Map image could not be captured. Try again after tiles finish loading.",
-            90,
-            190,
-          );
-          try {
-            printWatermarkedImage(canvas.toDataURL("image/png"), imgEl);
-          } catch (e) {
-            showToast("Failed to add watermark");
-          }
+        function captureMainMapDataUrl() {
+          return captureCanvasDataUrl(map.getCanvas());
         }
 
         document
           .getElementById("printPopupConfirm")
           .addEventListener("click", () => {
-            // Snapshot the preview map canvas and print just that image
-            const doCapture = () => {
-              // Apply @page size/orientation
-              let _ps = document.getElementById("_printPageStyle");
-              if (!_ps) {
-                _ps = document.createElement("style");
-                _ps.id = "_printPageStyle";
-                document.head.appendChild(_ps);
-              }
-              _ps.textContent = `@page { size: ${_ppSize === "a4" ? "A4" : "letter"} ${_ppOrient}; margin: 0; }`;
-
-              const dataUrl = capturePreviewMapDataUrl();
-
-              // Create or update the print image element
-              let imgEl = document.getElementById("_printImgEl");
-              if (!imgEl) {
-                imgEl = document.createElement("div");
-                imgEl.id = "_printImgEl";
-                document.body.appendChild(imgEl);
-              }
-
-              if (dataUrl) {
-                printWatermarkedImage(dataUrl, imgEl);
-              } else {
-                // Canvas is blank (WebGL toDataURL needs preserveDrawingBuffer) — re-init with that flag
-                if (_ppMap) {
-                  _ppMap.remove();
-                  _ppMap = null;
-                }
-                const newMap = new maplibregl.Map({
-                  container: "printPreviewMap",
-                  style:
-                    _ppTile === "satellite"
-                      ? buildSatelliteStyle()
-                      : munetiosStyle,
-                  center: map.getCenter(),
-                  zoom: map.getZoom(),
-                  attributionControl: false,
-                  preserveDrawingBuffer: true,
-                });
-                _ppMap = newMap;
-                newMap.once("idle", () => {
-                  const url = capturePreviewMapDataUrl();
-                  if (url) {
-                    printWatermarkedImage(url, imgEl);
-                  } else {
-                    renderFallbackPrintImage(imgEl);
-                  }
-                });
-              }
-            };
-
-            if (_ppMap) {
-              _ppMap.once("idle", doCapture);
-              // If already idle, fire immediately after a short wait
-              setTimeout(doCapture, 600);
-            } else {
-              doCapture();
-            }
+            const printWindow = openPrintWindow();
+            if (printWindow) closePrintModal();
           });
 
         document
@@ -10719,7 +11972,8 @@
             "noopener,noreferrer",
           );
         });
-        document.getElementById("settingsBtn").addEventListener("click", () => {
+        const settingsBtn = document.getElementById("settingsBtn");
+        settingsBtn.addEventListener("click", () => {
           openSettingsModal();
         });
         document.getElementById("appsBtn").addEventListener("click", (e) => {
@@ -12026,6 +13280,7 @@
 
         // Map click → add waypoint when in draw mode
         map.on("click", (e) => {
+          if (markStateMode || addMarkerMode) return;
           if (!drawRouteMode) return;
           addDrawWaypoint(e.lngLat.lng, e.lngLat.lat);
         });
@@ -12747,7 +14002,7 @@
           }
           const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
           if (!SR) {
-            showToast(t("toast_voice_unsupported"));
+            showToast(t("toast_voice_permission_failed"));
             return;
           }
           const rec = new SR();
@@ -12777,14 +14032,14 @@
               event.error === "not-allowed" ||
               event.error === "service-not-allowed"
             ) {
-              showToast(t("toast_mic_denied"));
+              showToast(t("toast_voice_permission_failed"));
             } else if (
               event.error === "no-speech" ||
               event.error === "audio-capture"
             ) {
-              showToast("Didn\u2019t hear that, try again");
+              showToast(t("toast_voice_permission_failed"));
             } else {
-              showToast("Voice search failed, try again");
+              showToast(t("toast_voice_permission_failed"));
             }
           };
           rec.onend = () => {
@@ -12795,7 +14050,7 @@
             rec.start();
           } catch (_) {
             activeRecognition = null;
-            showToast(t("toast_voice_failed"));
+            showToast(t("toast_voice_permission_failed"));
           }
         });
 
@@ -12892,17 +14147,225 @@
         window.addEventListener("hashchange", parseAndApplyHash);
       }
 
+      let modalStackSequence = 0;
+
+      function getModalSourceId(element) {
+        return element?.dataset?.sourceId || element?.id || "";
+      }
+
+      function closeModalInstance(backdrop) {
+        if (!backdrop) return;
+        if (backdrop.dataset.stackModal === "true") {
+          backdrop.remove();
+        } else {
+          backdrop.classList.remove("open");
+          backdrop.style.removeProperty("z-index");
+        }
+      }
+
+      function syncStackedModalInstances(backdropId) {
+        const base = document.getElementById(backdropId);
+        if (!base) return;
+        document
+          .querySelectorAll(`[data-stack-source="${backdropId}"]`)
+          .forEach((instance) => {
+            instance.querySelectorAll("[data-source-id]").forEach((target) => {
+              const source = base.querySelector(
+                `#${CSS.escape(target.dataset.sourceId)}`,
+              );
+              if (!source) return;
+              const stackClasses = [...target.classList].filter((className) =>
+                className.startsWith("stacked-"),
+              );
+              target.className = source.className;
+              target.classList.add(...stackClasses);
+              if (
+                ["bookmarksList", "historyList", "markersList"].includes(
+                  target.dataset.sourceId,
+                )
+              ) {
+                target.innerHTML = source.innerHTML;
+              } else if (target.dataset.sourceId.endsWith("Label")) {
+                target.textContent = source.textContent;
+              }
+            });
+          });
+      }
+
+      function findCanonicalModalTarget(backdropId, target) {
+        const base = document.getElementById(backdropId);
+        if (!base) return null;
+        const selectors = [
+          ".bookmark-remove-btn",
+          ".bookmark-item",
+          ".history-remove-btn",
+          ".history-item",
+          ".marker-remove-btn",
+          ".marker-item",
+        ];
+        for (const selector of selectors) {
+          const item = target.closest(selector);
+          if (!item) continue;
+          const candidates = [...base.querySelectorAll(selector)];
+          return (
+            candidates.find((candidate) =>
+              ["id", "query", "lat", "lng"].every(
+                (key) =>
+                  item.dataset[key] === undefined ||
+                  candidate.dataset[key] === item.dataset[key],
+              ),
+            ) || null
+          );
+        }
+        const sourceElement = target.closest("[data-source-id]");
+        if (sourceElement?.dataset.sourceId) {
+          return base.querySelector(
+            `#${CSS.escape(sourceElement.dataset.sourceId)}`,
+          );
+        }
+        return null;
+      }
+
+      function bindStackedModalInstance(instance, backdropId) {
+        instance.addEventListener("click", (event) => {
+          const sourceId = getModalSourceId(
+            event.target.closest("[data-source-id]"),
+          );
+          if (
+            [
+              "bookmarksClose",
+              "historyClose",
+              "markersClose",
+              "settingsClose",
+            ].includes(sourceId)
+          ) {
+            event.preventDefault();
+            closeModalInstance(instance);
+            return;
+          }
+
+          const settingsTab = event.target.closest(".settings-tab");
+          if (settingsTab) {
+            const panelName = settingsTab.dataset.settingsPanel || "general";
+            instance.querySelectorAll(".settings-tab").forEach((tab) => {
+              tab.classList.toggle("active", tab === settingsTab);
+            });
+            instance
+              .querySelectorAll("[data-settings-panel-content]")
+              .forEach((panel) => {
+                panel.classList.toggle(
+                  "active",
+                  panel.dataset.settingsPanelContent === panelName,
+                );
+              });
+            return;
+          }
+
+          const canonicalTarget = findCanonicalModalTarget(
+            backdropId,
+            event.target,
+          );
+          if (!canonicalTarget || canonicalTarget === event.target) return;
+          const base = document.getElementById(backdropId);
+          const baseWasOpen = base?.classList.contains("open");
+          canonicalTarget.click();
+          if (baseWasOpen && base) base.classList.add("open");
+
+          if (
+            event.target.closest(
+              ".bookmark-item:not(.bookmark-remove-btn), .history-item:not(.history-remove-btn), .marker-item:not(.marker-remove-btn)",
+            ) &&
+            !event.target.closest(
+              ".bookmark-remove-btn, .history-remove-btn, .marker-remove-btn",
+            )
+          ) {
+            closeModalInstance(instance);
+          }
+          setTimeout(() => syncStackedModalInstances(backdropId), 0);
+        });
+      }
+
+      function openStackedModal(backdropId) {
+        const base = document.getElementById(backdropId);
+        if (!base) return null;
+        modalStackSequence += 1;
+
+        if (!base.classList.contains("open")) {
+          base.classList.add("open");
+          base.style.zIndex = String(500 + modalStackSequence * 2);
+          return base;
+        }
+
+        const instance = base.cloneNode(true);
+        instance.dataset.stackModal = "true";
+        instance.dataset.stackSource = backdropId;
+        instance.style.zIndex = String(500 + modalStackSequence * 2);
+        instance.classList.add("open");
+        if (backdropId === "settingsBackdrop") {
+          instance.classList.add("stacked-settings-backdrop");
+          instance.firstElementChild?.classList.add("stacked-settings-modal");
+        }
+        [instance, ...instance.querySelectorAll("[id]")].forEach((element) => {
+          if (!element.id) return;
+          element.dataset.sourceId = element.id;
+          element.id = `${element.id}--stack-${modalStackSequence}`;
+        });
+        document.body.appendChild(instance);
+        bindStackedModalInstance(instance, backdropId);
+        if (typeof installKeyboardActivation === "function") {
+          installKeyboardActivation();
+        }
+        return instance;
+      }
+
+      function closeTopModal() {
+        const openModals = [
+          ...document.querySelectorAll("[data-modal-kind].open"),
+        ];
+        if (!openModals.length) return false;
+        openModals.sort(
+          (a, b) =>
+            Number.parseInt(a.style.zIndex || "0", 10) -
+            Number.parseInt(b.style.zIndex || "0", 10),
+        );
+        closeModalInstance(openModals.at(-1));
+        return true;
+      }
+
       function closeAllModals() {
+        document
+          .querySelectorAll('[data-stack-modal="true"]')
+          .forEach((modal) => modal.remove());
         [
           "bookmarksBackdrop",
           "historyBackdrop",
           "markersBackdrop",
+          "markerEditorBackdrop",
           "customLayerBackdrop",
           "settingsBackdrop",
+          "confirmBackdrop",
+          "rateLimitBackdrop",
         ].forEach((id) => {
           const el = document.getElementById(id);
           if (el) el.classList.remove("open");
         });
+        const printPopup = document.getElementById("printPopup");
+        if (printPopup) printPopup.style.display = "none";
+        const appsPopup = document.getElementById("appsPopup");
+        if (appsPopup) {
+          appsPopup.classList.remove("open");
+          appsPopup.style.display = "none";
+        }
+        document.getElementById("appsBtn")?.classList.remove("active");
+        document
+          .getElementById("appsBtn")
+          ?.setAttribute("aria-expanded", "false");
+        document
+          .getElementById("settingsBtn")
+          ?.setAttribute("aria-expanded", "false");
+        document
+          .getElementById("bookmarksBtn")
+          ?.setAttribute("aria-expanded", "false");
       }
 
       function showToast(message) {
@@ -12919,17 +14382,26 @@
       function openAppsPopup() {
         const popup = document.getElementById("appsPopup");
         const frame = document.getElementById("appsPopupFrame");
+        if (popup.classList.contains("open")) return;
+        closeAllModals();
+        closeDrawer();
         if (!frame.src || frame.src === window.location.href) {
           frame.src = "https://munetios.com/apps/";
         }
         popup.style.display = "flex";
         requestAnimationFrame(() => popup.classList.add("open"));
         document.getElementById("appsBtn").classList.add("active");
+        document
+          .getElementById("appsBtn")
+          .setAttribute("aria-expanded", "true");
       }
       function closeAppsPopup() {
         const popup = document.getElementById("appsPopup");
         popup.classList.remove("open");
         document.getElementById("appsBtn").classList.remove("active");
+        document
+          .getElementById("appsBtn")
+          .setAttribute("aria-expanded", "false");
         setTimeout(() => {
           if (!popup.classList.contains("open")) popup.style.display = "none";
         }, 240);
@@ -13409,10 +14881,14 @@
       let selectedVoiceName = localStorage.getItem("munetios_voice") || "";
 
       function applyTheme(theme) {
-        currentTheme = theme;
-        localStorage.setItem("munetios_theme", theme);
-        if (theme === "light") {
-          document.body.classList.add("theme-light");
+        try {
+          currentTheme = theme;
+          localStorage.setItem("munetios_theme", theme);
+          if (theme === "light") {
+            document.body.classList.add("theme-light");
+          } else {
+            document.body.classList.remove("theme-light");
+          }
           if (typeof window._refreshMapStyle === "function") {
             try {
               if (window._map && window._map.loaded()) {
@@ -13422,24 +14898,15 @@
               }
             } catch (e) {}
           }
-        } else {
-          document.body.classList.remove("theme-light");
-          if (typeof window._refreshMapStyle === "function") {
-            try {
-              if (window._map && window._map.loaded()) {
-                window._refreshMapStyle();
-              } else if (window._map) {
-                window._map.once("load", window._refreshMapStyle);
-              }
-            } catch (e) {}
-          }
+          document
+            .getElementById("themeLight")
+            .classList.toggle("active", theme === "light");
+          document
+            .getElementById("themeDark")
+            .classList.toggle("active", theme === "dark");
+        } catch (e) {
+          showToast(t("toast_settings_failed"));
         }
-        document
-          .getElementById("themeLight")
-          .classList.toggle("active", theme === "light");
-        document
-          .getElementById("themeDark")
-          .classList.toggle("active", theme === "dark");
       }
 
       function buildLangDropdown() {
@@ -13467,12 +14934,16 @@
           item.dataset.lang = lang.code;
           item.textContent = lang.label;
           item.addEventListener("click", () => {
-            selectedLangCode = lang.code;
-            localStorage.setItem("munetios_lang", lang.code);
-            labelEl.textContent = lang.label;
-            closeFloatingList(list);
-            buildLangDropdown();
-            applyTranslations(lang.code);
+            try {
+              selectedLangCode = lang.code;
+              localStorage.setItem("munetios_lang", lang.code);
+              labelEl.textContent = lang.label;
+              closeFloatingList(list);
+              buildLangDropdown();
+              applyTranslations(lang.code);
+            } catch (e) {
+              showToast(t("toast_settings_failed"));
+            }
           });
           list.appendChild(item);
         });
@@ -13503,11 +14974,15 @@
         defaultItem.innerHTML =
           '<icon style="font-size:16px;opacity:0.6">record_voice_over</icon><span>Default</span>';
         defaultItem.addEventListener("click", () => {
-          selectedVoiceName = "";
-          localStorage.setItem("munetios_voice", "");
-          labelEl.textContent = t("voice_default");
-          closeFloatingList(list);
-          buildVoiceDropdown();
+          try {
+            selectedVoiceName = "";
+            localStorage.setItem("munetios_voice", "");
+            labelEl.textContent = t("voice_default");
+            closeFloatingList(list);
+            buildVoiceDropdown();
+          } catch (e) {
+            showToast(t("toast_settings_failed"));
+          }
         });
         list.appendChild(defaultItem);
 
@@ -13524,14 +14999,18 @@
             `<span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${v.name}</span><span style="font-size:11px;opacity:0.45;flex-shrink:0">${v.lang}</span>`;
           item.title = v.name;
           item.addEventListener("click", () => {
-            selectedVoiceName = v.name;
-            localStorage.setItem("munetios_voice", v.name);
-            labelEl.innerHTML =
-              (isCloud
-                ? '<icon style="font-size:15px;color:#7dd3fc;margin-right:4px">cloud</icon>'
-                : "") + v.name.slice(0, 28);
-            closeFloatingList(list);
-            buildVoiceDropdown();
+            try {
+              selectedVoiceName = v.name;
+              localStorage.setItem("munetios_voice", v.name);
+              labelEl.innerHTML =
+                (isCloud
+                  ? '<icon style="font-size:15px;color:#7dd3fc;margin-right:4px">cloud</icon>'
+                  : "") + v.name.slice(0, 28);
+              closeFloatingList(list);
+              buildVoiceDropdown();
+            } catch (e) {
+              showToast(t("toast_settings_failed"));
+            }
           });
           list.appendChild(item);
         });
@@ -13562,6 +15041,59 @@
         };
       }
 
+      function updateSettingsToggleState() {
+        try {
+          const units = localStorage.getItem("munetios_units") || "imperial";
+          const roadsEnabled =
+            typeof roadHighlightEnabled === "boolean"
+              ? roadHighlightEnabled
+              : localStorage.getItem("munetios_road_highlight") !== "0";
+          const photosEnabled =
+            typeof markerPhotosEnabled === "boolean"
+              ? markerPhotosEnabled
+              : localStorage.getItem("munetios_marker_photos") !== "0";
+          document
+            .getElementById("unitsImperial")
+            ?.classList.toggle("active", units === "imperial");
+          document
+            .getElementById("unitsMetric")
+            ?.classList.toggle("active", units === "metric");
+          document
+            .getElementById("settingsRoadsOn")
+            ?.classList.toggle("active", roadsEnabled === true);
+          document
+            .getElementById("settingsRoadsOff")
+            ?.classList.toggle("active", roadsEnabled !== true);
+          document
+            .getElementById("settingsPhotosOn")
+            ?.classList.toggle("active", photosEnabled === true);
+          document
+            .getElementById("settingsPhotosOff")
+            ?.classList.toggle("active", photosEnabled !== true);
+        } catch (e) {}
+      }
+
+      function setSettingsPanel(panelName) {
+        try {
+          document.querySelectorAll(".settings-tab").forEach((tab) => {
+            tab.classList.toggle(
+              "active",
+              tab.dataset.settingsPanel === panelName,
+            );
+          });
+          document
+            .querySelectorAll("[data-settings-panel-content]")
+            .forEach((panel) => {
+              panel.classList.toggle(
+                "active",
+                panel.dataset.settingsPanelContent === panelName,
+              );
+            });
+        } catch (e) {
+          showToast(t("toast_settings_failed"));
+        }
+      }
+
       function openSettingsModal() {
         buildLangDropdown();
         buildVoiceDropdown();
@@ -13571,10 +15103,17 @@
         document
           .getElementById("themeDark")
           .classList.toggle("active", currentTheme === "dark");
-        document.getElementById("settingsBackdrop").classList.add("open");
+        updateSettingsToggleState();
+        openStackedModal("settingsBackdrop");
+        document
+          .getElementById("settingsBtn")
+          ?.setAttribute("aria-expanded", "true");
       }
       function closeSettingsModal() {
         document.getElementById("settingsBackdrop").classList.remove("open");
+        document
+          .getElementById("settingsBtn")
+          ?.setAttribute("aria-expanded", "false");
         closeFloatingList(document.getElementById("langDropdownList"));
         closeFloatingList(document.getElementById("voiceDropdownList"));
       }
@@ -13594,6 +15133,63 @@
       document
         .getElementById("themeDark")
         .addEventListener("click", () => applyTheme("dark"));
+      document.querySelectorAll(".settings-tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          setSettingsPanel(tab.dataset.settingsPanel || "general");
+        });
+      });
+      document.getElementById("unitsImperial").addEventListener("click", () => {
+        try {
+          localStorage.setItem("munetios_units", "imperial");
+          updateSettingsToggleState();
+          if (typeof renderRecentDirections === "function") {
+            renderRecentDirections();
+          }
+        } catch (e) {
+          showToast(t("toast_settings_failed"));
+        }
+      });
+      document.getElementById("unitsMetric").addEventListener("click", () => {
+        try {
+          localStorage.setItem("munetios_units", "metric");
+          updateSettingsToggleState();
+          if (typeof renderRecentDirections === "function") {
+            renderRecentDirections();
+          }
+        } catch (e) {
+          showToast(t("toast_settings_failed"));
+        }
+      });
+      document
+        .getElementById("settingsRoadsOn")
+        .addEventListener("click", () => {
+          window._setMunetiosRoadHighlight?.(true);
+          updateSettingsToggleState();
+        });
+      document
+        .getElementById("settingsRoadsOff")
+        .addEventListener("click", () => {
+          window._setMunetiosRoadHighlight?.(false);
+          updateSettingsToggleState();
+        });
+      document
+        .getElementById("settingsPhotosOn")
+        .addEventListener("click", () => {
+          window._setMunetiosMarkerPhotos?.(true);
+          updateSettingsToggleState();
+        });
+      document
+        .getElementById("settingsPhotosOff")
+        .addEventListener("click", () => {
+          window._setMunetiosMarkerPhotos?.(false);
+          updateSettingsToggleState();
+        });
+      document
+        .getElementById("clearMarkedStatesBtn")
+        .addEventListener("click", () => {
+          window._clearMunetiosMarkedStates?.();
+          updateSettingsToggleState();
+        });
 
       // Close dropdowns when clicking outside
       document.addEventListener("click", () => {
@@ -13635,55 +15231,69 @@
         .getElementById("deleteRecentDirsBtn")
         .addEventListener("click", () => {
           showConfirm(t("confirm_del_dirs"), () => {
-            localStorage.removeItem("munetios_recent_dirs");
-            if (typeof renderRecentDirections === "function")
-              renderRecentDirections();
-            showToast(t("toast_dirs_deleted"));
+            try {
+              localStorage.removeItem("munetios_recent_dirs");
+              if (typeof renderRecentDirections === "function")
+                renderRecentDirections();
+              showToast(t("toast_dirs_deleted"));
+            } catch (e) {
+              showToast(t("toast_settings_failed"));
+            }
           });
         });
       document
         .getElementById("deleteMarkersBtn")
         .addEventListener("click", () => {
           showConfirm(t("confirm_del_markers"), () => {
-            localStorage.removeItem("munetios_markers");
-            if (window._customMarkerInstances) {
-              Object.values(window._customMarkerInstances).forEach((m) => {
-                try {
-                  m.remove();
-                } catch (e) {}
-              });
-              Object.keys(window._customMarkerInstances).forEach(
-                (k) => delete window._customMarkerInstances[k],
-              );
+            try {
+              localStorage.removeItem("munetios_markers");
+              if (window._customMarkerInstances) {
+                Object.values(window._customMarkerInstances).forEach((m) => {
+                  try {
+                    m.remove();
+                  } catch (e) {}
+                });
+                Object.keys(window._customMarkerInstances).forEach(
+                  (k) => delete window._customMarkerInstances[k],
+                );
+              }
+              showToast(t("toast_markers_deleted"));
+            } catch (e) {
+              showToast(t("toast_settings_failed"));
             }
-            showToast(t("toast_markers_deleted"));
           });
         });
       document
         .getElementById("deleteEverythingBtn")
         .addEventListener("click", () => {
           showConfirm(t("confirm_del_all"), () => {
-            [
-              "munetios_recent_dirs",
-              "munetios_markers",
-              "munetios_history",
-              "munetios_bookmarks",
-              "munetios_units",
-              "munetios_layer",
-            ].forEach((k) => localStorage.removeItem(k));
-            if (window._customMarkerInstances) {
-              Object.values(window._customMarkerInstances).forEach((m) => {
-                try {
-                  m.remove();
-                } catch (e) {}
-              });
-              Object.keys(window._customMarkerInstances).forEach(
-                (k) => delete window._customMarkerInstances[k],
-              );
+            try {
+              [
+                "munetios_recent_dirs",
+                "munetios_markers",
+                "munetios_history",
+                "munetios_bookmarks",
+                "munetios_units",
+                "munetios_layer",
+                "munetios_marked_states",
+              ].forEach((k) => localStorage.removeItem(k));
+              if (window._customMarkerInstances) {
+                Object.values(window._customMarkerInstances).forEach((m) => {
+                  try {
+                    m.remove();
+                  } catch (e) {}
+                });
+                Object.keys(window._customMarkerInstances).forEach(
+                  (k) => delete window._customMarkerInstances[k],
+                );
+              }
+              window._clearMunetiosMarkedStates?.();
+              if (typeof renderRecentDirections === "function")
+                renderRecentDirections();
+              showToast(t("toast_all_deleted"));
+            } catch (e) {
+              showToast(t("toast_settings_failed"));
             }
-            if (typeof renderRecentDirections === "function")
-              renderRecentDirections();
-            showToast(t("toast_all_deleted"));
           });
         });
 
